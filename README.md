@@ -2,9 +2,9 @@
 
 Static site. Everything it needs is in this repo — `index.html`, `works-data.js`,
 `support.js`, `doc-page.js`, `contact.php`, the CV page, `press/`, `images/`,
-`artwork/uploads/` (656 files), and the hero video + stills.
+`artwork/` (663 images), and the hero video + stills.
 
-`window.IMG_BASE` is `''`, so artwork loads from `artwork/uploads/` locally. No external host.
+`window.IMG_BASE` is `''`, so artwork loads from `artwork/` locally. No external host.
 
 
 ## Press archive
@@ -15,11 +15,11 @@ Static site. Everything it needs is in this repo — `index.html`, `works-data.j
 | --- | --- |
 | Pacific Lines press release, 2005 | `press/pacific-lines-press-release-2005.pdf` |
 | Palm Beach Post, Art Connections, 2008 | `press/palm-beach-post-art-connections-2008.pdf` |
-| Gavlak / Palm Beach Post | `artwork/uploads/2014/07/Gavlak-Palm-Beach-Post.pdf` |
-| Neonatural press release | `artwork/uploads/2014/10/neonatural-pr-pdf.pdf` |
+| Gavlak / Palm Beach Post | `artwork/news/Gavlak-Palm-Beach-Post.pdf` |
+| Neonatural press release | `press/neonatural-press-release-2014.pdf` |
 | Big Pictures, Neighborhood News, 2015 | `press/big-pictures-neighborhood-news-2015.pdf` |
 | WAHA newsletter, The Unassuming Art Scene in West Adams, 2017 | `press/waha-newsletter-march-2017.pdf` |
-| Domino Magazine, 2016 | `press/domino-magazine-2016.pdf` (duplicate at `artwork/uploads/2016/06/Domino-MAg.pdf`) |
+| Domino Magazine, 2016 | `press/domino-magazine-2016.pdf` |
 | The Come Up — Sade, press kit, 2026 | `press/the-come-up-sade-presskit.pdf` |
 
 `pdf-archive.html` lists all of these; the Info section links to it beside Download CV.
@@ -43,6 +43,6 @@ Polaroid Black LA Weekly, Staring at the Sun review, WAHA West Adams art scene.
 
 ## Notes
 
-- Editing artwork data: `works-data.js`. Paths are repo-relative under `artwork/uploads/`.
+- Editing artwork data: `works-data.js`. Paths are repo-relative under `artwork/<show-slug>/`.
 - Keep at most three generations of `works-data-*.js` backups.
 - The hero video honors `prefers-reduced-motion`: the poster holds and the video does not autoplay.
