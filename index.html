@@ -525,9 +525,9 @@
       <div data-r="workcap" style="flex:none;padding:0 118px 30px;display:flex;flex-direction:column;align-items:center">
         <div style="font-size:13px;line-height:1.7;opacity:.7;max-width:760px;text-align:center;text-wrap:pretty">{{ wCaption }}</div>
         <div data-r="worknum" style="display:none;align-items:center;justify-content:center;gap:22px;margin-top:26px">
-          <button type="button" aria-label="Previous work" style-focus="outline:1px dotted currentColor;outline-offset:3px" onClick="{{ prevWork }}" data-r="taphalf" style="background:none;border:none;padding:0;border-radius:0;color:inherit;font:inherit;cursor:pointer;width:44px;height:44px;display:flex;align-items:center;justify-content:center;font-family:Raleway,Helvetica,Arial,sans-serif;font-size:12px;letter-spacing:.14em;color:#9c9ca0">❮</button>
-          <div style="font-family:Raleway,Helvetica,Arial,sans-serif;font-size:12px;letter-spacing:.14em;color:#9c9ca0">{{ wSlash }}</div>
-          <button type="button" aria-label="Next work" style-focus="outline:1px dotted currentColor;outline-offset:3px" onClick="{{ nextWork }}" data-r="taphalf" style="background:none;border:none;padding:0;border-radius:0;color:inherit;font:inherit;cursor:pointer;width:44px;height:44px;display:flex;align-items:center;justify-content:center;font-family:Raleway,Helvetica,Arial,sans-serif;font-size:12px;letter-spacing:.14em;color:#9c9ca0">❯</button>
+          <button type="button" aria-label="Previous work" style-focus="outline:1px dotted currentColor;outline-offset:3px" onClick="{{ prevWork }}" data-r="taphalf" style="background:none;border:none;padding:0;border-radius:0;color:inherit;font:inherit;cursor:pointer;width:48px;height:48px;display:flex;align-items:center;justify-content:center;font-family:Raleway,Helvetica,Arial,sans-serif;font-size:15px;letter-spacing:.14em;color:#9c9ca0">❮</button>
+          <div style="font-family:Raleway,Helvetica,Arial,sans-serif;font-size:15px;letter-spacing:.14em;color:#9c9ca0">{{ wSlash }}</div>
+          <button type="button" aria-label="Next work" style-focus="outline:1px dotted currentColor;outline-offset:3px" onClick="{{ nextWork }}" data-r="taphalf" style="background:none;border:none;padding:0;border-radius:0;color:inherit;font:inherit;cursor:pointer;width:48px;height:48px;display:flex;align-items:center;justify-content:center;font-family:Raleway,Helvetica,Arial,sans-serif;font-size:15px;letter-spacing:.14em;color:#9c9ca0">❯</button>
         </div>
       </div>
     </div>
@@ -644,12 +644,13 @@
           <sc-if value="{{ exHasArtists }}" hint-placeholder-val="{{ false }}">
             <div style="margin-top:20px;order:3">
               <div onClick="{{ toggleExArtists }}" style="{{ exArtistsHeadStyle }}" style-hover="color:#141414">{{ exArtistsHeadLabel }}</div>
-              <sc-if value="{{ exArtistsOpen }}" hint-placeholder-val="{{ true }}">
-                <div data-r="artistcols" style="margin-top:20px;column-count:3;column-gap:26px;font-family:Raleway,Helvetica,Arial,sans-serif;font-size:16px;line-height:1.4;color:#3c3c3d">
-                  <sc-for list="{{ exArtists }}" as="a" hint-placeholder-count="12">
-                    <div style="break-inside:avoid;padding-bottom:14px">{{ a.name }}</div>
-                  </sc-for>
-                </div>
+              <div data-r="artistcols" style="margin-top:20px;column-count:3;column-gap:26px;font-family:Raleway,Helvetica,Arial,sans-serif;font-size:16px;line-height:1.4;color:#3c3c3d">
+                <sc-for list="{{ exArtists }}" as="a" hint-placeholder-count="12">
+                  <div style="break-inside:avoid;padding-bottom:14px">{{ a.name }}</div>
+                </sc-for>
+              </div>
+              <sc-if value="{{ exArtistsCollapsible }}" hint-placeholder-val="{{ false }}">
+                <div onClick="{{ toggleExArtists }}" style="{{ exArtistsMoreStyle }}" style-hover="color:#141414">{{ exArtistsMoreLabel }}</div>
               </sc-if>
             </div>
           </sc-if>
@@ -689,9 +690,9 @@
             <button type="button" aria-label="Next image" style-focus="outline:1px dotted currentColor;outline-offset:3px" onClick="{{ nextFull }}" data-r="fullarrow" style="background:none;border:none;padding:0;border-radius:0;color:inherit;font:inherit;position:absolute;right:0;top:calc(min(calc(100dvh - 120px), 86vh) / 2);transform:translateY(-50%);z-index:2;cursor:pointer;width:44px;height:44px;display:flex;align-items:center;justify-content:center;font-size:22px;color:#6e6e72">❯</button>
           </div>
           <div data-r="fullnum" style="display:flex;align-items:center;justify-content:center;gap:22px;margin-top:26px">
-            <button type="button" aria-label="Previous image" style-focus="outline:1px dotted currentColor;outline-offset:3px" onClick="{{ prevFull }}" data-r="taphalf" style="background:none;border:none;padding:0;border-radius:0;color:inherit;font:inherit;cursor:pointer;width:44px;height:44px;display:flex;align-items:center;justify-content:center;font-family:Raleway,Helvetica,Arial,sans-serif;font-size:12px;letter-spacing:.14em;color:#9c9ca0">❮</button>
-            <div style="font-family:Raleway,Helvetica,Arial,sans-serif;font-size:12px;letter-spacing:.14em;color:#9c9ca0">{{ fullCount }}</div>
-            <button type="button" aria-label="Next image" style-focus="outline:1px dotted currentColor;outline-offset:3px" onClick="{{ nextFull }}" data-r="taphalf" style="background:none;border:none;padding:0;border-radius:0;color:inherit;font:inherit;cursor:pointer;width:44px;height:44px;display:flex;align-items:center;justify-content:center;font-family:Raleway,Helvetica,Arial,sans-serif;font-size:12px;letter-spacing:.14em;color:#9c9ca0">❯</button>
+            <button type="button" aria-label="Previous image" style-focus="outline:1px dotted currentColor;outline-offset:3px" onClick="{{ prevFull }}" data-r="taphalf" style="background:none;border:none;padding:0;border-radius:0;color:inherit;font:inherit;cursor:pointer;width:48px;height:48px;display:flex;align-items:center;justify-content:center;font-family:Raleway,Helvetica,Arial,sans-serif;font-size:15px;letter-spacing:.14em;color:#9c9ca0">❮</button>
+            <div style="font-family:Raleway,Helvetica,Arial,sans-serif;font-size:15px;letter-spacing:.14em;color:#9c9ca0">{{ fullCount }}</div>
+            <button type="button" aria-label="Next image" style-focus="outline:1px dotted currentColor;outline-offset:3px" onClick="{{ nextFull }}" data-r="taphalf" style="background:none;border:none;padding:0;border-radius:0;color:inherit;font:inherit;cursor:pointer;width:48px;height:48px;display:flex;align-items:center;justify-content:center;font-family:Raleway,Helvetica,Arial,sans-serif;font-size:15px;letter-spacing:.14em;color:#9c9ca0">❯</button>
           </div>
         </div>
       </sc-if>
@@ -1524,7 +1525,7 @@ class Component extends DCLogic {
     const exhList = exhF === 'All' ? ex : ex.filter(e => e.kinds.indexOf(exhF) >= 0);
     const cxI = ex.findIndex(e => e.title === st.exhibit);
     const cx = ex[cxI] || {};
-    const collapseArtists = (cx.artists || []).length > 50;
+    const collapseArtists = (cx.artists || []).length > 30;
     // the nav only hides while you're inside an exhibit
     const navHidden = view === 'exhibit' && !!st.exInfoHidden;
     // the nav rides up in step with the scroll, capped at its own height
@@ -2218,14 +2219,16 @@ class Component extends DCLogic {
       // long rosters load closed behind a cue — 50 names is the line
       exArtistsCollapsible: collapseArtists,
       exArtistsOpen: !collapseArtists || !!st.exArtistsOpen,
-      exArtistsHeadLabel: (collapseArtists && !st.exArtistsOpen) ? 'See artists' : 'Artists',
-      // a collapsible roster reads like the other cues: text-width underline, no full rule
-      exArtistsHeadStyle: collapseArtists ? {
-        display: 'inline-block', cursor: 'pointer',
+      exArtistsHeadLabel: 'Artists',
+      exArtistsMoreLabel: st.exArtistsOpen ? 'See fewer' : 'See all',
+      exArtistsMoreStyle: {
+        display: 'inline-block', cursor: 'pointer', marginTop: 4,
         fontFamily: 'Raleway,Helvetica,Arial,sans-serif', fontSize: 11, fontWeight: 500,
         letterSpacing: '.2em', textTransform: 'uppercase', color: '#4a4a4d',
         paddingBottom: 3, borderBottom: '1px solid rgba(20,20,20,.4)'
-      } : {
+      },
+      // a collapsible roster reads like the other cues: text-width underline, no full rule
+      exArtistsHeadStyle: {
         // third pin, same language as PRESS RELEASE: the rule holds the top on white
         // ground while the roster scrolls under it
         position: 'sticky', top: 0, zIndex: 6, background: '#ffffff',
@@ -2240,7 +2243,7 @@ class Component extends DCLogic {
       exArtists: (cx.artists || []).slice().sort((a, b) => {
         const last = n => { const p = String(n).trim().split(/\s+/); return p[p.length - 1].toLowerCase(); };
         return last(a).localeCompare(last(b)) || String(a).localeCompare(String(b));
-      }).map(n => ({ name: n })),
+      }).slice(0, (collapseArtists && !st.exArtistsOpen) ? 30 : Infinity).map(n => ({ name: n })),
       exKind: (cx.kinds || []).join(' · '),
       exHeroRef: mkRef(cx.img),
       exHeroStyle: Object.assign({ height: 0, paddingBottom: '62.5%' }, PLATE),
