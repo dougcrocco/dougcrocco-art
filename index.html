@@ -216,14 +216,14 @@
 
       <div ref="{{ infoAnchorRef }}" data-r="gut" style="position:relative;padding:34px 44px 34px">
         <img data-r="infophoto" ref="{{ infoBgRefHome }}" alt="" loading="lazy" decoding="async" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.3;z-index:0;pointer-events:none">
-        <div data-r="infogrid" style="position:relative;z-index:1;display:grid;grid-template-columns:minmax(220px,360px) minmax(0,1fr);grid-template-areas:'p side' 'bio bio';gap:0 56px;max-width:1500px;align-items:stretch">
-          <div data-r="infoportrait" style="grid-area:p;width:100%;max-width:360px">
-          <div style="background:#f2f1ee">
-            <img ref="{{ portraitRef2 }}" alt="Doug Crocco" loading="lazy" decoding="async" style="display:block;width:100%;height:auto">
+        <div data-r="infogrid" style="position:relative;z-index:1;display:grid;grid-template-columns:auto minmax(0,1fr);grid-template-areas:'p side' 'bio bio';gap:0 34px;max-width:1500px;align-items:stretch">
+          <div data-r="infoportrait" style="grid-area:p;max-width:360px">
+          <div style="display:flex">
+            <img ref="{{ portraitRef2 }}" alt="Doug Crocco" loading="lazy" decoding="async" style="display:block;width:auto;max-width:100%;height:auto;max-height:calc(100dvh - 240px)">
           </div>
         </div>
-          <div data-r="infoside" style="grid-area:side;align-self:stretch;width:100%;max-width:420px;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;text-align:left;gap:30px;padding:20px 0">
-          <div data-r="infoform" style="width:100%;max-width:400px">
+          <div data-r="infoside" style="grid-area:side;align-self:stretch;width:100%;max-width:420px;display:flex;flex-direction:column;justify-content:space-between;align-items:stretch;text-align:left;gap:26px;padding:0">
+          <div data-r="infoform" style="width:100%;max-width:400px;flex:1;display:flex;flex-direction:column">
             <div style="font-family:'Julius Sans One',Helvetica,Arial,sans-serif;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:#141414;padding-bottom:9px;border-bottom:1px dotted rgba(20,20,20,.32);margin-bottom:18px">Enquire</div>
             <sc-if value="{{ hasEnquiry }}" hint-placeholder-val="{{ false }}">
               <div style="font-family:Raleway,Helvetica,Arial,sans-serif;font-size:12px;line-height:1.6;color:#6e6e72;padding-bottom:16px;margin-top:-4px">Enquiring about <span style="color:#1f1f21">{{ enquiryWork }}</span></div>
@@ -392,7 +392,7 @@
           </sc-for>
         </div>
       </div>
-      <div style="max-width:62ch;padding:36px 0 44px">
+      <div style="max-width:62ch;padding:36px 0 30px;margin-bottom:34px;border-bottom:1px dotted rgba(20,20,20,.32)">
         <div style="font-family:Raleway,Helvetica,Arial,sans-serif;font-size:17px;line-height:1.7;color:#2a2a2b;text-wrap:pretty">{{ statement }}</div>
       </div>
       <div onClick="{{ seriesLead.open }}" style="cursor:pointer;max-width:1500px;padding:6px 0 30px">
@@ -643,18 +643,23 @@
 
   <sc-if value="{{ vExhibit }}" hint-placeholder-val="{{ true }}">
     <div ref="{{ exScrollRef }}" data-live-layer style="{{ exScrollStyle }}">
-      <div data-r="exbar" style="display:flex;align-items:center;justify-content:space-between;gap:30px;height:64px;padding:0 60px 0 44px;margin:0 -44px 26px;background:#000000">
-        <button type="button" data-r="barburger" onClick="{{ toggleMenu }}" aria-label="Menu" aria-expanded="{{ menuOpen }}" style="display:none;flex-direction:column;justify-content:center;gap:5px;background:none;border:none;padding:10px 2px;margin:-10px 0;border-radius:0;cursor:pointer;flex:0 0 auto;min-height:44px" style-focus="outline:1px dotted rgba(255,255,255,.6);outline-offset:3px"><span style="width:21px;height:1px;background:#ffffff"></span><span style="width:21px;height:1px;background:#ffffff"></span><span style="width:21px;height:1px;background:#ffffff"></span></button><button type="button" onClick="{{ toggleMenu }}" aria-expanded="{{ menuOpen }}" style="background:none;border:none;padding:0;border-radius:0;cursor:pointer;font-family:'Julius Sans One',Helvetica,Arial,sans-serif;font-size:14px;letter-spacing:.14em;text-transform:uppercase;color:#ffffff;white-space:nowrap" style-hover="opacity:.62" style-focus="outline:1px dotted currentColor;outline-offset:4px"><span data-r="markfull">Doug Crocco</span></button>
-        <div style="display:flex;align-items:center;gap:26px;flex:0 0 auto">
-          <button type="button" onClick="{{ toAllExhibits }}" style="{{ exBackStyle }}" style-hover="color:#ffffff">All exhibits</button>
-          <span style="width:1px;height:16px;background:rgba(255,255,255,.28)"></span>
-          <button type="button" aria-label="Previous exhibition" style-focus="outline:1px dotted currentColor;outline-offset:3px" onClick="{{ prevExhibit }}" style="background:none;border:none;padding:0;border-radius:0;color:inherit;font:inherit;cursor:pointer;color:rgba(255,255,255,.62);font-size:15px;line-height:1;width:26px;text-align:center"><span style="display:block;transform:scaleX(-1)">→</span></button>
-          <button type="button" aria-label="Next exhibition" style-focus="outline:1px dotted currentColor;outline-offset:3px" onClick="{{ nextExhibit }}" style="background:none;border:none;padding:0;border-radius:0;color:inherit;font:inherit;cursor:pointer;color:rgba(255,255,255,.62);font-size:15px;line-height:1;width:26px;text-align:center">→</button>
+      <div data-r="exbar" style="display:flex;align-items:center;justify-content:space-between;gap:30px;height:64px;padding:0 60px 0 44px;margin:0 -44px 26px;background:#ffffff">
+        <button type="button" data-r="barburger" onClick="{{ toggleMenu }}" aria-label="Menu" aria-expanded="{{ menuOpen }}" style="display:none;flex-direction:column;justify-content:center;gap:5px;background:none;border:none;padding:10px 2px;margin:-10px 0;border-radius:0;cursor:pointer;flex:0 0 auto;min-height:44px" style-focus="outline:1px dotted rgba(20,20,20,.5);outline-offset:3px"><span style="width:21px;height:1px;background:#141414"></span><span style="width:21px;height:1px;background:#141414"></span><span style="width:21px;height:1px;background:#141414"></span></button><button type="button" onClick="{{ toggleMenu }}" aria-expanded="{{ menuOpen }}" style="background:none;border:none;padding:0;border-radius:0;cursor:pointer;font-family:'Julius Sans One',Helvetica,Arial,sans-serif;font-size:14px;letter-spacing:.14em;text-transform:uppercase;color:#141414;white-space:nowrap" style-hover="opacity:.62" style-focus="outline:1px dotted currentColor;outline-offset:4px"><span data-r="markfull">Doug Crocco</span></button>
+        <div data-r="exfilters" style="display:flex;gap:22px">
+          <sc-for list="{{ exhFiltersNav }}" as="f" hint-placeholder-count="4">
+            <button type="button" onClick="{{ f.pick }}" style="{{ f.style }}" style-hover="color:#141414" style-focus="color:#141414;outline:1px dotted rgba(20,20,20,.5);outline-offset:3px">{{ f.label }}</button>
+          </sc-for>
         </div>
       </div>
       <div ref="{{ exStickWrapRef }}" data-r="exstickwrap" style="position:relative">
         <div ref="{{ exTitleBlockRef }}" style="{{ exTitleBlockStyle }}">
-          <h2 style="font-family:'Julius Sans One',Helvetica,Arial,sans-serif;font-size:clamp(26px,2.4vw,42px);letter-spacing:.04em;text-transform:uppercase;line-height:1.16;font-weight:400;max-width:min(100%,44ch);text-wrap:balance;color:#1a1a1c">{{ exTitle }}</h2>
+          <div style="display:flex;align-items:flex-start;gap:24px">
+            <h2 style="font-family:'Julius Sans One',Helvetica,Arial,sans-serif;font-size:clamp(26px,2.4vw,42px);letter-spacing:.04em;text-transform:uppercase;line-height:1.16;font-weight:400;max-width:min(100%,44ch);text-wrap:balance;color:#1a1a1c">{{ exTitle }}</h2>
+            <div style="margin-left:auto;display:flex;align-items:center;gap:12px;flex:0 0 auto;height:calc(clamp(26px,2.4vw,42px) * 1.16)">
+              <button type="button" aria-label="Previous exhibition" style-focus="outline:1px dotted currentColor;outline-offset:3px" onClick="{{ prevExhibit }}" style="background:none;border:none;padding:0;border-radius:0;font:inherit;cursor:pointer;width:30px;height:30px;display:flex;align-items:center;justify-content:center;font-size:15px;color:#6e6e72" style-hover="color:#1a1a1c"><span style="display:block;transform:scaleX(-1)">→</span></button>
+              <button type="button" aria-label="Next exhibition" style-focus="outline:1px dotted currentColor;outline-offset:3px" onClick="{{ nextExhibit }}" style="background:none;border:none;padding:0;border-radius:0;font:inherit;cursor:pointer;width:30px;height:30px;display:flex;align-items:center;justify-content:center;font-size:15px;color:#6e6e72" style-hover="color:#1a1a1c">→</button>
+            </div>
+          </div>
           <div style="font-family:Raleway,Helvetica,Arial,sans-serif;font-size:17px;font-weight:500;letter-spacing:.01em;color:#2e2e30;margin-top:14px">{{ exVenue }}</div>
           <div style="font-family:Raleway,Helvetica,Arial,sans-serif;font-size:13px;font-weight:400;letter-spacing:.03em;color:#6e6e72;margin-top:5px">{{ exPlaceDate }}</div>
         </div>
@@ -2051,6 +2056,17 @@ class Component extends DCLogic {
       toExhibits: this.go('exhibits'), toInfo: () => this.goInfo(),
       // the back button out of a show always lands on the unfiltered list
       toAllExhibits: () => this.setState({ view: 'exhibits', exhFilter: 'All' }),
+      // the detail page's copy of the filter row leaves the show and lands on the list
+      exhFiltersNav: ['All', 'Solo', 'Group', 'Curated'].map(f => ({
+        label: f === 'All' ? 'Exhibits' : f,
+        pick: () => this.setState({ view: 'exhibits', exhFilter: f }),
+        style: {
+          cursor: 'pointer', fontFamily: 'Raleway,Helvetica,Arial,sans-serif',
+          fontSize: 10.5, letterSpacing: '.2em', textTransform: 'uppercase',
+          color: '#6e6e72', fontWeight: 400,
+          background: 'none', border: 'none', padding: 0, borderRadius: 0
+        }
+      })),
       toContact: () => this.goInfo({ enquiry: [w.t, w.y, w.m, w.d].filter(Boolean).join(', ') }),
       hasEnquiry: !!st.enquiry,
       enquiryWork: st.enquiry || '',
