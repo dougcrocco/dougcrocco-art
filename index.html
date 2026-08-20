@@ -80,6 +80,8 @@
     [data-r~="exbleed"] { margin-left: -18px !important; margin-right: -18px !important; }
     [data-r~="exbar"] { margin-left: -18px !important; margin-right: -18px !important; padding-left: 18px !important; padding-right: 28px !important; height: 54px !important; }
     [data-r~="flushbar"] { margin-left: 0 !important; margin-right: 0 !important; }
+    [data-r~="sernote"] { flex-direction: column !important; gap: 24px !important; }
+    [data-r~="servenue"] { width: 100% !important; max-width: 320px !important; }
     [data-r~="sertitle"] { margin-left: -18px !important; margin-right: -18px !important; padding-left: 18px !important; padding-right: 18px !important; }
     [data-r~="sercover"] { margin-left: -18px !important; margin-right: -18px !important; padding-left: 18px !important; padding-right: 18px !important; }
     [data-r~="arrowgut"] { height: min(calc(100dvh - 200px), 78vh) !important; }
@@ -140,7 +142,7 @@
 <meta name="twitter:image" content="https://dougcrocco.com/artwork/works/USA-Doug-Crocco.jpg">
 <meta name="theme-color" content="#000000">
 <link href="https://fonts.googleapis.com/css2?family=Julius+Sans+One&family=Raleway:wght@400;500;600&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
-<script src="./works-data.js?v=39"></script>
+<script src="./works-data.js?v=67"></script>
 </helmet>
 
 <div role="main" style="position:fixed;inset:0;background:#ffffff;color:#141414;font-family:Helvetica,'Helvetica Neue',Arial,sans-serif;overflow:hidden">
@@ -446,8 +448,18 @@
       </sc-if>
       <div data-r="sercover" style="position:relative;z-index:5;background:{{ sBg }};min-height:min(56vh,620px);margin:0 -44px;padding:0 44px">
       <sc-if value="{{ hasSeriesNote }}" hint-placeholder-val="{{ false }}">
-        <div style="padding:26px 0 30px;margin-bottom:34px;border-bottom:1px dotted {{ sRule }}">
-          <div style="max-width:60ch;font-family:Raleway,Helvetica,Arial,sans-serif;font-size:16px;line-height:1.7;color:{{ sInk2 }};text-wrap:pretty;white-space:pre-line">{{ seriesNote }}</div>
+        <div data-r="sernote" style="padding:26px 0 30px;margin-bottom:34px;border-bottom:1px dotted {{ sRule }};display:flex;align-items:flex-start;gap:44px">
+          <div style="max-width:60ch;display:flex;flex-direction:column;gap:16px">
+            <sc-for list="{{ seriesNoteParas }}" as="p" hint-placeholder-count="1">
+              <div style="font-family:Raleway,Helvetica,Arial,sans-serif;font-size:16px;line-height:1.7;color:{{ sInk2 }};text-wrap:pretty">{{ p.text }}</div>
+            </sc-for>
+          </div>
+          <sc-if value="{{ hasSeriesVenue }}" hint-placeholder-val="{{ false }}">
+            <figure data-r="servenue" onClick="{{ openSeriesVenue }}" style="margin:0;flex:0 0 auto;width:min(320px,34%);display:flex;flex-direction:column;gap:10px;cursor:pointer">
+              <img ref="{{ seriesVenueRef }}" alt="{{ seriesVenueCap }}" loading="lazy" decoding="async" style="display:block;width:100%;height:auto">
+              <figcaption style="font-family:Raleway,Helvetica,Arial,sans-serif;font-size:11px;letter-spacing:.04em;line-height:1.5;color:{{ sInk2 }};opacity:.72">{{ seriesVenueCap }}</figcaption>
+            </figure>
+          </sc-if>
         </div>
       </sc-if>
       <div data-r="w2" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 30px;align-items:start;max-width:1500px;padding:6px 0 0">
@@ -2296,6 +2308,11 @@ class Component extends DCLogic {
       // the one h1 on the page, named for whatever view is showing
       pageHeading: this.headFor().h,
       seriesNote: ((d.series || []).find(x => x.name === st.series) || {}).note || '',
+      seriesVenueRef: mkRef(((d.series || []).find(x => x.name === st.series) || {}).venue || ''),
+      hasSeriesVenue: !!((d.series || []).find(x => x.name === st.series) || {}).venue,
+      openSeriesVenue: () => { const s = (d.series || []).find(x => x.name === st.series) || {}; if (s.venue) this.setState({ venue: s.venue, venueCap: s.venueCapFull || s.venueCap || '' }); },
+      seriesVenueCap: ((d.series || []).find(x => x.name === st.series) || {}).venueCap || '',
+      seriesNoteParas: (((d.series || []).find(x => x.name === st.series) || {}).note || '').split(/\n{2,}/).filter(Boolean).map(text => ({ text })),
       hasSeriesNote: !!((d.series || []).find(x => x.name === st.series) || {}).note,
       wImgRef: el => {
         if (!el || !wShot) return;
@@ -2920,7 +2937,7 @@ class Component extends DCLogic {
           boxStyle: { position: 'relative', width: '100%', height: st.broken[v.u] ? 0 : 400, overflow: 'hidden', background: '#f6f5f2' }
         }));
       })(),
-      vVenue: view === 'exhibit' && !!st.venue,
+      vVenue: (view === 'exhibit' || view === 'series') && !!st.venue,
       venueCaption: st.venueCap || venueCap,
       venueImgRef: el => { if (el && st.venue) { el.style.display = ''; el.onerror = () => { el.style.display = 'none'; }; if (el.src !== st.venue) el.src = st.venue; } },
       closeVenue: () => this.setState({ venue: '', venueCap: '' }),
