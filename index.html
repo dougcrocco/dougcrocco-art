@@ -818,7 +818,7 @@
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(352px,100%),1fr));gap:70px 60px;align-items:start;justify-items:center;max-width:1300px;margin:0 auto;padding:48px 0 0">
         <sc-for list="{{ newsList }}" as="n" hint-placeholder-count="6">
           <sc-if value="{{ n.isLink }}" hint-placeholder-val="{{ true }}">
-            <a href="{{ n.url }}" target="_blank" rel="noopener" title="{{ n.meta }}" aria-label="{{ n.meta }}" style="display:block;width:100%;max-width:572px;text-decoration:none;color:inherit">
+            <a href="{{ n.url }}" target="_blank" rel="noopener" aria-label="{{ n.meta }}" style="display:block;width:100%;max-width:572px;text-decoration:none;color:inherit">
               <figure style="margin:0">
                 <img ref="{{ n.imgRef }}" alt="{{ n.alt }}" loading="lazy" decoding="async" style="display:block;width:100%;height:auto">
                 <figcaption style="position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0">{{ n.meta }}</figcaption>
@@ -826,12 +826,12 @@
             </a>
           </sc-if>
           <sc-if value="{{ n.isView }}" hint-placeholder-val="{{ false }}">
-            <button type="button" onClick="{{ n.openView }}" title="{{ n.meta }}" aria-label="{{ n.meta }}" style="display:block;width:100%;max-width:572px;padding:0;border:none;background:none;cursor:pointer;color:inherit" style-focus="outline:1px dotted rgba(255,255,255,.6);outline-offset:4px">
+            <button type="button" onClick="{{ n.openView }}" aria-label="{{ n.meta }}" style="display:block;width:100%;max-width:572px;padding:0;border:none;background:none;cursor:pointer;color:inherit" style-focus="outline:1px dotted rgba(255,255,255,.6);outline-offset:4px">
               <img ref="{{ n.imgRef }}" alt="{{ n.alt }}" loading="lazy" decoding="async" style="display:block;width:100%;height:auto">
             </button>
           </sc-if>
           <sc-if value="{{ n.isPlain }}" hint-placeholder-val="{{ false }}">
-            <figure title="{{ n.meta }}" style="margin:0;width:100%;max-width:572px">
+            <figure style="margin:0;width:100%;max-width:572px">
               <img ref="{{ n.imgRef }}" alt="{{ n.alt }}" loading="lazy" decoding="async" style="display:block;width:100%;height:auto">
               <figcaption style="position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0">{{ n.meta }}</figcaption>
             </figure>
