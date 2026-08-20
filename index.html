@@ -600,6 +600,37 @@
     </div>
   </sc-if>
 
+  <sc-if value="{{ exLbOpen }}" hint-placeholder-val="{{ false }}">
+    <div data-live-layer style="position:fixed;inset:0;z-index:22;background:#ffffff;display:flex;flex-direction:column">
+      <div data-r="gut" style="display:flex;align-items:center;justify-content:space-between;gap:30px;padding:26px 44px 0;flex:none">
+        <button type="button" onClick="{{ closeExLb }}" style="background:none;border:none;padding:0;border-radius:0;font-family:inherit;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#4a4a4d;cursor:pointer;display:flex;align-items:center;min-height:44px" style-hover="color:#1a1a1c">{{ exTitle }}</button>
+        <div style="display:flex;align-items:center;gap:26px">
+          <div onClick="{{ toContact }}" style="cursor:pointer;font-size:12px;letter-spacing:.16em;text-transform:uppercase;padding:14px 4px;margin:-14px 0;display:flex;align-items:center;min-height:44px">Enquire</div>
+          <div style="display:flex;align-items:center;gap:12px">
+            <button type="button" onClick="{{ zoomIn }}" aria-label="Zoom in" style="background:none;border:none;padding:0;border-radius:0;cursor:pointer;color:#4a4a4d;display:flex;align-items:center;justify-content:center;width:26px;min-height:44px" style-hover="color:#1a1a1c" style-focus="outline:1px dotted currentColor;outline-offset:3px"><svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.1" aria-hidden="true"><circle cx="8.4" cy="8.4" r="5.6"></circle><line x1="12.6" y1="12.6" x2="18" y2="18"></line><line x1="5.9" y1="8.4" x2="10.9" y2="8.4"></line><line x1="8.4" y1="5.9" x2="8.4" y2="10.9"></line></svg></button>
+            <button type="button" onClick="{{ zoomOut }}" aria-label="Zoom out" style="{{ zoomOutStyle }}" style-hover="color:#1a1a1c" style-focus="outline:1px dotted currentColor;outline-offset:3px"><svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.1" aria-hidden="true"><circle cx="8.4" cy="8.4" r="5.6"></circle><line x1="12.6" y1="12.6" x2="18" y2="18"></line><line x1="5.9" y1="8.4" x2="10.9" y2="8.4"></line></svg></button>
+          </div>
+          <div onClick="{{ closeExLb }}" style="cursor:pointer;font-size:18px;line-height:1;padding:14px 0 14px 4px;margin:-14px 0;display:flex;align-items:center;min-height:44px" aria-label="Close">×</div>
+        </div>
+      </div>
+      <div data-r="gut workrow" style="flex:1;min-height:0;display:flex;align-items:center;gap:30px;padding:26px 44px 18px;touch-action:pan-y">
+        <button type="button" aria-label="Previous image" style-focus="outline:1px dotted currentColor;outline-offset:3px" data-r="workarrow" onClick="{{ exLbPrev }}" style="background:none;border:none;padding:0;border-radius:0;color:inherit;font:inherit;position:relative;z-index:2;cursor:pointer;flex:none;width:44px;height:44px;display:flex;align-items:center;justify-content:center;font-size:22px;color:#6e6e72">❮</button>
+        <div style="flex:1;min-width:0;align-self:stretch;min-height:0;display:flex;align-items:center;justify-content:center">
+          <img ref="{{ exLbImgRef }}" alt="{{ exTitle }}" draggable="{{ false }}" decoding="async" onClick="{{ zoomStep }}" style="{{ wImgStyle }}">
+        </div>
+        <button type="button" aria-label="Next image" style-focus="outline:1px dotted currentColor;outline-offset:3px" data-r="workarrow" onClick="{{ exLbNext }}" style="background:none;border:none;padding:0;border-radius:0;color:inherit;font:inherit;position:relative;z-index:2;cursor:pointer;flex:none;width:44px;height:44px;display:flex;align-items:center;justify-content:center;font-size:22px;color:#6e6e72">❯</button>
+      </div>
+      <div data-r="workcap" style="flex:none;padding:0 118px 30px;display:flex;flex-direction:column;align-items:center">
+        <div style="font-size:13px;line-height:1.7;opacity:.7;max-width:760px;text-align:center;text-wrap:pretty">{{ exLbCaption }}</div>
+        <div data-r="worknum" style="display:none;align-items:center;justify-content:center;gap:22px;margin-top:26px">
+          <button type="button" aria-label="Previous image" onClick="{{ exLbPrev }}" data-r="taphalf" style="background:none;border:none;padding:0;border-radius:0;color:inherit;font:inherit;cursor:pointer;width:48px;height:48px;display:flex;align-items:center;justify-content:center;font-family:Raleway,Helvetica,Arial,sans-serif;font-size:15px;color:#9c9ca0">❮</button>
+          <div style="font-family:Raleway,Helvetica,Arial,sans-serif;font-size:15px;letter-spacing:.14em;color:#9c9ca0">{{ exLbCount }}</div>
+          <button type="button" aria-label="Next image" onClick="{{ exLbNext }}" data-r="taphalf" style="background:none;border:none;padding:0;border-radius:0;color:inherit;font:inherit;cursor:pointer;width:48px;height:48px;display:flex;align-items:center;justify-content:center;font-family:Raleway,Helvetica,Arial,sans-serif;font-size:15px;color:#9c9ca0">❯</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
   <sc-if value="{{ wZoomOpen }}" hint-placeholder-val="{{ false }}">
     <div data-live-layer style="position:fixed;inset:0;z-index:26;background:#f6f5f2;overflow:hidden;touch-action:none">
       <img ref="{{ zoomImgRef }}" alt="{{ wTitle }}" draggable="{{ false }}" decoding="async" onClick="{{ zoomStep }}" style="position:absolute;left:50%;top:50%;display:block;max-width:none;cursor:grab;will-change:transform">
@@ -766,7 +797,7 @@
           <div style="position:relative">
             <div ref="{{ fullSwipeRef }}" onClick="{{ backdropToGrid }}" data-r="arrowgut" style="padding:0 104px;display:flex;align-items:center;justify-content:center;height:min(calc(100dvh - 120px), 86vh)">
               <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;max-width:100%;height:100%">
-                <img ref="{{ fullImgRef }}" alt="{{ fullCaption }}" draggable="{{ false }}" decoding="async" style="{{ fullImgStyle }}">
+                <img ref="{{ fullImgRef }}" alt="{{ fullCaption }}" draggable="{{ false }}" decoding="async" onClick="{{ openFullLb }}" style="{{ fullImgStyle }}">
                 <sc-if value="{{ fullMissing }}" hint-placeholder-val="{{ false }}">
                   <div style="font-family:Raleway,Helvetica,Arial,sans-serif;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#9c9ca0">Image unavailable</div>
                 </sc-if>
@@ -1458,6 +1489,15 @@ class Component extends DCLogic {
         if (e.key === 'ArrowLeft') this.stepFull(-1);
         return;
       }
+      if (this.state.view === 'exhibit' && this.state.exLb) {
+        if (e.key === 'Escape') { this.setState({ exLb: '', wZoom: 0 }); return; }
+        if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+          const v = this.renderVals();
+          if (v.exLbStep) v.exLbStep(e.key === 'ArrowRight' ? 1 : -1, !!this.state.wZoom);
+          return;
+        }
+        return;
+      }
       if (this.state.view === 'work') {
         const keep = !!this.state.wZoom;
         if (e.key === 'ArrowRight') this.step(1, keep);
@@ -1552,7 +1592,7 @@ class Component extends DCLogic {
   }
   // series shown on black — light-ground work that disappears on white
   darkSeries(name) { return [].indexOf(name) !== -1; }
-  go(view) { return () => this.setState({ view }); }
+  go(view) { return () => this.setState({ view, exLb: '', wZoom: 0 }); }
   // Info is a section of home, not a page of its own
   scrollToInfo(tries) {
     const sc = this._homeScroll, el = this._infoAnchor;
@@ -1566,7 +1606,7 @@ class Component extends DCLogic {
     sc.scrollTo({ top: Math.max(0, el.offsetTop - lift), behavior: 'smooth' });
   }
   goInfo(extra) {
-    this.setState(Object.assign({ view: 'home', menuOpen: false, searchOpen: false, enquiry: '', contactSent: '' }, extra || {}));
+    this.setState(Object.assign({ view: 'home', menuOpen: false, searchOpen: false, enquiry: '', contactSent: '', exLb: '', wZoom: 0 }, extra || {}));
     setTimeout(() => this.scrollToInfo(14), 60);
   }
   attachSwipe(el, onSwipe) {
@@ -1593,7 +1633,7 @@ class Component extends DCLogic {
 
   openExhibit(title) {
     this._enteredAt = Date.now();
-    this.setState({ view: 'exhibit', exhibit: title, exArtistsOpen: false, exOpen: false, lb: '', lbC: '', venue: '', venueCap: '', exMode: 'full', exGal: 'Works', venueIdx: 0, venueFade: true, exFullU: '', exFullFor: '', exInfoHidden: false, searchOpen: false });
+    this.setState({ exLb: '', wZoom: 0, view: 'exhibit', exhibit: title, exArtistsOpen: false, exOpen: false, lb: '', lbC: '', venue: '', venueCap: '', exMode: 'full', exGal: 'Works', venueIdx: 0, venueFade: true, exFullU: '', exFullFor: '', exInfoHidden: false, searchOpen: false });
   }
 
   setViewMode(mode) {
@@ -1851,6 +1891,15 @@ class Component extends DCLogic {
     const byU = ptr ? lbAll.findIndex(g => g.u === ptr) : -1;
     const fullI = byU >= 0 ? byU : 0;
     const restItems = lbAll;
+    // the exhibit lightbox: a plate pulled out of whichever gallery list is on screen
+    const inExLb = view === 'exhibit' && !!st.exLb;
+    const exLbI = inExLb ? Math.max(0, lbAll.findIndex(g => g.u === st.exLb)) : 0;
+    const exLbCur = lbAll[exLbI] || {};
+    const stepExLb = (n, keepZoom) => {
+      if (!lbAll.length) return;
+      const nx = lbAll[(exLbI + n + lbAll.length) % lbAll.length];
+      this.setState(s => ({ exLb: nx.u, wZoom: keepZoom ? (s.wZoom || 0) : 0 }));
+    };
 
     return {
       vHome: view === 'home', vWorks: view === 'works', vSeries: view === 'series',
@@ -2093,7 +2142,8 @@ class Component extends DCLogic {
       prevSlide: () => { this.warmNear(si - 2); this.setState(s => ({ slide: s.slide - 1 + slides.length })); },
       openSlideShow: () => { if (cur.title) this.openExhibit(cur.title); },
       nextWork: () => this.step(1), prevWork: () => this.step(-1),
-      zoomNext: () => this.step(1, true), zoomPrev: () => this.step(-1, true),
+      zoomNext: () => { if (inExLb) stepExLb(1, true); else this.step(1, true); },
+      zoomPrev: () => { if (inExLb) stepExLb(-1, true); else this.step(-1, true); },
 
       slideA: mkRef((slides[even ? si : prevI] || {}).img),
       slideB: mkRef((slides[even ? prevI : si] || {}).img),
@@ -2273,7 +2323,8 @@ class Component extends DCLogic {
       },
       // the zoomed plate is dragged freely — pull it past the screen edge and the ground shows through
       zoomImgRef: el => {
-        if (!el || !wShot) return;
+        const zSrc = inExLb ? st.exLb : wShot;
+        if (!el || !zSrc) return;
         const stage = st.wZoom || 0;
         const place = () => {
           const vw = window.innerWidth, vh = window.innerHeight;
@@ -2286,7 +2337,7 @@ class Component extends DCLogic {
           el.style.transform = 'translate(-50%,-50%) translate(' + (el._ox || 0) + 'px,' + (el._oy || 0) + 'px)';
         };
         el._place = place;
-        if (el.getAttribute('src') !== wShot) { el._ox = 0; el._oy = 0; el.onload = place; el.src = wShot; } else place();
+        if (el.getAttribute('src') !== zSrc) { el._ox = 0; el._oy = 0; el.onload = place; el.src = zSrc; } else place();
         if (el._panWired) return;
         el._panWired = true;
         let sx = 0, sy = 0, bx = 0, by = 0, t0 = 0, down = false;
@@ -2314,7 +2365,7 @@ class Component extends DCLogic {
         el.addEventListener('click', e => { if (el._moved) { e.stopPropagation(); e.preventDefault(); el._moved = false; } }, true);
         window.addEventListener('resize', () => { if (el._place) el._place(); });
       },
-      wZoomOpen: (st.wZoom || 0) > 0 && !w.video && st.view === 'work',
+      wZoomOpen: (st.wZoom || 0) > 0 && ((!w.video && st.view === 'work') || inExLb),
       wIsVideo: !!w.video,
       wIsStill: !w.video,
       // a work with several views gets the gallery's single/grid pair
@@ -2889,6 +2940,16 @@ class Component extends DCLogic {
           borderBottom: galFilter === label ? '1px solid rgba(20,20,20,.45)' : '1px solid transparent'
         }
       })),
+      openFullLb: e => { if (e && e.stopPropagation) e.stopPropagation(); const u = (lbAll[fullI] || {}).u; if (u) this.setState({ exLb: u, wZoom: 0 }); },
+      exLbOpen: inExLb,
+      exLbCaption: exLbCur.c || '',
+      exLbCount: lbAll.length ? (exLbI + 1) + ' / ' + lbAll.length : '',
+      exLbImgRef: el => { if (el && exLbCur.u && el.getAttribute('src') !== exLbCur.u) el.src = exLbCur.u; },
+      openExLb: u => () => this.setState({ exLb: u, wZoom: 0 }),
+      closeExLb: () => this.setState({ exLb: '', wZoom: 0 }),
+      exLbPrev: () => stepExLb(-1),
+      exLbNext: () => stepExLb(1),
+      exLbStep: stepExLb,
       exGridMode: (st.exMode || 'full') === 'grid',
       exFullMode: st.exMode === 'full',
       setGridMode: () => this.setViewMode('grid'),
@@ -2917,7 +2978,7 @@ class Component extends DCLogic {
           missing: !!st.broken[g.u],
           boxStyle: Object.assign({ position: 'relative', background: '#f6f5f2', minHeight: st.broken[g.u] ? 200 : 0 },
             this.shadowShow(st.exhibit) ? { boxShadow: '0 14px 34px rgba(20,20,20,.08), 0 2px 6px rgba(20,20,20,.05)' } : null),
-          open: this.openFullAt(g.u),
+          open: () => this.setState({ exLb: g.u, wZoom: 0 }),
           _u: g.u
         }));
         const n = st.wide ? 3 : 2;
