@@ -142,7 +142,7 @@
 <meta name="twitter:image" content="https://dougcrocco.com/artwork/works/USA-Doug-Crocco.jpg">
 <meta name="theme-color" content="#000000">
 <link href="https://fonts.googleapis.com/css2?family=Julius+Sans+One&family=Raleway:wght@400;500;600&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
-<script src="./works-data.js?v=67"></script>
+<script src="./works-data.js?v=89"></script>
 </helmet>
 
 <div role="main" style="position:fixed;inset:0;background:#ffffff;color:#141414;font-family:Helvetica,'Helvetica Neue',Arial,sans-serif;overflow:hidden">
@@ -589,7 +589,7 @@
       </sc-if>
       <sc-if value="{{ wSingleMode }}" hint-placeholder-val="{{ true }}">
       <div data-r="gut workrow" onTouchStart="{{ workTouchStart }}" onTouchEnd="{{ workTouchEnd }}" style="flex:1;min-height:0;display:flex;align-items:center;gap:30px;padding:26px 44px 18px;touch-action:pan-y">
-        <button type="button" aria-label="Previous work" style-focus="outline:1px dotted currentColor;outline-offset:3px" data-r="workarrow" onClick="{{ prevWork }}" style="background:none;border:none;padding:0;border-radius:0;color:inherit;font:inherit;position:relative;z-index:2;cursor:pointer;flex:none;width:44px;height:44px;display:flex;align-items:center;justify-content:center;font-size:22px;color:#6e6e72">❮</button>
+        <button type="button" aria-label="Previous work" style-focus="outline:1px dotted currentColor;outline-offset:3px" data-r="workarrow" onClick="{{ prevWork }}" style="background:none;border:none;padding:0;border-radius:0;color:inherit;font:inherit;position:relative;z-index:2;cursor:pointer;flex:none;width:44px;height:44px;display:flex;align-items:center;justify-content:center;font-size:22px;color:#6e6e72"><span style="display:block;transform:scaleX(-1)">→</span></button>
         <div style="flex:1;min-width:0;align-self:stretch;min-height:0;display:flex;align-items:center;justify-content:center">
           <sc-if value="{{ wIsStill }}" hint-placeholder-val="{{ true }}">
             <img ref="{{ wImgRef }}" alt="{{ wTitle }}" draggable="{{ false }}" decoding="async" onClick="{{ zoomStep }}" style="{{ wImgStyle }}">
@@ -598,15 +598,15 @@
             <video data-r="workvid" ref="{{ wVideoRef }}" autoPlay="{{ true }}" muted="{{ true }}" loop="{{ true }}" playsInline="{{ true }}" style="max-width:100%;max-height:100%;height:100%;width:auto;aspect-ratio:4/5;object-fit:cover;object-position:left bottom;background:#000000;box-shadow:0 14px 34px rgba(20,20,20,.08), 0 2px 6px rgba(20,20,20,.06)"></video>
           </sc-if>
         </div>
-        <button type="button" aria-label="Next work" style-focus="outline:1px dotted currentColor;outline-offset:3px" data-r="workarrow" onClick="{{ nextWork }}" style="background:none;border:none;padding:0;border-radius:0;color:inherit;font:inherit;position:relative;z-index:2;cursor:pointer;flex:none;width:44px;height:44px;display:flex;align-items:center;justify-content:center;font-size:22px;color:#6e6e72">❯</button>
+        <button type="button" aria-label="Next work" style-focus="outline:1px dotted currentColor;outline-offset:3px" data-r="workarrow" onClick="{{ nextWork }}" style="background:none;border:none;padding:0;border-radius:0;color:inherit;font:inherit;position:relative;z-index:2;cursor:pointer;flex:none;width:44px;height:44px;display:flex;align-items:center;justify-content:center;font-size:22px;color:#6e6e72">→</button>
       </div>
       </sc-if>
       <div data-r="workcap" style="flex:none;padding:0 118px 30px;display:flex;flex-direction:column;align-items:center">
         <div style="font-size:13px;line-height:1.7;opacity:.7;max-width:760px;text-align:center;text-wrap:pretty">{{ wCaption }}</div>
         <div data-r="worknum" style="display:none;align-items:center;justify-content:center;gap:22px;margin-top:26px">
-          <button type="button" aria-label="Previous work" style-focus="outline:1px dotted currentColor;outline-offset:3px" onClick="{{ prevWork }}" data-r="taphalf" style="background:none;border:none;padding:0;border-radius:0;color:inherit;font:inherit;cursor:pointer;width:48px;height:48px;display:flex;align-items:center;justify-content:center;font-family:Raleway,Helvetica,Arial,sans-serif;font-size:15px;letter-spacing:.14em;color:#9c9ca0">❮</button>
+          <button type="button" aria-label="Previous work" style-focus="outline:1px dotted currentColor;outline-offset:3px" onClick="{{ prevWork }}" data-r="taphalf" style="background:none;border:none;padding:0;border-radius:0;color:inherit;font:inherit;cursor:pointer;width:48px;height:48px;display:flex;align-items:center;justify-content:center;font-family:Raleway,Helvetica,Arial,sans-serif;font-size:15px;letter-spacing:.14em;color:#9c9ca0"><span style="display:block;transform:scaleX(-1)">→</span></button>
           <div style="font-family:Raleway,Helvetica,Arial,sans-serif;font-size:15px;letter-spacing:.14em;color:#9c9ca0">{{ wSlash }}</div>
-          <button type="button" aria-label="Next work" style-focus="outline:1px dotted currentColor;outline-offset:3px" onClick="{{ nextWork }}" data-r="taphalf" style="background:none;border:none;padding:0;border-radius:0;color:inherit;font:inherit;cursor:pointer;width:48px;height:48px;display:flex;align-items:center;justify-content:center;font-family:Raleway,Helvetica,Arial,sans-serif;font-size:15px;letter-spacing:.14em;color:#9c9ca0">❯</button>
+          <button type="button" aria-label="Next work" style-focus="outline:1px dotted currentColor;outline-offset:3px" onClick="{{ nextWork }}" data-r="taphalf" style="background:none;border:none;padding:0;border-radius:0;color:inherit;font:inherit;cursor:pointer;width:48px;height:48px;display:flex;align-items:center;justify-content:center;font-family:Raleway,Helvetica,Arial,sans-serif;font-size:15px;letter-spacing:.14em;color:#9c9ca0">→</button>
         </div>
       </div>
     </div>
@@ -626,29 +626,29 @@
         </div>
       </div>
       <div data-r="gut workrow" style="flex:1;min-height:0;display:flex;align-items:center;gap:30px;padding:26px 44px 18px;touch-action:pan-y">
-        <button type="button" aria-label="Previous image" style-focus="outline:1px dotted currentColor;outline-offset:3px" data-r="workarrow" onClick="{{ exLbPrev }}" style="background:none;border:none;padding:0;border-radius:0;color:inherit;font:inherit;position:relative;z-index:2;cursor:pointer;flex:none;width:44px;height:44px;display:flex;align-items:center;justify-content:center;font-size:22px;color:#6e6e72">❮</button>
+        <button type="button" aria-label="Previous image" style-focus="outline:1px dotted currentColor;outline-offset:3px" data-r="workarrow" onClick="{{ exLbPrev }}" style="background:none;border:none;padding:0;border-radius:0;color:inherit;font:inherit;position:relative;z-index:2;cursor:pointer;flex:none;width:44px;height:44px;display:flex;align-items:center;justify-content:center;font-size:22px;color:#6e6e72"><span style="display:block;transform:scaleX(-1)">→</span></button>
         <div style="flex:1;min-width:0;align-self:stretch;min-height:0;display:flex;align-items:center;justify-content:center">
           <img ref="{{ exLbImgRef }}" alt="{{ exTitle }}" draggable="{{ false }}" decoding="async" onClick="{{ zoomStep }}" style="{{ wImgStyle }}">
         </div>
-        <button type="button" aria-label="Next image" style-focus="outline:1px dotted currentColor;outline-offset:3px" data-r="workarrow" onClick="{{ exLbNext }}" style="background:none;border:none;padding:0;border-radius:0;color:inherit;font:inherit;position:relative;z-index:2;cursor:pointer;flex:none;width:44px;height:44px;display:flex;align-items:center;justify-content:center;font-size:22px;color:#6e6e72">❯</button>
+        <button type="button" aria-label="Next image" style-focus="outline:1px dotted currentColor;outline-offset:3px" data-r="workarrow" onClick="{{ exLbNext }}" style="background:none;border:none;padding:0;border-radius:0;color:inherit;font:inherit;position:relative;z-index:2;cursor:pointer;flex:none;width:44px;height:44px;display:flex;align-items:center;justify-content:center;font-size:22px;color:#6e6e72">→</button>
       </div>
       <div data-r="workcap" style="flex:none;padding:0 118px 30px;display:flex;flex-direction:column;align-items:center">
         <div style="font-size:13px;line-height:1.7;opacity:.7;max-width:760px;text-align:center;text-wrap:pretty">{{ exLbCaption }}</div>
         <div data-r="worknum" style="display:none;align-items:center;justify-content:center;gap:22px;margin-top:26px">
-          <button type="button" aria-label="Previous image" onClick="{{ exLbPrev }}" data-r="taphalf" style="background:none;border:none;padding:0;border-radius:0;color:inherit;font:inherit;cursor:pointer;width:48px;height:48px;display:flex;align-items:center;justify-content:center;font-family:Raleway,Helvetica,Arial,sans-serif;font-size:15px;color:#9c9ca0">❮</button>
+          <button type="button" aria-label="Previous image" onClick="{{ exLbPrev }}" data-r="taphalf" style="background:none;border:none;padding:0;border-radius:0;color:inherit;font:inherit;cursor:pointer;width:48px;height:48px;display:flex;align-items:center;justify-content:center;font-family:Helvetica,Arial,sans-serif;font-size:22px;color:#6e6e72"><span style="display:block;transform:scaleX(-1)">→</span></button>
           <div style="font-family:Raleway,Helvetica,Arial,sans-serif;font-size:15px;letter-spacing:.14em;color:#9c9ca0">{{ exLbCount }}</div>
-          <button type="button" aria-label="Next image" onClick="{{ exLbNext }}" data-r="taphalf" style="background:none;border:none;padding:0;border-radius:0;color:inherit;font:inherit;cursor:pointer;width:48px;height:48px;display:flex;align-items:center;justify-content:center;font-family:Raleway,Helvetica,Arial,sans-serif;font-size:15px;color:#9c9ca0">❯</button>
+          <button type="button" aria-label="Next image" onClick="{{ exLbNext }}" data-r="taphalf" style="background:none;border:none;padding:0;border-radius:0;color:inherit;font:inherit;cursor:pointer;width:48px;height:48px;display:flex;align-items:center;justify-content:center;font-family:Helvetica,Arial,sans-serif;font-size:22px;color:#6e6e72">→</button>
         </div>
       </div>
     </div>
   </sc-if>
 
   <sc-if value="{{ wZoomOpen }}" hint-placeholder-val="{{ false }}">
-    <div data-live-layer style="position:fixed;inset:0;z-index:26;background:#f6f5f2;overflow:hidden;touch-action:none">
+    <div data-live-layer style="{{ zoomLayerStyle }}">
       <img ref="{{ zoomImgRef }}" alt="{{ wTitle }}" draggable="{{ false }}" decoding="async" onClick="{{ zoomStep }}" style="position:absolute;left:50%;top:50%;display:block;max-width:none;cursor:grab;will-change:transform">
-      <button type="button" onClick="{{ zoomPrev }}" aria-label="Previous work" style="position:fixed;left:26px;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.32);backdrop-filter:blur(2px);border:none;padding:12px 14px;border-radius:0;cursor:pointer;color:#4a4a4d;font-size:20px;line-height:1;display:flex;align-items:center;justify-content:center" style-hover="color:#1a1a1c">←</button>
-      <button type="button" onClick="{{ zoomNext }}" aria-label="Next work" style="position:fixed;right:26px;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.32);backdrop-filter:blur(2px);border:none;padding:12px 14px;border-radius:0;cursor:pointer;color:#4a4a4d;font-size:20px;line-height:1;display:flex;align-items:center;justify-content:center" style-hover="color:#1a1a1c">→</button>
-      <div style="position:fixed;top:18px;right:34px;display:flex;align-items:center;gap:14px;background:rgba(255,255,255,.32);backdrop-filter:blur(2px);padding:8px 10px">
+      <button type="button" onClick="{{ zoomPrev }}" data-r="zoomarrow" aria-label="Previous work" style="position:fixed;left:0;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.32);backdrop-filter:blur(2px);border:none;padding:12px 14px;border-radius:0;cursor:pointer;color:#4a4a4d;font-family:Helvetica,Arial,sans-serif;font-size:22px;line-height:1;display:flex;align-items:center;justify-content:center;width:44px;height:44px;color:#6e6e72" style-hover="color:#1a1a1c"><span style="display:block;transform:scaleX(-1)">→</span></button>
+      <button type="button" onClick="{{ zoomNext }}" data-r="zoomarrow" aria-label="Next work" style="position:fixed;right:0;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.32);backdrop-filter:blur(2px);border:none;padding:12px 14px;border-radius:0;cursor:pointer;color:#4a4a4d;font-family:Helvetica,Arial,sans-serif;font-size:22px;line-height:1;display:flex;align-items:center;justify-content:center;width:44px;height:44px;color:#6e6e72" style-hover="color:#1a1a1c">→</button>
+      <div data-r="zoomctl" style="position:fixed;top:18px;right:34px;display:flex;align-items:center;gap:14px;background:rgba(255,255,255,.32);backdrop-filter:blur(2px);padding:8px 10px">
         <button type="button" onClick="{{ zoomIn }}" aria-label="Zoom in" style="background:none;border:none;padding:0;border-radius:0;cursor:pointer;color:#4a4a4d;display:flex;align-items:center;justify-content:center;width:26px;height:26px" style-hover="color:#1a1a1c"><svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.1" aria-hidden="true"><circle cx="8.4" cy="8.4" r="5.6"></circle><line x1="12.6" y1="12.6" x2="18" y2="18"></line><line x1="5.9" y1="8.4" x2="10.9" y2="8.4"></line><line x1="8.4" y1="5.9" x2="8.4" y2="10.9"></line></svg></button>
         <button type="button" onClick="{{ zoomOut }}" aria-label="Zoom out" style="background:none;border:none;padding:0;border-radius:0;cursor:pointer;color:#4a4a4d;display:flex;align-items:center;justify-content:center;width:26px;height:26px" style-hover="color:#1a1a1c"><svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.1" aria-hidden="true"><circle cx="8.4" cy="8.4" r="5.6"></circle><line x1="12.6" y1="12.6" x2="18" y2="18"></line><line x1="5.9" y1="8.4" x2="10.9" y2="8.4"></line></svg></button>
         <button type="button" onClick="{{ closeZoom }}" aria-label="Close zoom" style="background:none;border:none;padding:0;border-radius:0;cursor:pointer;color:#4a4a4d;font-size:18px;line-height:1;display:flex;align-items:center;justify-content:center;width:26px;height:26px" style-hover="color:#1a1a1c">×</button>
@@ -805,9 +805,9 @@
         </div>
       </div>
       <sc-if value="{{ exFullMode }}" hint-placeholder-val="{{ true }}">
-        <div data-r="fullpad" style="max-width:1760px;padding:0 0 56px">
+        <div data-r="fullpad" style="max-width:1760px;padding:20px 0 56px">
           <div style="position:relative">
-            <div ref="{{ fullSwipeRef }}" onClick="{{ backdropToGrid }}" data-r="arrowgut" style="padding:0 104px;display:flex;align-items:center;justify-content:center;height:min(calc(100dvh - 120px), 86vh)">
+            <div ref="{{ fullSwipeRef }}" onClick="{{ backdropToGrid }}" data-r="arrowgut" style="padding:0 12px;display:flex;align-items:center;justify-content:center;height:min(calc(100dvh - 124px), 92vh)">
               <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;max-width:100%;height:100%">
                 <img ref="{{ fullImgRef }}" alt="{{ fullCaption }}" draggable="{{ false }}" decoding="async" onClick="{{ openFullLb }}" style="{{ fullImgStyle }}">
                 <sc-if value="{{ fullMissing }}" hint-placeholder-val="{{ false }}">
@@ -816,13 +816,13 @@
                 <div data-r="fullcap" style="font-family:Raleway,Helvetica,Arial,sans-serif;font-size:12px;line-height:1.6;color:#6b6b6d;text-align:center;max-width:min(80ch,100%);padding-top:24px;height:39px;flex:none">{{ fullCaption }}</div>
               </div>
             </div>
-            <button type="button" aria-label="Previous image" style-focus="outline:1px dotted currentColor;outline-offset:3px" onClick="{{ prevFull }}" data-r="fullarrow" style="background:none;border:none;padding:0;border-radius:0;color:inherit;font:inherit;position:absolute;left:16px;top:calc(min(calc(100dvh - 120px), 86vh) / 2);transform:translateY(-50%);z-index:2;cursor:pointer;width:44px;height:44px;display:flex;align-items:center;justify-content:center;font-size:22px;color:#6e6e72">❮</button>
-            <button type="button" aria-label="Next image" style-focus="outline:1px dotted currentColor;outline-offset:3px" onClick="{{ nextFull }}" data-r="fullarrow" style="background:none;border:none;padding:0;border-radius:0;color:inherit;font:inherit;position:absolute;right:16px;top:calc(min(calc(100dvh - 120px), 86vh) / 2);transform:translateY(-50%);z-index:2;cursor:pointer;width:44px;height:44px;display:flex;align-items:center;justify-content:center;font-size:22px;color:#6e6e72">❯</button>
+            <button type="button" aria-label="Previous image" style-focus="outline:1px dotted currentColor;outline-offset:3px" onClick="{{ prevFull }}" data-r="fullarrow" style="background:none;border:none;padding:0;border-radius:0;color:inherit;font:inherit;position:absolute;left:16px;top:calc(min(calc(100dvh - 104px), 92vh) / 2);transform:translateY(-50%);z-index:2;cursor:pointer;width:44px;height:44px;display:none;align-items:center;justify-content:center;font-size:22px;color:#6e6e72"><span style="display:block;transform:scaleX(-1)">→</span></button>
+            <button type="button" aria-label="Next image" style-focus="outline:1px dotted currentColor;outline-offset:3px" onClick="{{ nextFull }}" data-r="fullarrow" style="background:none;border:none;padding:0;border-radius:0;color:inherit;font:inherit;position:absolute;right:16px;top:calc(min(calc(100dvh - 104px), 92vh) / 2);transform:translateY(-50%);z-index:2;cursor:pointer;width:44px;height:44px;display:none;align-items:center;justify-content:center;font-size:22px;color:#6e6e72">→</button>
           </div>
           <div data-r="fullnum" style="display:flex;align-items:center;justify-content:center;gap:22px;margin-top:26px">
-            <button type="button" aria-label="Previous image" style-focus="outline:1px dotted currentColor;outline-offset:3px" onClick="{{ prevFull }}" data-r="taphalf" style="background:none;border:none;padding:0;border-radius:0;color:inherit;font:inherit;cursor:pointer;width:48px;height:48px;display:flex;align-items:center;justify-content:center;font-family:Raleway,Helvetica,Arial,sans-serif;font-size:15px;letter-spacing:.14em;color:#9c9ca0">❮</button>
+            <button type="button" aria-label="Previous image" style-focus="outline:1px dotted currentColor;outline-offset:3px" onClick="{{ prevFull }}" data-r="taphalf" style="background:none;border:none;padding:0;border-radius:0;color:inherit;font:inherit;cursor:pointer;width:48px;height:48px;display:flex;align-items:center;justify-content:center;font-family:Raleway,Helvetica,Arial,sans-serif;font-size:15px;letter-spacing:.14em;color:#9c9ca0"><span style="display:block;transform:scaleX(-1)">→</span></button>
             <div style="font-family:Raleway,Helvetica,Arial,sans-serif;font-size:15px;letter-spacing:.14em;color:#9c9ca0">{{ fullCount }}</div>
-            <button type="button" aria-label="Next image" style-focus="outline:1px dotted currentColor;outline-offset:3px" onClick="{{ nextFull }}" data-r="taphalf" style="background:none;border:none;padding:0;border-radius:0;color:inherit;font:inherit;cursor:pointer;width:48px;height:48px;display:flex;align-items:center;justify-content:center;font-family:Raleway,Helvetica,Arial,sans-serif;font-size:15px;letter-spacing:.14em;color:#9c9ca0">❯</button>
+            <button type="button" aria-label="Next image" style-focus="outline:1px dotted currentColor;outline-offset:3px" onClick="{{ nextFull }}" data-r="taphalf" style="background:none;border:none;padding:0;border-radius:0;color:inherit;font:inherit;cursor:pointer;width:48px;height:48px;display:flex;align-items:center;justify-content:center;font-family:Raleway,Helvetica,Arial,sans-serif;font-size:15px;letter-spacing:.14em;color:#9c9ca0">→</button>
           </div>
         </div>
       </sc-if>
@@ -2320,6 +2320,11 @@ class Component extends DCLogic {
         el.onload = () => { el.style.visibility = ''; };
         if (el.getAttribute('src') !== wShot) { el.style.visibility = ''; el.src = wShot; }
       },
+      // New Forms sits on the soft ground; everything else zooms on white
+      zoomLayerStyle: {
+        position: 'fixed', inset: 0, zIndex: 26, overflow: 'hidden', touchAction: 'none',
+        background: st.series === 'New Forms' ? '#f6f5f2' : '#ffffff'
+      },
       // three-stage zoom: 1 fits the screen, 2 fills it, 3 pushes every edge off
       zoomIn: () => this.setState(s => ({ wZoom: Math.min(3, (s.wZoom || 0) + 1) })),
       zoomOut: () => this.setState(s => ({ wZoom: Math.max(0, (s.wZoom || 0) - 1) })),
@@ -2342,19 +2347,37 @@ class Component extends DCLogic {
       zoomImgRef: el => {
         const zSrc = inExLb ? st.exLb : wShot;
         if (!el || !zSrc) return;
-        const stage = st.wZoom || 0;
         const place = () => {
+          const stage = this.state.wZoom || 0;
           const vw = window.innerWidth, vh = window.innerHeight;
-          const nw = el.naturalWidth || vw, nh = el.naturalHeight || vh;
-          const fit = Math.min(vw / nw, vh / nh), cover = Math.max(vw / nw, vh / nh);
+          const nw = el.naturalWidth || 0, nh = el.naturalHeight || 0;
+          if (!nw || !nh) { el.style.visibility = 'hidden'; return; }
+          // stage 1 hangs from the control cluster and stops just short of the floor
+          const bar = el.parentNode && el.parentNode.querySelector('[data-r~="zoomctl"]');
+          const topPad = bar ? Math.round(bar.getBoundingClientRect().bottom) + 8 : 108;
+          const botPad = 16;
+          const arw = el.parentNode ? Math.max.apply(null, [0].concat([].map.call(el.parentNode.querySelectorAll('[data-r~="zoomarrow"]'), b => b.getBoundingClientRect().width))) : 0;
+          const innerW = Math.max(120, vw - (arw + 8) * 2);
+          const fit = Math.min((vh - topPad - botPad) / nh, innerW / nw), cover = Math.max(vw / nw, vh / nh);
           const k = stage >= 3 ? cover * 1.6 : (stage === 2 ? cover : fit);
-          el.style.width = Math.round(nw * k) + 'px';
-          el.style.height = Math.round(nh * k) + 'px';
+          const nextW = Math.round(nw * k) + 'px', nextH = Math.round(nh * k) + 'px';
+          const nextTop = stage === 1 ? topPad + 'px' : '50%';
+          if (el.style.width === nextW && el.style.height === nextH && el.style.top === nextTop && el._stage === stage) return;
+          el.style.visibility = 'hidden';
+          el.style.width = nextW;
+          el.style.height = nextH;
           if (el._stage !== stage) { el._stage = stage; el._ox = 0; el._oy = 0; }
-          el.style.transform = 'translate(-50%,-50%) translate(' + (el._ox || 0) + 'px,' + (el._oy || 0) + 'px)';
+          const base = stage === 1 ? 'translate(-50%,0)' : 'translate(-50%,-50%)';
+          el.style.top = nextTop;
+          el.style.transform = base + ' translate(' + (el._ox || 0) + 'px,' + (el._oy || 0) + 'px)';
+          el.style.visibility = '';
         };
         el._place = place;
-        if (el.getAttribute('src') !== zSrc) { el._ox = 0; el._oy = 0; el.onload = place; el.src = zSrc; } else place();
+        el.onload = place;
+        if (el.getAttribute('src') !== zSrc) { el._ox = 0; el._oy = 0; el._stage = -1; el.style.visibility = 'hidden'; el.style.width = ''; el.style.height = ''; el.src = zSrc; }
+        if (el.complete) place();
+        requestAnimationFrame(place);
+        if (el.decode) el.decode().then(place).catch(() => {});
         if (el._panWired) return;
         el._panWired = true;
         let sx = 0, sy = 0, bx = 0, by = 0, t0 = 0, down = false;
@@ -2991,7 +3014,8 @@ class Component extends DCLogic {
         // dimensions recorded in the data need no network round trip
         restItems.forEach(g => { if (g.w && g.h && !this._ratios[g.u]) this._ratios[g.u] = g.h / g.w; });
         const items = restItems.map(g => ({
-          caption: g.c || '', artist: artistOf(g.c), imgRef: mkRef(g.u, this.markBroken),
+          // a plain installation view needs no line under its thumbnail
+          caption: g.c || '', artist: /^\s*install(ation)?\s*view\b/i.test(g.c || '') ? '' : artistOf(g.c), imgRef: mkRef(g.u, this.markBroken),
           missing: !!st.broken[g.u],
           boxStyle: Object.assign({ position: 'relative', background: '#f6f5f2', minHeight: st.broken[g.u] ? 200 : 0 },
             this.shadowShow(st.exhibit) ? { boxShadow: '0 14px 34px rgba(20,20,20,.08), 0 2px 6px rgba(20,20,20,.05)' } : null),
