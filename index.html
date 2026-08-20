@@ -34,16 +34,18 @@
     [data-r~="venuebox"] { height: 260px !important; }
     [data-r~="arrowgut"] { height: min(calc(100dvh - 160px), 82vh) !important; }
   }
-  /* at 820 the side arrows give way to the row beneath the caption */
-  @media only screen and (min-width: 821px) {
+  /* desktop keeps the side arrows and no counter; the row beneath the caption is phone-only */
+  @media only screen and (min-width: 621px) {
     [data-r~="fullnum"] { display:none !important; }
   }
   @media only screen and (max-width: 820px) {
     [data-r~="excols"] { grid-template-columns: repeat(2, minmax(0,1fr)) !important; gap: 0 18px !important; }
+    [data-r~="arrowgut"] { height: min(calc(100dvh - 180px), 80vh) !important; }
+  }
+  @media only screen and (max-width: 620px) {
     [data-r~="fullarrow"] { display:none !important; }
     [data-r~="fullnum"] { margin-top:14px !important; gap:30px !important; }
     [data-r~="fullnum"] > div { font-size:15px !important; }
-    [data-r~="arrowgut"] { height: min(calc(100dvh - 180px), 80vh) !important; }
     [data-r~="workarrow"] { display:none !important; }
     [data-r~="worknum"] { display:flex !important; margin-top:14px !important; gap:30px !important; }
     [data-r~="worknum"] > div { font-size:15px !important; }
@@ -63,8 +65,12 @@
   }
   @media only screen and (max-width: 700px) {
     [data-r~="artistcols"] { column-count: 2 !important; }
-    /* on phone the 4:5 video frame is governed by width, not the frame height */
-    [data-r~="workvid"] { width: 100% !important; height: auto !important; max-height: none !important; }
+    [data-r~="mailcard"] { grid-template-columns: minmax(0,1fr) !important; }
+    [data-r~="mailimg"] { min-height: 0 !important; height: 150px !important; }
+    [data-r~="mailbody"] { padding: 26px 22px 24px !important; }
+    [data-r~="artistrule"]::after { left: 18px !important; right: 18px !important; }
+    /* on phone the video fits the frame like a still: never taller than the row */
+    [data-r~="workvid"] { width: auto !important; max-width: 100% !important; height: auto !important; max-height: 100% !important; object-fit: contain !important; }
     [data-r~="navrow"] { grid-template-columns: minmax(0,1fr) !important; gap: 4px !important; }
     [data-r~="homenav"] { font-size: 26px !important; }
     [data-r~="menuitem"] { font-size: 24px !important; }
@@ -74,6 +80,8 @@
     [data-r~="exbleed"] { margin-left: -18px !important; margin-right: -18px !important; }
     [data-r~="exbar"] { margin-left: -18px !important; margin-right: -18px !important; padding-left: 18px !important; padding-right: 28px !important; height: 54px !important; }
     [data-r~="flushbar"] { margin-left: 0 !important; margin-right: 0 !important; }
+    [data-r~="sertitle"] { margin-left: -18px !important; margin-right: -18px !important; padding-left: 18px !important; padding-right: 18px !important; }
+    [data-r~="sercover"] { margin-left: -18px !important; margin-right: -18px !important; padding-left: 18px !important; padding-right: 18px !important; }
     [data-r~="arrowgut"] { height: min(calc(100dvh - 200px), 78vh) !important; }
     [data-r~="fullpad"] { min-height:calc(100dvh - 40px) !important; padding-bottom:20px !important; }
     [data-r~="fullcap"] { padding-top:30px !important; height:auto !important; }
@@ -87,8 +95,10 @@
     [data-r~="exbar"] { gap: 16px !important; }
     /* section bars carry filters as well as the mark, so on phone they use DC and give the
        ~100px back to the labels; the sticky home mark keeps the full name */
+    /* phone only: the wordmark gives way to the hamburger */
     [data-r~="exbar"]:not([data-r~="homebar"]) [data-r~="markfull"] { display: none !important; }
-    [data-r~="exbar"]:not([data-r~="homebar"]) [data-r~="markshort"] { display: inline !important; }
+    [data-r~="exbar"]:not([data-r~="homebar"]) [data-r~="barburger"] { display: flex !important; }
+    [data-r~="menuclose"] { left: 18px !important; height: 54px !important; }
     [data-r~="exfilters"] { flex: 1 1 auto !important; min-width: 0 !important; justify-content: flex-end !important; gap: 16px !important; overflow-x: auto !important; scrollbar-width: none; }
     [data-r~="exbar"] > button:first-child { flex: 0 0 auto !important; }
     /* the full name stays the home mark at every width */
@@ -107,6 +117,13 @@
   @media only screen and (max-width: 560px) {
     [data-r~="searchcols"] { gap: 18px 10px !important; }
   }
+  /* exhibit tiles: a very quiet rollover — image eases up a hair and lightens */
+  [data-r~="extile"] img { transition: transform 900ms cubic-bezier(.22,.61,.36,1), filter 700ms ease, opacity 700ms ease; }
+  [data-r~="extile"] h3, [data-r~="extile"] [data-r~="explate"] > div { transition: opacity 500ms ease; }
+  @media (hover: hover) {
+    [data-r~="extile"]:hover img { transform: scale(1.012); filter: brightness(1.07); }
+    [data-r~="extile"]:hover [data-r~="explate"] > div:last-child { opacity: 1; }
+  }
   ::-webkit-scrollbar { width:0; height:0; }
   * { scrollbar-width:none; -ms-overflow-style:none; }
 </style>
@@ -123,7 +140,7 @@
 <meta name="twitter:image" content="https://dougcrocco.com/artwork/works/USA-Doug-Crocco.jpg">
 <meta name="theme-color" content="#000000">
 <link href="https://fonts.googleapis.com/css2?family=Julius+Sans+One&family=Raleway:wght@400;500;600&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
-<script src="./works-data.js"></script>
+<script src="./works-data.js?v=39"></script>
 </helmet>
 
 <div role="main" style="position:fixed;inset:0;background:#ffffff;color:#141414;font-family:Helvetica,'Helvetica Neue',Arial,sans-serif;overflow:hidden">
@@ -134,7 +151,7 @@
     <div ref="{{ homeScrollRef }}" data-live-layer style="position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;overflow-x:hidden">
       <div data-r="vhero" style="position:relative;min-height:100dvh;padding:0 44px 40px;box-sizing:border-box;background:#000000;color:#ffffff;overflow:hidden">
         <video ref="{{ heroVideoRef }}" autoPlay="{{ true }}" muted="{{ true }}" loop="{{ true }}" playsInline="{{ true }}" preload="auto" poster="./hero-still.jpg" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 100%;z-index:0"></video>
-        <div data-r="heromenu" style="position:relative;z-index:1;padding-top:100px;width:min(46%,560px);margin-left:auto">
+        <div data-r="heromenu" style="position:relative;z-index:1;padding-top:100px;width:min(100%,420px);margin-left:0">
           <div data-r="navrow" style="padding:14px 0;border-bottom:1px dotted rgba(255,255,255,.3)">
             <div data-r="homenav" style="font-family:'Julius Sans One',Helvetica,Arial,sans-serif;font-size:30px;letter-spacing:.08em;text-transform:uppercase;color:#ffffff">Doug Crocco</div>
           </div>
@@ -164,7 +181,7 @@
         <div data-r="exbar flushbar" style="display:flex;align-items:center;justify-content:space-between;gap:30px;height:64px;padding:0 60px 0 44px;background:#000000">
           <button type="button" onClick="{{ toExhibits }}" style="background:none;border:none;padding:0;border-radius:0;cursor:pointer;font-family:'Julius Sans One',Helvetica,Arial,sans-serif;font-size:13px;letter-spacing:.2em;text-transform:uppercase;color:#ffffff" style-hover="opacity:.65" style-focus="outline:1px dotted rgba(255,255,255,.6);outline-offset:4px">Recent exhibits</button>
         </div>
-        <div style="display:flex;flex-wrap:wrap;gap:2px">
+        <div style="display:flex;flex-wrap:wrap;gap:0">
           <sc-for list="{{ homeExhibits }}" as="e" hint-placeholder-count="4">
             <a href="{{ e.href }}" aria-label="{{ e.label }}" onClick="{{ e.open }}" style="{{ e.wrapStyle }}">
               <div style="{{ e.plateStyle }}">
@@ -219,14 +236,14 @@
               <input type="text" name="website" tabIndex="{{ -1 }}" autoComplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
               <div>
                 <label for="dc-email" style="display:block;font-family:Raleway,Helvetica,Arial,sans-serif;font-size:10px;font-weight:500;letter-spacing:.13em;text-transform:uppercase;color:#6e6e72;padding-bottom:6px">Your email</label>
-                <input id="dc-email" type="email" name="email" placeholder="Your email" style="font-family:Raleway,Helvetica,Arial,sans-serif;font-size:13px;color:#3c3c3d;width:100%;box-sizing:border-box;padding:0 0 9px;border:none;border-bottom:1px solid rgba(20,20,20,.32);background:transparent;border-radius:0;outline:none">
+                <input id="dc-email" type="email" name="email" style="font-family:Raleway,Helvetica,Arial,sans-serif;font-size:13px;color:#3c3c3d;width:100%;box-sizing:border-box;padding:13px 14px;border:1px solid rgba(20,20,20,.28);background:rgba(255,255,255,.3);border-radius:0;outline:none" style-focus="background:rgba(255,255,255,.5);border-color:rgba(20,20,20,.5)">
               </div>
               <div>
                 <label for="dc-message" style="display:block;font-family:Raleway,Helvetica,Arial,sans-serif;font-size:10px;font-weight:500;letter-spacing:.13em;text-transform:uppercase;color:#6e6e72;padding-bottom:6px">Message</label>
-                <textarea id="dc-message" ref="{{ msgRef }}" name="message" rows="3" placeholder="Message" style="font-family:Raleway,Helvetica,Arial,sans-serif;font-size:13px;line-height:1.6;color:#3c3c3d;width:100%;box-sizing:border-box;padding:0 0 9px;border:none;border-bottom:1px solid rgba(20,20,20,.32);background:transparent;border-radius:0;outline:none;resize:vertical"></textarea>
+                <textarea id="dc-message" ref="{{ msgRef }}" name="message" rows="1" onInput="{{ growMessage }}" style="font-family:Raleway,Helvetica,Arial,sans-serif;font-size:13px;line-height:1.6;color:#3c3c3d;width:100%;box-sizing:border-box;padding:13px 14px;border:1px solid rgba(20,20,20,.28);background:rgba(255,255,255,.3);border-radius:0;outline:none;resize:none;overflow:hidden;min-height:46px" style-focus="background:rgba(255,255,255,.5);border-color:rgba(20,20,20,.5)"></textarea>
               </div>
               <div style="display:flex;align-items:baseline;gap:20px">
-                <button type="submit" style="font-family:'Julius Sans One',Helvetica,Arial,sans-serif;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#141414;background:none;border:none;border-bottom:1px solid rgba(20,20,20,.45);padding:0 0 3px;cursor:pointer;border-radius:0">{{ sendLabel }}</button>
+                <button type="submit" style="font-family:'Julius Sans One',Helvetica,Arial,sans-serif;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#141414;background:rgba(255,255,255,.3);border:1px solid rgba(20,20,20,.28);padding:13px 30px;cursor:pointer;border-radius:0" style-hover="background:rgba(20,20,20,.82);border-color:rgba(20,20,20,.82);color:#ffffff">{{ sendLabel }}</button>
               </div>
             </form>
             </sc-if>
@@ -325,7 +342,7 @@
             </div>
           </div>
           <div>
-            <div style="font-family:'Julius Sans One',Helvetica,Arial,sans-serif;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:#141414;padding-bottom:9px;border-bottom:1px dotted rgba(20,20,20,.32);margin-bottom:16px">Selected press</div>
+            <div ref="{{ pressAnchorRef }}" style="font-family:'Julius Sans One',Helvetica,Arial,sans-serif;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:#141414;padding-bottom:9px;border-bottom:1px dotted rgba(20,20,20,.32);margin-bottom:16px">Selected press</div>
             <div style="display:grid;grid-template-columns:46px minmax(0,1fr);gap:7px 16px;font-family:Raleway,Helvetica,Arial,sans-serif;font-weight:400;font-size:13px;line-height:1.62;color:#414142">
               <div style="color:#8c8c8e">2020</div><div style="text-wrap:pretty"><a href="./NYT artist-run galleries.dc.html" style="border-bottom:1px solid rgba(20,20,20,.28)">Jori Finkel, “Artist-Run Galleries Defy the Mega-Dealer Trend in Los Angeles,” <em>The New York Times</em>, February 7</a></div>
               <div style="color:#8c8c8e">2018</div><div style="text-wrap:pretty"><a href="./LA Weekly West Adams gallery row.dc.html" style="border-bottom:1px solid rgba(20,20,20,.28)">Shana Nys Dambrot, “West Adams Is L.A.’s New Gallery Row,” <em>L.A. Weekly</em>, August 3</a></div>
@@ -344,24 +361,45 @@
         <a href="./unused-files.dc.html" target="_blank" rel="noopener" style="display:inline-block;font-family:'Julius Sans One',Helvetica,Arial,sans-serif;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#141414;border-bottom:1px solid rgba(20,20,20,.45);padding-bottom:3px">PDF Archive</a>
       </div>
 
-      <div style="margin:60px 0 0;background:#f2f1ee;height:340px;overflow:hidden">
-        <img ref="{{ infoBgRef3 }}" alt="" loading="lazy" decoding="async" style="display:block;width:100%;height:100%;object-fit:cover">
+      <div style="position:relative;margin:60px 0 0;background:#f2f1ee;min-height:340px;overflow:hidden">
+        <img ref="{{ infoBgRef3 }}" alt="" loading="lazy" decoding="async" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
+        <div data-r="gut mailfoot" style="position:relative;z-index:1;min-height:340px;display:flex;flex-direction:column;justify-content:center;gap:18px;padding:52px 44px;box-sizing:border-box;max-width:520px">
+          <div style="font-family:'Julius Sans One',Helvetica,Arial,sans-serif;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:#141414;padding-bottom:9px;border-bottom:1px dotted rgba(20,20,20,.45)">Mailing list</div>
+          <sc-if value="{{ mailIdle }}" hint-placeholder-val="{{ true }}">
+            <form onSubmit="{{ onMailSubmit }}" style="display:flex;flex-direction:column;gap:18px">
+              <div style="font-family:Raleway,Helvetica,Arial,sans-serif;font-size:13.5px;line-height:1.65;color:#1f1f21;text-wrap:pretty">New work, exhibitions and public projects — a few notes a year.</div>
+              <input name="email" type="email" required="{{ true }}" placeholder="Your email" autoComplete="email" style="font-family:Raleway,Helvetica,Arial,sans-serif;font-size:13px;color:#1f1f21;width:100%;max-width:340px;box-sizing:border-box;padding:13px 14px;border:1px solid rgba(20,20,20,.28);border-radius:0;background:rgba(255,255,255,.3);outline:none" style-focus="background:rgba(255,255,255,.5);border-color:rgba(20,20,20,.5)">
+              <div>
+                <button type="submit" style="font-family:'Julius Sans One',Helvetica,Arial,sans-serif;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#141414;background:rgba(255,255,255,.3);border:1px solid rgba(20,20,20,.28);border-radius:0;padding:13px 30px;cursor:pointer" style-hover="background:rgba(20,20,20,.82);border-color:rgba(20,20,20,.82);color:#ffffff">{{ mailSendLabel }}</button>
+              </div>
+            </form>
+          </sc-if>
+          <sc-if value="{{ mailDone }}" hint-placeholder-val="{{ false }}">
+            <div style="font-family:Raleway,Helvetica,Arial,sans-serif;font-size:14px;line-height:1.7;color:#1f1f21">Thank you — you're on the list.</div>
+          </sc-if>
+        </div>
       </div>
     </div>
   </sc-if>
 
   <sc-if value="{{ vWorks }}" hint-placeholder-val="{{ true }}">
     <div data-live-layer data-r="gut" style="position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;padding:0 44px 60px">
-      <div data-r="exbar" style="display:flex;align-items:center;justify-content:space-between;gap:30px;height:64px;padding:0 60px 0 44px;margin:0 -44px;background:#000000">
-        <button type="button" onClick="{{ toHomeMenu }}" style="background:none;border:none;padding:0;border-radius:0;cursor:pointer;font-family:'Julius Sans One',Helvetica,Arial,sans-serif;font-size:14px;letter-spacing:.14em;text-transform:uppercase;color:#ffffff;white-space:nowrap" style-hover="opacity:.62" style-focus="outline:1px dotted currentColor;outline-offset:4px"><span data-r="markfull">Doug Crocco</span><span data-r="markshort" style="display:none">DC</span></button>
+      <div data-r="exbar" style="display:flex;align-items:center;justify-content:space-between;gap:30px;height:64px;padding:0 60px 0 44px;margin:0 -44px;background:#ffffff">
+        <button type="button" data-r="barburger" onClick="{{ toggleMenu }}" aria-label="Menu" aria-expanded="{{ menuOpen }}" style="display:none;flex-direction:column;justify-content:center;gap:5px;background:none;border:none;padding:10px 2px;margin:-10px 0;border-radius:0;cursor:pointer;flex:0 0 auto;min-height:44px" style-focus="outline:1px dotted rgba(20,20,20,.5);outline-offset:3px"><span style="width:21px;height:1px;background:#141414"></span><span style="width:21px;height:1px;background:#141414"></span><span style="width:21px;height:1px;background:#141414"></span></button><button type="button" onClick="{{ toggleMenu }}" aria-expanded="{{ menuOpen }}" style="background:none;border:none;padding:0;border-radius:0;cursor:pointer;font-family:'Julius Sans One',Helvetica,Arial,sans-serif;font-size:14px;letter-spacing:.14em;text-transform:uppercase;color:#141414;white-space:nowrap" style-hover="opacity:.62" style-focus="outline:1px dotted currentColor;outline-offset:4px"><span data-r="markfull">Doug Crocco</span></button>
         <div data-r="exfilters" style="display:flex;gap:22px">
-          <sc-for list="{{ worksModes }}" as="m" hint-placeholder-count="3">
-            <button type="button" onClick="{{ m.pick }}" style="{{ m.style }}" style-hover="color:#ffffff" style-focus="color:#ffffff;outline:1px dotted rgba(255,255,255,.6);outline-offset:3px">{{ m.label }}</button>
+          <sc-for list="{{ worksModes }}" as="m" hint-placeholder-count="4">
+            <button type="button" onClick="{{ m.pick }}" style="{{ m.style }}" style-hover="color:#141414" style-focus="color:#141414;outline:1px dotted rgba(20,20,20,.5);outline-offset:3px">{{ m.label }}</button>
           </sc-for>
         </div>
       </div>
       <div style="max-width:62ch;padding:36px 0 44px">
         <div style="font-family:Raleway,Helvetica,Arial,sans-serif;font-size:17px;line-height:1.7;color:#2a2a2b;text-wrap:pretty">{{ statement }}</div>
+      </div>
+      <div onClick="{{ seriesLead.open }}" style="cursor:pointer;max-width:1500px;padding:6px 0 30px">
+        <div style="width:100%;height:min(46vh,520px);overflow:hidden;background:#f2f1ee">
+          <img ref="{{ seriesLead.imgRef }}" alt="{{ seriesLead.name }}" loading="lazy" decoding="async" style="display:block;width:100%;height:100%;object-fit:cover">
+        </div>
+        <h3 style="font-family:Raleway,Helvetica,Arial,sans-serif;font-size:13px;line-height:1.4;color:#2a2a2b;margin-top:9px">{{ seriesLead.name }}</h3>
       </div>
       <div data-r="w2" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 30px;align-items:start;max-width:1500px;padding:6px 0 0">
         <sc-for list="{{ seriesColumns }}" as="col" hint-placeholder-count="2">
@@ -384,27 +422,32 @@
   </sc-if>
 
   <sc-if value="{{ vSeries }}" hint-placeholder-val="{{ true }}">
-    <div data-live-layer data-r="gut" onTouchStart="{{ seriesTouchStart }}" onTouchEnd="{{ seriesTouchEnd }}" style="position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;padding:0 44px 60px;background:{{ sBg }};touch-action:pan-y">
-      <div data-r="exbar" style="display:flex;align-items:center;justify-content:space-between;gap:30px;height:64px;padding:0 60px 0 44px;margin:0 -44px;background:#000000">
-        <button type="button" onClick="{{ toHomeMenu }}" style="background:none;border:none;padding:0;border-radius:0;cursor:pointer;font-family:'Julius Sans One',Helvetica,Arial,sans-serif;font-size:14px;letter-spacing:.14em;text-transform:uppercase;color:#ffffff;white-space:nowrap" style-hover="opacity:.62" style-focus="outline:1px dotted currentColor;outline-offset:4px"><span data-r="markfull">Doug Crocco</span><span data-r="markshort" style="display:none">DC</span></button>
+    <div data-live-layer ref="{{ seriesScrollRef }}" data-r="gut" onTouchStart="{{ seriesTouchStart }}" onTouchEnd="{{ seriesTouchEnd }}" style="position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;padding:0 44px 60px;background:{{ sBg }};touch-action:pan-y">
+      <div data-r="exbar" style="display:flex;align-items:center;justify-content:space-between;gap:30px;height:64px;padding:0 60px 0 44px;margin:0 -44px;background:#ffffff">
+        <button type="button" data-r="barburger" onClick="{{ toggleMenu }}" aria-label="Menu" aria-expanded="{{ menuOpen }}" style="display:none;flex-direction:column;justify-content:center;gap:5px;background:none;border:none;padding:10px 2px;margin:-10px 0;border-radius:0;cursor:pointer;flex:0 0 auto;min-height:44px" style-focus="outline:1px dotted rgba(20,20,20,.5);outline-offset:3px"><span style="width:21px;height:1px;background:#141414"></span><span style="width:21px;height:1px;background:#141414"></span><span style="width:21px;height:1px;background:#141414"></span></button><button type="button" onClick="{{ toggleMenu }}" aria-expanded="{{ menuOpen }}" style="background:none;border:none;padding:0;border-radius:0;cursor:pointer;font-family:'Julius Sans One',Helvetica,Arial,sans-serif;font-size:14px;letter-spacing:.14em;text-transform:uppercase;color:#141414;white-space:nowrap" style-hover="opacity:.62" style-focus="outline:1px dotted currentColor;outline-offset:4px"><span data-r="markfull">Doug Crocco</span></button>
         <div data-r="exfilters" style="display:flex;gap:22px">
-          <sc-for list="{{ worksModes }}" as="m" hint-placeholder-count="3">
-            <button type="button" onClick="{{ m.pick }}" style="{{ m.style }}" style-hover="color:#ffffff" style-focus="color:#ffffff;outline:1px dotted rgba(255,255,255,.6);outline-offset:3px">{{ m.label }}</button>
+          <sc-for list="{{ worksModes }}" as="m" hint-placeholder-count="4">
+            <button type="button" onClick="{{ m.pick }}" style="{{ m.style }}" style-hover="color:#141414" style-focus="color:#141414;outline:1px dotted rgba(20,20,20,.5);outline-offset:3px">{{ m.label }}</button>
           </sc-for>
         </div>
       </div>
-      <div style="display:flex;align-items:baseline;gap:14px;padding:26px 0 26px;font-family:Raleway,Helvetica,Arial,sans-serif;font-size:17px;color:{{ sInk }}">
-        <button type="button" onClick="{{ toWorks }}" style="background:none;border:none;padding:0;border-radius:0;font:inherit;letter-spacing:inherit;text-transform:inherit;cursor:pointer;color:{{ sInk3 }}" style-focus="outline:1px dotted currentColor;outline-offset:4px">Series</button>
-        <div style="color:{{ sRule }}">/</div>
+      <div data-r="serstick" style="position:relative">
+      <div data-r="sertitle" style="position:sticky;top:0;z-index:4;display:flex;align-items:baseline;gap:14px;margin:0 -44px;padding:26px 44px;background:{{ sBg }};font-family:Raleway,Helvetica,Arial,sans-serif;font-size:17px;color:{{ sInk }}">
         <h2 style="color:{{ sInk }}">{{ curSeries }}</h2>
         <div style="margin-left:auto;display:flex;align-items:center;gap:12px">
           <button type="button" aria-label="Previous series" style-focus="outline:1px dotted currentColor;outline-offset:3px" onClick="{{ prevSeries }}" style="background:none;border:none;padding:0;border-radius:0;color:inherit;font:inherit;cursor:pointer;width:30px;height:30px;display:flex;align-items:center;justify-content:center;font-size:15px;color:{{ sInk2 }}"><span style="display:block;transform:scaleX(-1)">→</span></button>
           <button type="button" aria-label="Next series" style-focus="outline:1px dotted currentColor;outline-offset:3px" onClick="{{ nextSeries }}" style="background:none;border:none;padding:0;border-radius:0;color:inherit;font:inherit;cursor:pointer;width:30px;height:30px;display:flex;align-items:center;justify-content:center;font-size:15px;color:{{ sInk2 }}">→</button>
         </div>
       </div>
+      <sc-if value="{{ seriesHasHero }}" hint-placeholder-val="{{ false }}">
+        <div data-r="exbleed" style="{{ seriesHeroFrameStyle }}">
+          <img ref="{{ seriesHeroRef }}" alt="{{ curSeries }}" decoding="async" style="{{ seriesHeroImgStyle }}">
+        </div>
+      </sc-if>
+      <div data-r="sercover" style="position:relative;z-index:5;background:{{ sBg }};min-height:min(56vh,620px);margin:0 -44px;padding:0 44px">
       <sc-if value="{{ hasSeriesNote }}" hint-placeholder-val="{{ false }}">
-        <div style="max-width:60ch;padding:0 0 38px">
-          <div style="font-family:Raleway,Helvetica,Arial,sans-serif;font-size:16px;line-height:1.7;color:{{ sInk2 }};text-wrap:pretty;white-space:pre-line">{{ seriesNote }}</div>
+        <div style="padding:26px 0 30px;margin-bottom:34px;border-bottom:1px dotted {{ sRule }}">
+          <div style="max-width:60ch;font-family:Raleway,Helvetica,Arial,sans-serif;font-size:16px;line-height:1.7;color:{{ sInk2 }};text-wrap:pretty;white-space:pre-line">{{ seriesNote }}</div>
         </div>
       </sc-if>
       <div data-r="w2" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 30px;align-items:start;max-width:1500px;padding:6px 0 0">
@@ -414,7 +457,7 @@
               <a href="{{ w.href }}" aria-label="{{ w.label }}" onClick="{{ w.open }}" style="display:block;cursor:pointer;color:inherit;text-decoration:none">
                 <div style="background:{{ sBed }};box-shadow:{{ sShadow }}">
                   <sc-if value="{{ w.isStill }}" hint-placeholder-val="{{ true }}">
-                    <img ref="{{ w.imgRef }}" alt="{{ w.title }}" loading="lazy" decoding="async" style="display:block;width:100%;height:auto">
+                    <img ref="{{ w.imgRef }}" alt="{{ w.title }}" loading="lazy" decoding="async" style="{{ w.plateStyle }}">
                   </sc-if>
                   <sc-if value="{{ w.isPoster }}" hint-placeholder-val="{{ false }}">
                     <video ref="{{ w.videoRef }}" poster="./hero-poster.jpg" autoPlay="{{ true }}" muted="{{ true }}" loop="{{ true }}" playsInline="{{ true }}" style="display:block;width:100%;height:auto;aspect-ratio:4/5;object-fit:cover;object-position:left bottom;background:#000000"></video>
@@ -427,16 +470,18 @@
           </div>
         </sc-for>
       </div>
+      </div>
+      </div>
     </div>
   </sc-if>
 
   <sc-if value="{{ vOverview }}" hint-placeholder-val="{{ true }}">
     <div data-live-layer data-r="gut" style="position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;padding:0 44px 60px">
-      <div data-r="exbar" style="display:flex;align-items:center;justify-content:space-between;gap:30px;height:64px;padding:0 60px 0 44px;margin:0 -44px;background:#000000">
-        <button type="button" onClick="{{ toHomeMenu }}" style="background:none;border:none;padding:0;border-radius:0;cursor:pointer;font-family:'Julius Sans One',Helvetica,Arial,sans-serif;font-size:14px;letter-spacing:.14em;text-transform:uppercase;color:#ffffff;white-space:nowrap" style-hover="opacity:.62" style-focus="outline:1px dotted currentColor;outline-offset:4px"><span data-r="markfull">Doug Crocco</span><span data-r="markshort" style="display:none">DC</span></button>
+      <div data-r="exbar" style="display:flex;align-items:center;justify-content:space-between;gap:30px;height:64px;padding:0 60px 0 44px;margin:0 -44px;background:#ffffff">
+        <button type="button" data-r="barburger" onClick="{{ toggleMenu }}" aria-label="Menu" aria-expanded="{{ menuOpen }}" style="display:none;flex-direction:column;justify-content:center;gap:5px;background:none;border:none;padding:10px 2px;margin:-10px 0;border-radius:0;cursor:pointer;flex:0 0 auto;min-height:44px" style-focus="outline:1px dotted rgba(20,20,20,.5);outline-offset:3px"><span style="width:21px;height:1px;background:#141414"></span><span style="width:21px;height:1px;background:#141414"></span><span style="width:21px;height:1px;background:#141414"></span></button><button type="button" onClick="{{ toggleMenu }}" aria-expanded="{{ menuOpen }}" style="background:none;border:none;padding:0;border-radius:0;cursor:pointer;font-family:'Julius Sans One',Helvetica,Arial,sans-serif;font-size:14px;letter-spacing:.14em;text-transform:uppercase;color:#141414;white-space:nowrap" style-hover="opacity:.62" style-focus="outline:1px dotted currentColor;outline-offset:4px"><span data-r="markfull">Doug Crocco</span></button>
         <div data-r="exfilters" style="display:flex;gap:22px">
-          <sc-for list="{{ worksModes }}" as="m" hint-placeholder-count="3">
-            <button type="button" onClick="{{ m.pick }}" style="{{ m.style }}" style-hover="color:#ffffff" style-focus="color:#ffffff;outline:1px dotted rgba(255,255,255,.6);outline-offset:3px">{{ m.label }}</button>
+          <sc-for list="{{ worksModes }}" as="m" hint-placeholder-count="4">
+            <button type="button" onClick="{{ m.pick }}" style="{{ m.style }}" style-hover="color:#141414" style-focus="color:#141414;outline:1px dotted rgba(20,20,20,.5);outline-offset:3px">{{ m.label }}</button>
           </sc-for>
         </div>
       </div>
@@ -470,11 +515,11 @@
 
   <sc-if value="{{ vYear }}" hint-placeholder-val="{{ true }}">
     <div data-live-layer style="position:absolute;inset:0;display:flex;flex-direction:column">
-      <div data-r="exbar flushbar" style="display:flex;align-items:center;justify-content:space-between;gap:30px;height:64px;padding:0 60px 0 44px;margin:0;background:#000000;flex:none">
-        <button type="button" onClick="{{ toHomeMenu }}" style="background:none;border:none;padding:0;border-radius:0;cursor:pointer;font-family:'Julius Sans One',Helvetica,Arial,sans-serif;font-size:14px;letter-spacing:.14em;text-transform:uppercase;color:#ffffff;white-space:nowrap" style-hover="opacity:.62" style-focus="outline:1px dotted currentColor;outline-offset:4px"><span data-r="markfull">Doug Crocco</span><span data-r="markshort" style="display:none">DC</span></button>
+      <div data-r="exbar flushbar" style="display:flex;align-items:center;justify-content:space-between;gap:30px;height:64px;padding:0 60px 0 44px;margin:0;background:#ffffff;flex:none">
+        <button type="button" data-r="barburger" onClick="{{ toggleMenu }}" aria-label="Menu" aria-expanded="{{ menuOpen }}" style="display:none;flex-direction:column;justify-content:center;gap:5px;background:none;border:none;padding:10px 2px;margin:-10px 0;border-radius:0;cursor:pointer;flex:0 0 auto;min-height:44px" style-focus="outline:1px dotted rgba(20,20,20,.5);outline-offset:3px"><span style="width:21px;height:1px;background:#141414"></span><span style="width:21px;height:1px;background:#141414"></span><span style="width:21px;height:1px;background:#141414"></span></button><button type="button" onClick="{{ toggleMenu }}" aria-expanded="{{ menuOpen }}" style="background:none;border:none;padding:0;border-radius:0;cursor:pointer;font-family:'Julius Sans One',Helvetica,Arial,sans-serif;font-size:14px;letter-spacing:.14em;text-transform:uppercase;color:#141414;white-space:nowrap" style-hover="opacity:.62" style-focus="outline:1px dotted currentColor;outline-offset:4px"><span data-r="markfull">Doug Crocco</span></button>
         <div data-r="exfilters" style="display:flex;gap:22px">
-          <sc-for list="{{ worksModes }}" as="m" hint-placeholder-count="3">
-            <button type="button" onClick="{{ m.pick }}" style="{{ m.style }}" style-hover="color:#ffffff" style-focus="color:#ffffff;outline:1px dotted rgba(255,255,255,.6);outline-offset:3px">{{ m.label }}</button>
+          <sc-for list="{{ worksModes }}" as="m" hint-placeholder-count="4">
+            <button type="button" onClick="{{ m.pick }}" style="{{ m.style }}" style-hover="color:#141414" style-focus="color:#141414;outline:1px dotted rgba(20,20,20,.5);outline-offset:3px">{{ m.label }}</button>
           </sc-for>
         </div>
       </div>
@@ -504,17 +549,38 @@
   <sc-if value="{{ vWork }}" hint-placeholder-val="{{ true }}">
     <div data-live-layer style="position:fixed;inset:0;z-index:20;background:#ffffff;display:flex;flex-direction:column">
       <div data-r="gut" style="display:flex;align-items:center;justify-content:space-between;gap:30px;padding:26px 44px 0;flex:none">
-        <div style="font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#4a4a4d;display:flex;align-items:center;min-height:44px">{{ wSeries }}</div>
+        <button type="button" onClick="{{ toSeriesPage }}" style="background:none;border:none;padding:0;border-radius:0;font-family:inherit;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#4a4a4d;cursor:pointer;display:flex;align-items:center;min-height:44px" style-hover="color:#1a1a1c">{{ wSeries }}</button>
         <div style="display:flex;align-items:center;gap:26px">
+          <sc-if value="{{ wHasShots }}" hint-placeholder-val="{{ false }}">
+            <div onClick="{{ toggleWorkDetails }}" style="cursor:pointer;font-size:12px;letter-spacing:.16em;text-transform:uppercase;padding:14px 4px;margin:-14px 0;display:flex;align-items:center;min-height:44px;color:#1a1a1c">{{ wDetailLabel }}</div>
+          </sc-if>
           <div onClick="{{ toContact }}" style="cursor:pointer;font-size:12px;letter-spacing:.16em;text-transform:uppercase;padding:14px 4px;margin:-14px 0;display:flex;align-items:center;min-height:44px">Enquire</div>
-          <div onClick="{{ backToSeries }}" style="cursor:pointer;font-size:12px;letter-spacing:.16em;text-transform:uppercase;padding:14px 0 14px 4px;margin:-14px 0;display:flex;align-items:center;min-height:44px">Close</div>
+          <sc-if value="{{ wIsStill }}" hint-placeholder-val="{{ true }}">
+            <div style="display:flex;align-items:center;gap:12px">
+              <button type="button" onClick="{{ zoomIn }}" aria-label="Zoom in" style="background:none;border:none;padding:0;border-radius:0;cursor:pointer;color:#4a4a4d;display:flex;align-items:center;justify-content:center;width:26px;min-height:44px" style-hover="color:#1a1a1c" style-focus="outline:1px dotted currentColor;outline-offset:3px"><svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.1" aria-hidden="true"><circle cx="8.4" cy="8.4" r="5.6"></circle><line x1="12.6" y1="12.6" x2="18" y2="18"></line><line x1="5.9" y1="8.4" x2="10.9" y2="8.4"></line><line x1="8.4" y1="5.9" x2="8.4" y2="10.9"></line></svg></button>
+              <button type="button" onClick="{{ zoomOut }}" aria-label="Zoom out" style="{{ zoomOutStyle }}" style-hover="color:#1a1a1c" style-focus="outline:1px dotted currentColor;outline-offset:3px"><svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.1" aria-hidden="true"><circle cx="8.4" cy="8.4" r="5.6"></circle><line x1="12.6" y1="12.6" x2="18" y2="18"></line><line x1="5.9" y1="8.4" x2="10.9" y2="8.4"></line></svg></button>
+            </div>
+          </sc-if>
+          <div onClick="{{ backToSeries }}" style="cursor:pointer;font-size:18px;line-height:1;padding:14px 0 14px 4px;margin:-14px 0;display:flex;align-items:center;min-height:44px" aria-label="Close">×</div>
         </div>
       </div>
+      <sc-if value="{{ wGridMode }}" hint-placeholder-val="{{ false }}">
+        <div data-r="gut" style="flex:1;min-height:0;overflow-y:auto;padding:26px 44px 40px">
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:22px;align-items:start">
+            <sc-for list="{{ wShotTiles }}" as="s" hint-placeholder-count="4">
+              <div onClick="{{ s.open }}" style="cursor:pointer;display:flex;flex-direction:column;gap:0">
+                <img ref="{{ s.imgRef }}" alt="{{ s.label }}" decoding="async" style="width:100%;height:auto;display:block;box-shadow:0 14px 34px rgba(20,20,20,.08), 0 2px 6px rgba(20,20,20,.05)">
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </sc-if>
+      <sc-if value="{{ wSingleMode }}" hint-placeholder-val="{{ true }}">
       <div data-r="gut workrow" onTouchStart="{{ workTouchStart }}" onTouchEnd="{{ workTouchEnd }}" style="flex:1;min-height:0;display:flex;align-items:center;gap:30px;padding:26px 44px 18px;touch-action:pan-y">
         <button type="button" aria-label="Previous work" style-focus="outline:1px dotted currentColor;outline-offset:3px" data-r="workarrow" onClick="{{ prevWork }}" style="background:none;border:none;padding:0;border-radius:0;color:inherit;font:inherit;position:relative;z-index:2;cursor:pointer;flex:none;width:44px;height:44px;display:flex;align-items:center;justify-content:center;font-size:22px;color:#6e6e72">❮</button>
         <div style="flex:1;min-width:0;align-self:stretch;min-height:0;display:flex;align-items:center;justify-content:center">
           <sc-if value="{{ wIsStill }}" hint-placeholder-val="{{ true }}">
-            <img ref="{{ wImgRef }}" alt="{{ wTitle }}" decoding="async" style="max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;box-shadow:0 14px 34px rgba(20,20,20,.08), 0 2px 6px rgba(20,20,20,.05)">
+            <img ref="{{ wImgRef }}" alt="{{ wTitle }}" draggable="{{ false }}" decoding="async" onClick="{{ zoomStep }}" style="{{ wImgStyle }}">
           </sc-if>
           <sc-if value="{{ wIsVideo }}" hint-placeholder-val="{{ false }}">
             <video data-r="workvid" ref="{{ wVideoRef }}" autoPlay="{{ true }}" muted="{{ true }}" loop="{{ true }}" playsInline="{{ true }}" style="max-width:100%;max-height:100%;height:100%;width:auto;aspect-ratio:4/5;object-fit:cover;object-position:left bottom;background:#000000;box-shadow:0 14px 34px rgba(20,20,20,.08), 0 2px 6px rgba(20,20,20,.06)"></video>
@@ -522,6 +588,7 @@
         </div>
         <button type="button" aria-label="Next work" style-focus="outline:1px dotted currentColor;outline-offset:3px" data-r="workarrow" onClick="{{ nextWork }}" style="background:none;border:none;padding:0;border-radius:0;color:inherit;font:inherit;position:relative;z-index:2;cursor:pointer;flex:none;width:44px;height:44px;display:flex;align-items:center;justify-content:center;font-size:22px;color:#6e6e72">❯</button>
       </div>
+      </sc-if>
       <div data-r="workcap" style="flex:none;padding:0 118px 30px;display:flex;flex-direction:column;align-items:center">
         <div style="font-size:13px;line-height:1.7;opacity:.7;max-width:760px;text-align:center;text-wrap:pretty">{{ wCaption }}</div>
         <div data-r="worknum" style="display:none;align-items:center;justify-content:center;gap:22px;margin-top:26px">
@@ -533,18 +600,31 @@
     </div>
   </sc-if>
 
+  <sc-if value="{{ wZoomOpen }}" hint-placeholder-val="{{ false }}">
+    <div data-live-layer style="position:fixed;inset:0;z-index:26;background:#f6f5f2;overflow:hidden;touch-action:none">
+      <img ref="{{ zoomImgRef }}" alt="{{ wTitle }}" draggable="{{ false }}" decoding="async" onClick="{{ zoomStep }}" style="position:absolute;left:50%;top:50%;display:block;max-width:none;cursor:grab;will-change:transform">
+      <button type="button" onClick="{{ zoomPrev }}" aria-label="Previous work" style="position:fixed;left:26px;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.32);backdrop-filter:blur(2px);border:none;padding:12px 14px;border-radius:0;cursor:pointer;color:#4a4a4d;font-size:20px;line-height:1;display:flex;align-items:center;justify-content:center" style-hover="color:#1a1a1c">←</button>
+      <button type="button" onClick="{{ zoomNext }}" aria-label="Next work" style="position:fixed;right:26px;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.32);backdrop-filter:blur(2px);border:none;padding:12px 14px;border-radius:0;cursor:pointer;color:#4a4a4d;font-size:20px;line-height:1;display:flex;align-items:center;justify-content:center" style-hover="color:#1a1a1c">→</button>
+      <div style="position:fixed;top:18px;right:34px;display:flex;align-items:center;gap:14px;background:rgba(255,255,255,.32);backdrop-filter:blur(2px);padding:8px 10px">
+        <button type="button" onClick="{{ zoomIn }}" aria-label="Zoom in" style="background:none;border:none;padding:0;border-radius:0;cursor:pointer;color:#4a4a4d;display:flex;align-items:center;justify-content:center;width:26px;height:26px" style-hover="color:#1a1a1c"><svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.1" aria-hidden="true"><circle cx="8.4" cy="8.4" r="5.6"></circle><line x1="12.6" y1="12.6" x2="18" y2="18"></line><line x1="5.9" y1="8.4" x2="10.9" y2="8.4"></line><line x1="8.4" y1="5.9" x2="8.4" y2="10.9"></line></svg></button>
+        <button type="button" onClick="{{ zoomOut }}" aria-label="Zoom out" style="background:none;border:none;padding:0;border-radius:0;cursor:pointer;color:#4a4a4d;display:flex;align-items:center;justify-content:center;width:26px;height:26px" style-hover="color:#1a1a1c"><svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.1" aria-hidden="true"><circle cx="8.4" cy="8.4" r="5.6"></circle><line x1="12.6" y1="12.6" x2="18" y2="18"></line><line x1="5.9" y1="8.4" x2="10.9" y2="8.4"></line></svg></button>
+        <button type="button" onClick="{{ closeZoom }}" aria-label="Close zoom" style="background:none;border:none;padding:0;border-radius:0;cursor:pointer;color:#4a4a4d;font-size:18px;line-height:1;display:flex;align-items:center;justify-content:center;width:26px;height:26px" style-hover="color:#1a1a1c">×</button>
+      </div>
+    </div>
+  </sc-if>
+
   <sc-if value="{{ vExhibits }}" hint-placeholder-val="{{ true }}">
     <div data-live-layer data-r="gut" style="position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;padding:0 44px 60px;background:#000000">
-      <div data-r="exbar" style="display:flex;align-items:center;justify-content:space-between;gap:30px;height:64px;padding:0 60px 0 44px;margin:0 -44px;background:#000000">
-        <button type="button" onClick="{{ toHomeMenu }}" style="background:none;border:none;padding:0;border-radius:0;cursor:pointer;font-family:'Julius Sans One',Helvetica,Arial,sans-serif;font-size:14px;letter-spacing:.14em;text-transform:uppercase;color:#ffffff;white-space:nowrap" style-hover="opacity:.62" style-focus="outline:1px dotted currentColor;outline-offset:4px"><span data-r="markfull">Doug Crocco</span><span data-r="markshort" style="display:none">DC</span></button>
+      <div data-r="exbar" style="display:flex;align-items:center;justify-content:space-between;gap:30px;height:64px;padding:0 60px 0 44px;margin:0 -44px;background:#ffffff">
+        <button type="button" data-r="barburger" onClick="{{ toggleMenu }}" aria-label="Menu" aria-expanded="{{ menuOpen }}" style="display:none;flex-direction:column;justify-content:center;gap:5px;background:none;border:none;padding:10px 2px;margin:-10px 0;border-radius:0;cursor:pointer;flex:0 0 auto;min-height:44px" style-focus="outline:1px dotted rgba(20,20,20,.5);outline-offset:3px"><span style="width:21px;height:1px;background:#141414"></span><span style="width:21px;height:1px;background:#141414"></span><span style="width:21px;height:1px;background:#141414"></span></button><button type="button" onClick="{{ toggleMenu }}" aria-expanded="{{ menuOpen }}" style="background:none;border:none;padding:0;border-radius:0;cursor:pointer;font-family:'Julius Sans One',Helvetica,Arial,sans-serif;font-size:14px;letter-spacing:.14em;text-transform:uppercase;color:#141414;white-space:nowrap" style-hover="opacity:.62" style-focus="outline:1px dotted currentColor;outline-offset:4px"><span data-r="markfull">Doug Crocco</span></button>
         <div data-r="exfilters" style="display:flex;gap:22px">
           <sc-for list="{{ exhFilters }}" as="f" hint-placeholder-count="4">
-            <button type="button" onClick="{{ f.pick }}" style="{{ f.styleLight }}" style-hover="color:#ffffff" style-focus="color:#ffffff;outline:1px dotted rgba(255,255,255,.6);outline-offset:3px">{{ f.label }}</button>
+            <button type="button" onClick="{{ f.pick }}" style="{{ f.style }}" style-hover="color:#141414" style-focus="color:#141414;outline:1px dotted rgba(20,20,20,.5);outline-offset:3px">{{ f.label }}</button>
           </sc-for>
         </div>
       </div>
       <div data-r="exbleed" style="position:relative;margin:0 -44px">
-      <div style="display:flex;flex-wrap:wrap;gap:2px;padding:0;margin:0">
+      <div style="display:flex;flex-wrap:wrap;gap:0;padding:0;margin:0">
         <sc-for list="{{ exhibits }}" as="e" hint-placeholder-count="4">
           <a data-r="extile" href="{{ e.href }}" aria-label="{{ e.label }}" onClick="{{ e.open }}" style="{{ e.wrapStyle }}">
             <div data-r="explate" style="{{ e.plateStyle }}">
@@ -564,7 +644,7 @@
   <sc-if value="{{ vExhibit }}" hint-placeholder-val="{{ true }}">
     <div ref="{{ exScrollRef }}" data-live-layer style="{{ exScrollStyle }}">
       <div data-r="exbar" style="display:flex;align-items:center;justify-content:space-between;gap:30px;height:64px;padding:0 60px 0 44px;margin:0 -44px 26px;background:#000000">
-        <button type="button" onClick="{{ toHomeMenu }}" style="background:none;border:none;padding:0;border-radius:0;cursor:pointer;font-family:'Julius Sans One',Helvetica,Arial,sans-serif;font-size:14px;letter-spacing:.14em;text-transform:uppercase;color:#ffffff;white-space:nowrap" style-hover="opacity:.62" style-focus="outline:1px dotted currentColor;outline-offset:4px"><span data-r="markfull">Doug Crocco</span><span data-r="markshort" style="display:none">DC</span></button>
+        <button type="button" data-r="barburger" onClick="{{ toggleMenu }}" aria-label="Menu" aria-expanded="{{ menuOpen }}" style="display:none;flex-direction:column;justify-content:center;gap:5px;background:none;border:none;padding:10px 2px;margin:-10px 0;border-radius:0;cursor:pointer;flex:0 0 auto;min-height:44px" style-focus="outline:1px dotted rgba(255,255,255,.6);outline-offset:3px"><span style="width:21px;height:1px;background:#ffffff"></span><span style="width:21px;height:1px;background:#ffffff"></span><span style="width:21px;height:1px;background:#ffffff"></span></button><button type="button" onClick="{{ toggleMenu }}" aria-expanded="{{ menuOpen }}" style="background:none;border:none;padding:0;border-radius:0;cursor:pointer;font-family:'Julius Sans One',Helvetica,Arial,sans-serif;font-size:14px;letter-spacing:.14em;text-transform:uppercase;color:#ffffff;white-space:nowrap" style-hover="opacity:.62" style-focus="outline:1px dotted currentColor;outline-offset:4px"><span data-r="markfull">Doug Crocco</span></button>
         <div style="display:flex;align-items:center;gap:26px;flex:0 0 auto">
           <button type="button" onClick="{{ toAllExhibits }}" style="{{ exBackStyle }}" style-hover="color:#ffffff">All exhibits</button>
           <span style="width:1px;height:16px;background:rgba(255,255,255,.28)"></span>
@@ -583,7 +663,7 @@
             <img ref="{{ heroImgRef }}" alt="{{ exTitle }}" decoding="async" style="{{ heroImgStyle }}">
           </div>
         </sc-if>
-      </div>
+        <div data-r="excover" style="{{ exCoverStyle }}">
         <div ref="{{ pressBlockRef }}" style="max-width:1760px;padding:0 0 34px;min-height:0">
           <div data-r="herocopy" style="{{ exCopyWrapStyle }}">
             <div ref="{{ pressRowRef }}" onClick="{{ showInfo }}" style="{{ pressRowStyle }}">Press release</div>
@@ -643,7 +723,7 @@
 
           <sc-if value="{{ exHasArtists }}" hint-placeholder-val="{{ false }}">
             <div style="margin-top:20px;order:3">
-              <div onClick="{{ toggleExArtists }}" style="{{ exArtistsHeadStyle }}" style-hover="color:#141414">{{ exArtistsHeadLabel }}</div>
+              <div data-r="artistrule" onClick="{{ toggleExArtists }}" style="{{ exArtistsHeadStyle }}" style-hover="color:#141414" style-after="content:'';position:absolute;left:44px;right:44px;bottom:0;height:1px;background:rgba(20,20,20,.16)">{{ exArtistsHeadLabel }}</div>
               <div data-r="artistcols" style="margin-top:20px;column-count:3;column-gap:26px;font-family:Raleway,Helvetica,Arial,sans-serif;font-size:16px;line-height:1.4;color:#3c3c3d">
                 <sc-for list="{{ exArtists }}" as="a" hint-placeholder-count="12">
                   <div style="break-inside:avoid;padding-bottom:14px">{{ a.name }}</div>
@@ -657,6 +737,8 @@
 
           <div style="border-bottom:1px dotted rgba(20,20,20,.45);margin-top:34px"></div>
         </div>
+        </div>
+      </div>
       <div ref="{{ viewsRowRef }}" style="{{ viewsRowStyle }}">
         <sc-if value="{{ exHasGalFilter }}" hint-placeholder-val="{{ false }}">
           <div style="display:flex;align-items:center;gap:22px">
@@ -677,17 +759,17 @@
       <sc-if value="{{ exFullMode }}" hint-placeholder-val="{{ true }}">
         <div data-r="fullpad" style="max-width:1760px;padding:0 0 56px">
           <div style="position:relative">
-            <div ref="{{ fullSwipeRef }}" onClick="{{ backdropToGrid }}" data-r="arrowgut" style="padding:0 46px;display:flex;align-items:center;justify-content:center;height:min(calc(100dvh - 120px), 86vh)">
+            <div ref="{{ fullSwipeRef }}" onClick="{{ backdropToGrid }}" data-r="arrowgut" style="padding:0 104px;display:flex;align-items:center;justify-content:center;height:min(calc(100dvh - 120px), 86vh)">
               <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;max-width:100%;height:100%">
-                <img ref="{{ fullImgRef }}" alt="{{ fullCaption }}" decoding="async" style="{{ fullImgStyle }}">
+                <img ref="{{ fullImgRef }}" alt="{{ fullCaption }}" draggable="{{ false }}" decoding="async" style="{{ fullImgStyle }}">
                 <sc-if value="{{ fullMissing }}" hint-placeholder-val="{{ false }}">
                   <div style="font-family:Raleway,Helvetica,Arial,sans-serif;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#9c9ca0">Image unavailable</div>
                 </sc-if>
                 <div data-r="fullcap" style="font-family:Raleway,Helvetica,Arial,sans-serif;font-size:12px;line-height:1.6;color:#6b6b6d;text-align:center;max-width:min(80ch,100%);padding-top:24px;height:39px;flex:none">{{ fullCaption }}</div>
               </div>
             </div>
-            <button type="button" aria-label="Previous image" style-focus="outline:1px dotted currentColor;outline-offset:3px" onClick="{{ prevFull }}" data-r="fullarrow" style="background:none;border:none;padding:0;border-radius:0;color:inherit;font:inherit;position:absolute;left:0;top:calc(min(calc(100dvh - 120px), 86vh) / 2);transform:translateY(-50%);z-index:2;cursor:pointer;width:44px;height:44px;display:flex;align-items:center;justify-content:center;font-size:22px;color:#6e6e72">❮</button>
-            <button type="button" aria-label="Next image" style-focus="outline:1px dotted currentColor;outline-offset:3px" onClick="{{ nextFull }}" data-r="fullarrow" style="background:none;border:none;padding:0;border-radius:0;color:inherit;font:inherit;position:absolute;right:0;top:calc(min(calc(100dvh - 120px), 86vh) / 2);transform:translateY(-50%);z-index:2;cursor:pointer;width:44px;height:44px;display:flex;align-items:center;justify-content:center;font-size:22px;color:#6e6e72">❯</button>
+            <button type="button" aria-label="Previous image" style-focus="outline:1px dotted currentColor;outline-offset:3px" onClick="{{ prevFull }}" data-r="fullarrow" style="background:none;border:none;padding:0;border-radius:0;color:inherit;font:inherit;position:absolute;left:16px;top:calc(min(calc(100dvh - 120px), 86vh) / 2);transform:translateY(-50%);z-index:2;cursor:pointer;width:44px;height:44px;display:flex;align-items:center;justify-content:center;font-size:22px;color:#6e6e72">❮</button>
+            <button type="button" aria-label="Next image" style-focus="outline:1px dotted currentColor;outline-offset:3px" onClick="{{ nextFull }}" data-r="fullarrow" style="background:none;border:none;padding:0;border-radius:0;color:inherit;font:inherit;position:absolute;right:16px;top:calc(min(calc(100dvh - 120px), 86vh) / 2);transform:translateY(-50%);z-index:2;cursor:pointer;width:44px;height:44px;display:flex;align-items:center;justify-content:center;font-size:22px;color:#6e6e72">❯</button>
           </div>
           <div data-r="fullnum" style="display:flex;align-items:center;justify-content:center;gap:22px;margin-top:26px">
             <button type="button" aria-label="Previous image" style-focus="outline:1px dotted currentColor;outline-offset:3px" onClick="{{ prevFull }}" data-r="taphalf" style="background:none;border:none;padding:0;border-radius:0;color:inherit;font:inherit;cursor:pointer;width:48px;height:48px;display:flex;align-items:center;justify-content:center;font-family:Raleway,Helvetica,Arial,sans-serif;font-size:15px;letter-spacing:.14em;color:#9c9ca0">❮</button>
@@ -720,11 +802,11 @@
 
   <sc-if value="{{ vNews }}" hint-placeholder-val="{{ true }}">
     <div data-live-layer data-r="gut" style="position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;padding:0 44px 70px">
-      <div data-r="exbar" style="position:sticky;top:0;z-index:5;display:flex;align-items:center;justify-content:space-between;gap:30px;height:64px;padding:0 60px 0 44px;margin:0 -44px;background:#000000">
-        <button type="button" onClick="{{ toHomeMenu }}" style="background:none;border:none;padding:0;border-radius:0;cursor:pointer;font-family:'Julius Sans One',Helvetica,Arial,sans-serif;font-size:14px;letter-spacing:.14em;text-transform:uppercase;color:#ffffff;white-space:nowrap" style-hover="opacity:.62" style-focus="outline:1px dotted currentColor;outline-offset:4px"><span data-r="markfull">Doug Crocco</span><span data-r="markshort" style="display:none">DC</span></button>
-        <div data-r="exfilters" style="display:flex;gap:22px">
+      <div data-r="exbar" style="position:sticky;top:0;z-index:5;display:flex;align-items:center;justify-content:space-between;gap:30px;height:64px;padding:0 60px 0 44px;margin:0 -44px;background:transparent;pointer-events:none">
+        <button type="button" data-r="barburger" onClick="{{ toggleMenu }}" aria-label="Menu" aria-expanded="{{ menuOpen }}" style="display:none;flex-direction:column;justify-content:center;gap:5px;background:none;border:none;padding:10px 2px;margin:-10px 0;border-radius:0;cursor:pointer;flex:0 0 auto;min-height:44px;pointer-events:auto" style-focus="outline:1px dotted rgba(255,255,255,.6);outline-offset:3px"><span style="width:21px;height:1px;background:#141414"></span><span style="width:21px;height:1px;background:#141414"></span><span style="width:21px;height:1px;background:#141414"></span></button><button type="button" onClick="{{ toggleMenu }}" aria-expanded="{{ menuOpen }}" style="background:none;border:none;padding:0;border-radius:0;cursor:pointer;font-family:'Julius Sans One',Helvetica,Arial,sans-serif;font-size:14px;letter-spacing:.14em;text-transform:uppercase;color:#141414;white-space:nowrap;pointer-events:auto;text-shadow:0 0 6px rgba(255,255,255,1), 0 0 12px rgba(255,255,255,.95)" style-hover="opacity:.62" style-focus="outline:1px dotted currentColor;outline-offset:4px"><span data-r="markfull">Doug Crocco</span></button>
+        <div data-r="exfilters" style="display:flex;gap:22px;pointer-events:auto">
           <sc-for list="{{ newsFilters }}" as="f" hint-placeholder-count="3">
-            <button type="button" onClick="{{ f.pick }}" style="{{ f.styleLight }}" style-hover="color:#ffffff" style-focus="color:#ffffff;outline:1px dotted rgba(255,255,255,.6);outline-offset:3px">{{ f.label }}</button>
+            <button type="button" onClick="{{ f.pick }}" style="{{ f.styleDark }}" style-hover="color:#141414" style-focus="color:#141414;outline:1px dotted rgba(20,20,20,.5);outline-offset:3px">{{ f.label }}</button>
           </sc-for>
         </div>
       </div>
@@ -845,10 +927,41 @@
     </button>
   </div>
 
+  <sc-if value="{{ mailOpen }}" hint-placeholder-val="{{ false }}">
+    <div data-live-layer onClick="{{ mailBackdrop }}" style="position:fixed;inset:0;z-index:40;background:rgba(12,12,13,.62);display:flex;align-items:center;justify-content:center;padding:24px;box-sizing:border-box">
+      <div data-r="mailcard" style="position:relative;display:grid;grid-template-columns:minmax(0,0.9fr) minmax(0,1.1fr);width:min(920px,100%);max-height:88vh;background:#ffffff;box-shadow:0 30px 90px rgba(0,0,0,.42);overflow:hidden auto">
+        <div data-r="mailimg" style="position:relative;background:#111112;min-height:340px">
+          <img ref="{{ mailImgRef }}" alt="" decoding="async" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
+        </div>
+        <div data-r="mailbody" style="padding:52px 48px 44px;display:flex;flex-direction:column;gap:18px;min-height:0;overflow-y:auto">
+          <button type="button" onClick="{{ closeMail }}" aria-label="Close" style="position:absolute;top:14px;right:16px;background:none;border:none;padding:0;border-radius:0;cursor:pointer;width:38px;height:38px;display:flex;align-items:center;justify-content:center;font-size:22px;color:#6e6e72" style-hover="color:#141414" style-focus="outline:1px dotted currentColor;outline-offset:3px">×</button>
+          <h2 style="font-family:'Julius Sans One',Helvetica,Arial,sans-serif;font-size:clamp(22px,2vw,30px);letter-spacing:.06em;text-transform:uppercase;line-height:1.2;font-weight:400;color:#1a1a1c;margin:0">Join the mailing list</h2>
+          <sc-if value="{{ mailIdle }}" hint-placeholder-val="{{ true }}">
+            <div style="display:flex;flex-direction:column;gap:20px">
+              <div style="font-family:Raleway,Helvetica,Arial,sans-serif;font-size:15px;line-height:1.65;color:#4a4a4d;text-wrap:pretty">New work, exhibitions and public projects — a few notes a year, nothing else.</div>
+              <form onSubmit="{{ onMailSubmit }}" style="display:flex;flex-direction:column;gap:18px">
+                <input name="name" type="text" placeholder="Name" autoComplete="name" style="background:rgba(20,20,20,.045);border:1px solid rgba(20,20,20,.28);border-radius:0;padding:13px 14px;box-sizing:border-box;font-family:Raleway,Helvetica,Arial,sans-serif;font-size:15px;color:#1a1a1c;outline:none" style-focus="background:rgba(20,20,20,.02);border-color:rgba(20,20,20,.5)">
+                <input name="email" type="email" required="{{ true }}" placeholder="Email" autoComplete="email" style="background:rgba(20,20,20,.045);border:1px solid rgba(20,20,20,.28);border-radius:0;padding:13px 14px;box-sizing:border-box;font-family:Raleway,Helvetica,Arial,sans-serif;font-size:15px;color:#1a1a1c;outline:none" style-focus="background:rgba(20,20,20,.02);border-color:rgba(20,20,20,.5)">
+                <div style="display:flex;align-items:center;gap:22px;padding-top:6px">
+                  <button type="submit" style="background:rgba(20,20,20,.045);border:1px solid rgba(20,20,20,.28);border-radius:0;padding:13px 34px;cursor:pointer;font-family:'Julius Sans One',Helvetica,Arial,sans-serif;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#1a1a1c" style-hover="background:#1a1a1c;border-color:#1a1a1c;color:#ffffff">{{ mailSendLabel }}</button>
+                  <button type="button" onClick="{{ closeMail }}" style="background:none;border:none;padding:0;border-radius:0;cursor:pointer;font-family:Raleway,Helvetica,Arial,sans-serif;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#8c8c8e" style-hover="color:#1a1a1c">No thanks</button>
+                </div>
+              </form>
+            </div>
+          </sc-if>
+          <sc-if value="{{ mailDone }}" hint-placeholder-val="{{ false }}">
+            <div style="font-family:Raleway,Helvetica,Arial,sans-serif;font-size:15px;line-height:1.65;color:#4a4a4d">Thank you — you're on the list.</div>
+          </sc-if>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
   <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
     <div data-live-layer style="position:fixed;inset:0;z-index:30;background:#000000;color:#ffffff;padding:0 44px 40px;box-sizing:border-box;overflow-y:auto">
-      <button type="button" onClick="{{ toggleMenu }}" aria-label="Close menu" style="position:absolute;top:26px;right:44px;z-index:2;background:none;border:none;padding:0;border-radius:0;color:inherit;font:inherit;letter-spacing:inherit;text-transform:inherit;cursor:pointer;width:34px;height:34px;display:flex;align-items:center;justify-content:center;font-size:22px;color:rgba(255,255,255,.7)" style-focus="outline:1px dotted currentColor;outline-offset:4px">×</button>
-      <div data-r="heromenu" style="padding-top:100px;width:min(46%,560px);margin-left:auto">
+      <video ref="{{ heroVideoRef }}" poster="./hero-still.jpg" autoPlay="{{ true }}" muted="{{ true }}" loop="{{ true }}" playsInline="{{ true }}" preload="auto" aria-hidden="true" style="position:fixed;inset:0;width:100%;height:100%;object-fit:cover;opacity:.34;pointer-events:none;z-index:0"></video>
+      <button type="button" onClick="{{ toggleMenu }}" aria-label="Close menu" data-r="menuclose" style="position:absolute;top:0;left:44px;z-index:2;background:none;border:none;padding:0;border-radius:0;color:inherit;font:inherit;letter-spacing:inherit;text-transform:inherit;cursor:pointer;width:186px;height:64px;display:flex;align-items:center;justify-content:flex-start;font-size:22px;color:rgba(255,255,255,.7)" style-focus="outline:1px dotted currentColor;outline-offset:4px">×</button>
+      <div data-r="heromenu" style="position:relative;z-index:1;padding-top:100px;width:min(100%,420px);margin-left:0">
         <div data-r="navrow" style="padding:14px 0;border-bottom:1px dotted rgba(255,255,255,.3)">
           <button type="button" onClick="{{ toHomeMenu }}" data-r="homenav" style="display:block;text-align:left;background:none;border:none;padding:0;border-radius:0;color:inherit;font:inherit;letter-spacing:inherit;text-transform:inherit;cursor:pointer;font-family:'Julius Sans One',Helvetica,Arial,sans-serif;font-size:30px;letter-spacing:.08em;text-transform:uppercase;color:#ffffff" style-focus="outline:1px dotted currentColor;outline-offset:4px">Doug Crocco</button>
         </div>
@@ -867,6 +980,8 @@
         <div data-r="navrow" style="padding:14px 0">
           <button type="button" onClick="{{ toSearchMenu }}" data-r="homenav menuitem" style="display:block;text-align:left;background:none;border:none;padding:0;border-radius:0;color:inherit;font:inherit;letter-spacing:inherit;text-transform:inherit;cursor:pointer;font-family:'Julius Sans One',Helvetica,Arial,sans-serif;font-size:28px;letter-spacing:.08em;text-transform:uppercase;color:#ffffff" style-focus="outline:1px dotted currentColor;outline-offset:4px">Search</button>
         </div>
+        <div style="font-family:Raleway,Helvetica,Arial,sans-serif;font-size:11px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:#ffffff;padding:40px 0 0">{{ heroCaption }}</div>
+        <div style="font-family:Raleway,Helvetica,Arial,sans-serif;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.6);padding:5px 0 0">{{ heroMeta }}</div>
       </div>
     </div>
   </sc-if>
@@ -876,6 +991,12 @@
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;darkGround&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;black&quot;,&quot;granite&quot;,&quot;gradient&quot;],&quot;default&quot;:&quot;black&quot;,&quot;tsType&quot;:&quot;'black' | 'granite' | 'gradient'&quot;,&quot;section&quot;:&quot;Series&quot;}}">
 const D = () => window.DC || { works: [], series: [], exhibits: [] };
+// hidden chronology key: "md":"01-01" sinks a work inside its year; undated pieces read as newest
+const rank = w => {
+  const y = Number(w && w.y) || 0;
+  const p = String((w && w.md) || '12-31').split('-');
+  return y * 10000 + (Number(p[0]) || 12) * 100 + (Number(p[1]) || 31);
+};
 const PLATE = { position: 'relative', overflow: 'hidden', backgroundColor: '#0a0a0a', boxShadow: 'inset 0 0 0 1px rgba(20,20,20,.13)' };
 // shows whose tile image is light enough to want black type — by title, or "ink":"dark" in the data
 const DARK_TILE_TITLES = [];
@@ -896,7 +1017,7 @@ const homeTile = (self, e, full, st, mkRef) => {
     // never reads as an empty black stripe on a short viewport
     imgRef: mkRef(e.img, null, true),
     overlayMeta: [st.narrow ? venue : [venue, city].filter(Boolean).join(', '), e.y].filter(Boolean).join(' — '),
-    wrapStyle: { cursor: 'pointer', width: full ? '100%' : 'calc(50% - 1px)', color: 'inherit', textDecoration: 'none' },
+    wrapStyle: { cursor: 'pointer', width: full ? '100%' : '50%', color: 'inherit', textDecoration: 'none' },
     // percentage padding rather than aspect-ratio: the image is absolutely positioned, so this
     // keeps the plate from collapsing to zero height on older iPad Safari
     plateStyle: Object.assign({ height: 0, paddingBottom: full ? '56.25%' : '112.5%' }, PLATE, { boxShadow: 'none', backgroundColor: '#0a0a0a' }),
@@ -1071,7 +1192,12 @@ class Component extends DCLogic {
     switch (st.view) {
       case 'works': return '#/works';
       case 'series': return '#/works/' + sg(st.series);
-      case 'work': return '#/works/' + sg(st.series) + '/' + ((st.sel || 0) + 1);
+      case 'work': {
+        const n = (st.sel || 0) + 1;
+        if (st.workFrom === 'overview') return '#/media' + f(st.ovFilter) + '/' + n;
+        if (st.workFrom === 'year') return '#/year/' + n;
+        return '#/works/' + sg(st.series) + '/' + n;
+      }
       case 'overview': return '#/overview' + f(st.ovFilter);
       case 'year': return '#/year';
       case 'exhibits': return '#/exhibits' + f(st.exhFilter);
@@ -1090,7 +1216,22 @@ class Component extends DCLogic {
     const pickFilter = (list, seg) => list.find(x => this.slug(x) === this.slug(seg)) || 'All';
     if (!head) return { view: 'home' };
     if (head === 'info') { setTimeout(() => this.scrollToInfo(14), 80); return { view: 'home' }; }
-    if (head === 'year') return { view: 'year' };
+    const clamp = (n, len) => Math.min(Math.max(parseInt(n, 10) || 1, 1), Math.max(len, 1)) - 1;
+    if (head === 'year') {
+      if (parts[1] && /^\d+$/.test(parts[1])) {
+        const len = (d.works || []).filter(w => w.y).length;
+        return { view: 'work', wZoom: 0, workFrom: 'year', series: '', sel: clamp(parts[1], len), wShot: 0, wMode: 'full', wDet: false };
+      }
+      return { view: 'year' };
+    }
+    if (head === 'media') {
+      const segs = parts.slice(1);
+      const num = segs.length && /^\d+$/.test(segs[segs.length - 1]) ? segs.pop() : null;
+      const fl = pickFilter(['All', 'Drawing', 'Print', 'Sculpture', 'Public', 'Video'], segs[0]);
+      if (num === null) return { view: 'overview', ovFilter: fl };
+      const len = (d.works || []).filter(w => fl === 'All' || (w.k || []).indexOf(fl) >= 0).length;
+      return { view: 'work', wZoom: 0, workFrom: 'overview', ovFilter: fl, series: '', sel: clamp(num, len), wShot: 0, wMode: 'full', wDet: false };
+    }
     if (head === 'search') return { view: 'search', q: parts[1] || '' };
     if (head === 'overview') return { view: 'overview', ovFilter: pickFilter(['All', 'Drawing', 'Print', 'Sculpture', 'Public', 'Video'], parts[1]) };
     if (head === 'news') return { view: 'news', newsFilter: pickFilter(['All', 'Press', 'Event'], parts[1]) };
@@ -1110,7 +1251,7 @@ class Component extends DCLogic {
       if (parts[2]) {
         const len = (d.works || []).filter(w => w.s === s.name).length || 1;
         const i = Math.min(Math.max(parseInt(parts[2], 10) || 1, 1), len) - 1;
-        return { view: 'work', series: s.name, workFrom: 'series', sel: i };
+        return { view: 'work', wZoom: 0, series: s.name, workFrom: 'series', sel: i, wShot: 0, wMode: 'full', wDet: false };
       }
       return { view: 'series', series: s.name, sel: 0 };
     }
@@ -1143,7 +1284,7 @@ class Component extends DCLogic {
     const base = 'Drawings, prints and video. Colored pencil work made over two decades in Los Angeles.';
     const abs = u => !u ? '' : (/^https?:/.test(u) ? u : 'https://dougcrocco.com/' + String(u).replace(/^\.\//, ''));
     const ex = () => (d.exhibits || []).find(x => x.title === st.exhibit) || {};
-    const seriesWorks = () => (d.works || []).filter(w => w.s === st.series);
+    const seriesWorks = () => this.workScope();
     switch (st.view) {
       case 'works': return { h: 'Works by series', t: 'Works by series | ' + site, desc: 'Colored pencil drawings, prints and video grouped into seven series.' };
       case 'series': {
@@ -1246,6 +1387,18 @@ class Component extends DCLogic {
     this._prevView = this.state.view;
   }
 
+  // the mailing-list card waits a beat over the CV, and only asks once per visitor
+  armMailPrompt() {
+    if (this._mailArmed) return;
+    // once-per-visitor suppression is off while the card's design is being reviewed
+    this._mailArmed = true;
+    this.setState({ mailOpen: true });
+  }
+  closeMailPrompt() {
+    clearTimeout(this._mailTimer);
+    try { window.localStorage.setItem('dc-mail-list-v2', '1'); } catch (err) {}
+    this.setState({ mailOpen: false });
+  }
   componentDidMount() {
     if (typeof document !== 'undefined' && !document.documentElement.lang) document.documentElement.lang = 'en';
     this.syncHead();
@@ -1301,15 +1454,16 @@ class Component extends DCLogic {
         return;
       }
       if (this.state.view === 'work') {
-        if (e.key === 'ArrowRight') this.step(1);
-        if (e.key === 'ArrowLeft') this.step(-1);
-        if (e.key === 'Escape') this.setState({ view: this.state.workFrom || 'series' });
+        const keep = !!this.state.wZoom;
+        if (e.key === 'ArrowRight') this.step(1, keep);
+        if (e.key === 'ArrowLeft') this.step(-1, keep);
+        if (e.key === 'Escape') this.setState({ view: this.state.workFrom || 'series', wZoom: 0 });
         return;
       }
       if (this.state.view !== 'work') return;
       if (e.key === 'ArrowRight') this.step(1);
       if (e.key === 'ArrowLeft') this.step(-1);
-      if (e.key === 'Escape') this.setState({ view: 'series' });
+      if (e.key === 'Escape') this.setState({ view: 'series', wZoom: 0 });
     };
     if (window.__dcKey) window.removeEventListener('keydown', window.__dcKey);
     window.__dcKey = this._key;
@@ -1325,10 +1479,39 @@ class Component extends DCLogic {
     window.removeEventListener('hashchange', this._hashNav);
   }
 
-  list() { return D().works.filter(w => w.s === this.state.series); }
-  step(n) {
+  // the click-through stays inside whatever set the visitor arrived through:
+  // a media filter in the overview, otherwise the series
+  workScope() {
+    const st = this.state, all = D().works || [];
+    if (st.view === 'work' && st.workFrom === 'overview') {
+      const f = st.ovFilter || 'All';
+      return all.filter(w => f === 'All' || (w.k || []).indexOf(f) >= 0)
+        .slice().sort((a, b) => rank(b) - rank(a));
+    }
+    // the year wall runs newest first, data order inside a year
+    if (st.view === 'work' && st.workFrom === 'year') {
+      return all.filter(w => w.y).slice().sort((a, b) => rank(b) - rank(a));
+    }
+    return all.filter(w => w.s === st.series);
+  }
+  list() { return this.workScope(); }
+  // the shot list for the work on screen: main image first, then its other views
+  shots() {
+    const w = this.workScope()[this.state.sel] || {};
+    return [w.img].concat(w.alt || []).filter(Boolean);
+  }
+  inShotScope() {
+    // arrows walk the projects, except while a work's Details view is open
+    return !!this.state.wDet && this.shots().length > 1;
+  }
+  step(n, keepZoom) {
+    if (this.inShotScope()) {
+      const len = this.shots().length;
+      this.setState(s => ({ wShot: ((s.wShot || 0) + n + len) % len, wDet: 'shot', wZoom: keepZoom ? (s.wZoom || 0) : 0 }));
+      return;
+    }
     const len = this.list().length || 1;
-    this.setState(s => ({ sel: (s.sel + n + len) % len }));
+    this.setState(s => ({ sel: (s.sel + n + len) % len, wShot: 0, wMode: 'full', wDet: false, wZoom: keepZoom ? (s.wZoom || 0) : 0 }));
   }
   // light-ground work needs the detail page's lift on the series grid too
   // an exhibit's `links` list turns the first mention of each name into an anchor
@@ -1431,7 +1614,7 @@ class Component extends DCLogic {
     let pad = 22;
     if (wrap && row) {
       const gap = row.getBoundingClientRect().top - wrap.getBoundingClientRect().bottom;
-      pad = Math.max(0, Math.min(22, gap));
+      pad = gap > 1 ? Math.max(0, Math.min(22, gap)) : 22;
     }
     this.scrollTo(row, pad);
   }
@@ -1518,8 +1701,14 @@ class Component extends DCLogic {
     const prevI = slides.length ? (si - 1 + slides.length) % slides.length : 0;
     const cur = slides[si] || {};
 
-    const seriesWorks = d.works.filter(w => w.s === st.series);
+    const seriesWorks = this.workScope();
+    const curSeriesRec = (d.series || []).find(x => x.name === st.series) || {};
     const w = seriesWorks[st.sel] || {};
+    const wShots = [w.img].concat(w.alt || []).filter(Boolean);
+    const wShotI = Math.min(Math.max(st.wShot || 0, 0), Math.max(wShots.length - 1, 0));
+    const wShot = wShots[wShotI] || w.img;
+    // a public work with several views cycles its own shots rather than the next project
+    const shotScope = !!st.wDet && wShots.length > 1;
 
     const exhF = st.exhFilter;
     const exhList = exhF === 'All' ? ex : ex.filter(e => e.kinds.indexOf(exhF) >= 0);
@@ -1574,7 +1763,7 @@ class Component extends DCLogic {
         imgRef: mkRef(w.img, this.markBroken),
         open: () => {
           const list = (d.works || []).filter(x => x.s === w.s);
-          this.setState({ view: 'work', series: w.s, from: 'search', searchOpen: false, sel: Math.max(0, list.findIndex(x => x.img === w.img)) });
+          this.setState({ view: 'work', wZoom: 0, series: w.s, from: 'search', searchOpen: false, wShot: 0, wMode: 'full', wDet: false, sel: Math.max(0, list.findIndex(x => x.img === w.img)) });
         }
       })) });
       if (notes.length) groups.push({ label: 'Press', items: notes.map(n => ({
@@ -1705,7 +1894,7 @@ class Component extends DCLogic {
         works.forEach(w => { if (years.indexOf(w.y) < 0) years.push(w.y); });
         years.sort((a, b) => b - a);
         return years.map(y => {
-          const items = works.filter(w => w.y === y);
+          const items = works.filter(w => w.y === y).slice().sort((a, b) => rank(b) - rank(a));
           return {
             year: String(y),
             items: items.map((w, i) => ({
@@ -1717,14 +1906,18 @@ class Component extends DCLogic {
                 : 'min(' + (i % 3 === 0 ? 44 : (i % 3 === 1 ? 32 : 38)) + 'vh, ' + (i % 3 === 0 ? 400 : (i % 3 === 1 ? 290 : 340)) + 'px)' },
               imgRef: mkRef(w.img, this.markBroken, true),
               open: () => {
-                const list = (d.works || []).filter(x => x.s === w.s);
-                this.setState({ view: 'work', series: w.s, workFrom: 'year', sel: Math.max(0, list.findIndex(x => x.img === w.img)) });
+                const list = (d.works || []).filter(x => x.y).slice().sort((a, b) => rank(b) - rank(a));
+                this.setState({ view: 'work', wZoom: 0, series: w.s, workFrom: 'year', wShot: 0, wMode: 'full', wDet: false, sel: Math.max(0, list.findIndex(x => x.img === w.img)) });
               }
             }))
           };
         });
       })(),
       toOverview: () => this.setState({ view: 'overview' }),
+      // the work header's series label lands on the unfiltered media grid
+      toAllMedia: () => this.setState({ view: 'overview', ovFilter: 'All', wZoom: 0 }),
+      // the work header's series label lands back on that series' page
+      toSeriesPage: () => this.setState(st.series ? { view: 'series', series: st.series, sel: 0, wZoom: 0 } : { view: 'overview', ovFilter: 'All', wZoom: 0 }),
       // the three browse modes ride in the black bar, same treatment as the exhibits filters
       worksMenuModes: [
         { label: 'Series', v: 'works', on: view === 'works' || view === 'series' },
@@ -1736,7 +1929,7 @@ class Component extends DCLogic {
         style: {
           cursor: 'pointer', fontFamily: 'Raleway,Helvetica,Arial,sans-serif',
           fontSize: 11, letterSpacing: '.2em', textTransform: 'uppercase',
-          color: m.on ? '#ffffff' : 'rgba(255,255,255,.55)'
+          color: m.on ? '#ffffff' : 'rgba(255,255,255,.32)'
         }
       })),
       toggleModes: () => this.setState(s => ({ modesOpen: !s.modesOpen })),
@@ -1748,16 +1941,18 @@ class Component extends DCLogic {
         padding: 0, borderRadius: 0, marginLeft: 4
       },
       worksModes: [
+        // the unfiltered archive sits first, the way Exhibits does on that page
+        { label: 'Works', v: 'overview', all: true, on: view === 'overview' && (st.ovFilter || 'All') === 'All' },
         { label: 'Series', v: 'works', on: view === 'works' || view === 'series' },
-        { label: 'Media', v: 'overview', on: view === 'overview' },
+        { label: 'Media', v: 'overview', on: view === 'overview' && (st.ovFilter || 'All') !== 'All' },
         { label: 'Year', v: 'year', on: view === 'year' }
       ].map(m => ({
         label: m.label,
-        pick: () => this.setState({ view: m.v }),
+        pick: () => this.setState(m.all ? { view: m.v, ovFilter: 'All' } : { view: m.v }),
         style: {
           cursor: 'pointer', fontFamily: 'Raleway,Helvetica,Arial,sans-serif',
           fontSize: 10.5, letterSpacing: '.2em', textTransform: 'uppercase',
-          color: m.on ? '#ffffff' : 'rgba(255,255,255,.62)',
+          color: m.on ? '#141414' : 'rgba(20,20,20,.5)',
           fontWeight: 500,
           background: 'none', border: 'none', padding: 0, borderRadius: 0
         }
@@ -1777,7 +1972,7 @@ class Component extends DCLogic {
       ovColumns: this.splitCols((d.works || [])
         .filter(w => { const f = st.ovFilter || 'All'; return f === 'All' || (w.k || []).indexOf(f) >= 0; })
         .slice()
-        .sort((a, b) => (b.y || 0) - (a.y || 0))
+        .sort((a, b) => rank(b) - rank(a))
         .map((w, i) => ({
           title: w.t || 'Untitled',
           meta: [w.y, w.m, w.d].filter(Boolean).join(', '),
@@ -1785,7 +1980,12 @@ class Component extends DCLogic {
           // fixed poster treatment the series grid uses
           isPoster: !!w.video,
           isStill: !w.video,
-          href: '#/works/' + this.slug(w.s) + '/' + (((d.works || []).filter(x => x.s === w.s).findIndex(x => x.img === w.img)) + 1),
+          href: (() => {
+            const fl = st.ovFilter || 'All';
+            const list = (d.works || []).filter(x => fl === 'All' || (x.k || []).indexOf(fl) >= 0)
+              .slice().sort((a, b) => rank(b) - rank(a));
+            return '#/media' + (fl !== 'All' ? '/' + this.slug(fl) : '') + '/' + (list.findIndex(x => x.img === w.img) + 1);
+          })(),
           label: [w.t || 'Untitled', w.y, w.m, w.d].filter(Boolean).join(', '),
           videoRef: el => {
             if (!el || el._wired || !w.video) return;
@@ -1797,8 +1997,10 @@ class Component extends DCLogic {
           },
           open: ev => {
             if (ev && (ev.metaKey || ev.ctrlKey || ev.shiftKey)) return;
-            const list = (d.works || []).filter(x => x.s === w.s);
-            this.setState({ view: 'work', series: w.s, workFrom: 'overview', sel: Math.max(0, list.findIndex(x => x.img === w.img)) });
+            const f = st.ovFilter || 'All';
+            const list = (d.works || []).filter(x => f === 'All' || (x.k || []).indexOf(f) >= 0)
+              .slice().sort((a, b) => rank(b) - rank(a));
+            this.setState({ view: 'work', wZoom: 0, series: w.s, workFrom: 'overview', wShot: 0, wMode: 'full', wDet: false, sel: Math.max(0, list.findIndex(x => x.img === w.img)) });
           },
           imgRef: mkRef(w.img, this.markBroken)
         })), this.state.colCount || 3),
@@ -1853,14 +2055,29 @@ class Component extends DCLogic {
       hasEnquiry: !!st.enquiry,
       enquiryWork: st.enquiry || '',
       msgRef: el => { this._msgEl = el; },
-      infoAnchorRef: el => { this._infoAnchor = el; },
+      // the message field starts as one line and grows with what is typed
+      growMessage: e => { const t = e.target; t.style.height = 'auto'; t.style.height = Math.min(t.scrollHeight, 260) + 'px'; },
+      // the card meets the visitor at Selected press, part-way down the CV
+      pressAnchorRef: el => {
+        if (!el || el._mailSeen || typeof IntersectionObserver === 'undefined') return;
+        el._mailSeen = true;
+        new IntersectionObserver((ents, obs) => {
+          ents.forEach(en => { if (en.isIntersecting) { this.armMailPrompt(); obs.disconnect(); } });
+        }, { threshold: 0.9 }).observe(el);
+      },
+      infoAnchorRef: el => {
+        this._infoAnchor = el;
+        // the info/CV block coming into view is the second trigger for the mailing-list card
+
+      },
       toTop: () => { if (this._homeScroll) this._homeScroll.scrollTo({ top: 0, behavior: 'smooth' }); },
-      backToSeries: () => this.setState({ view: st.workFrom || 'series' }),
+      backToSeries: () => this.setState({ view: st.workFrom || 'series', wZoom: 0 }),
       wBackLabel: st.workFrom === 'overview' ? 'Overview' : (st.workFrom === 'year' ? 'By year' : (st.series || 'Works')),
       nextSlide: () => { this.warmNear(si + 2); this.setState(s => ({ slide: s.slide + 1 })); },
       prevSlide: () => { this.warmNear(si - 2); this.setState(s => ({ slide: s.slide - 1 + slides.length })); },
       openSlideShow: () => { if (cur.title) this.openExhibit(cur.title); },
       nextWork: () => this.step(1), prevWork: () => this.step(-1),
+      zoomNext: () => this.step(1, true), zoomPrev: () => this.step(-1, true),
 
       slideA: mkRef((slides[even ? si : prevI] || {}).img),
       slideB: mkRef((slides[even ? prevI : si] || {}).img),
@@ -1871,7 +2088,7 @@ class Component extends DCLogic {
         : { pointerEvents: 'auto', cursor: 'pointer', color: '#141414', textShadow: 'none' },
       slideTitleStyle: {
         fontSize: 15, lineHeight: 1.4, display: 'inline-block', paddingBottom: 2,
-        borderBottom: '1px solid ' + (navInk === 'light' ? 'rgba(255,255,255,.55)' : 'rgba(20,20,20,.35)')
+        borderBottom: '1px solid ' + (navInk === 'light' ? 'rgba(255,255,255,.32)' : 'rgba(20,20,20,.35)')
       },
       slideVenueStyle: { fontSize: 12, lineHeight: 1.7, marginTop: 4, opacity: navInk === 'light' ? 0.8 : 0.6 },
       // src/autoplay/loop live on the tag so playback never depends on JS running first
@@ -1937,7 +2154,16 @@ class Component extends DCLogic {
           open: () => this.setState({ view: 'series', series: x.name, sel: 0 }),
           imgRef: mkRef(x.cover, this.markBroken)
         }));
-        return this.splitCols(items, this.state.colCount >= 2 ? 2 : 1);
+        // the lead series runs full width above the two-column list
+        return this.splitCols(items.slice(1), this.state.colCount >= 2 ? 2 : 1);
+      })(),
+      seriesLead: (() => {
+        const x = d.series[0] || {};
+        return {
+          name: x.name || '',
+          open: () => this.setState({ view: 'series', series: x.name, sel: 0 }),
+          imgRef: mkRef(x.hero || x.cover, this.markBroken)
+        };
       })(),
       seriesWorkColumns: (() => {
         const items = seriesWorks.map((it, i) => ({
@@ -1956,8 +2182,11 @@ class Component extends DCLogic {
           meta: [it.y, it.m, it.d].filter(Boolean).join(', '),
           href: '#/works/' + this.slug(st.series) + '/' + (i + 1),
           label: [it.t || 'Untitled', it.y, it.m, it.d].filter(Boolean).join(', '),
-          open: ev => { if (ev && (ev.metaKey || ev.ctrlKey || ev.shiftKey)) return; this.setState({ view: 'work', workFrom: 'series', sel: i }); },
-          imgRef: mkRef(it.img, this.markBroken)
+          open: ev => { if (ev && (ev.metaKey || ev.ctrlKey || ev.shiftKey)) return; this.setState({ view: 'work', wZoom: 0, workFrom: 'series', sel: i, wShot: 0, wMode: 'full', wDet: false }); },
+          imgRef: mkRef(it.img, this.markBroken),
+          plateStyle: it.ar
+            ? { display: 'block', width: '100%', height: 'auto', aspectRatio: String(it.ar), objectFit: 'cover' }
+            : { display: 'block', width: '100%', height: 'auto' }
         }));
         return this.splitCols(items, this.state.colCount >= 2 ? 2 : 1);
       })(),
@@ -1971,19 +2200,131 @@ class Component extends DCLogic {
       prevSeries: () => this.stepSeries(-1),
       nextSeries: () => this.stepSeries(1),
       curSeries: st.series || '',
+      // the pinned series name scrolls its page back to the top
+      seriesScrollRef: el => { if (el) this._seriesScroll = el; },
+      // clicking the name scrolls it up into the header, where it pins
+      seriesToTop: () => {
+        const sc = this._seriesScroll;
+        if (!sc) return;
+        const ti = sc.querySelector('[data-r~="sertitle"]');
+        sc.scrollTo({ top: ti ? ti.offsetTop : 0, behavior: 'smooth' });
+      },
+      // series pages carry the same full-bleed banner as an exhibition page
+      sRule: this.darkSeries(st.series) ? 'rgba(255,255,255,.34)' : 'rgba(20,20,20,.32)',
+      seriesHasHero: !!(curSeriesRec.hero || curSeriesRec.cover),
+      seriesHeroRef: mkRef(curSeriesRec.hero || curSeriesRec.cover),
+      seriesHeroFrameStyle: {
+        width: '100vw', marginLeft: 'calc(50% - 50vw)', marginRight: 'calc(50% - 50vw)',
+        position: 'sticky', top: 0, zIndex: 0,
+        marginBottom: 34, overflow: 'hidden', height: 'min(56vh, 620px)', background: '#f2f1ee'
+      },
+      // the series index opens on a banner too, drawn from the first series' plate
+      seriesIndexHeroRef: mkRef(((d.series || []).find(x => x.name === 'Red Dawn') || {}).cover),
+      seriesIndexHeroFrameStyle: {
+        width: '100vw', marginLeft: 'calc(50% - 50vw)', marginRight: 'calc(50% - 50vw)',
+        marginTop: 0, overflow: 'hidden', height: 'min(56vh, 620px)', background: '#f2f1ee'
+      },
+      // a hair of overscan keeps subpixel rounding from sampling the plate's outer row
+      seriesHeroImgStyle: { display: 'block', width: 'calc(100% + 2px)', height: 'calc(100% + 2px)', marginLeft: '-1px', marginTop: '-1px', objectFit: 'cover', objectPosition: curSeriesRec.heroPos || 'center' },
       statement: (d.statement || ''),
       // the one h1 on the page, named for whatever view is showing
       pageHeading: this.headFor().h,
       seriesNote: ((d.series || []).find(x => x.name === st.series) || {}).note || '',
       hasSeriesNote: !!((d.series || []).find(x => x.name === st.series) || {}).note,
       wImgRef: el => {
-        if (!el || !w.img) return;
+        if (!el || !wShot) return;
         el.onerror = () => { el.style.visibility = 'hidden'; };
         el.onload = () => { el.style.visibility = ''; };
-        if (el.getAttribute('src') !== w.img) { el.style.visibility = ''; el.src = w.img; }
+        if (el.getAttribute('src') !== wShot) { el.style.visibility = ''; el.src = wShot; }
       },
+      // three-stage zoom: 1 fits the screen, 2 fills it, 3 pushes every edge off
+      zoomIn: () => this.setState(s => ({ wZoom: Math.min(3, (s.wZoom || 0) + 1) })),
+      zoomOut: () => this.setState(s => ({ wZoom: Math.max(0, (s.wZoom || 0) - 1) })),
+      closeZoom: () => this.setState({ wZoom: 0 }),
+      // clicking the plate walks the stages, all the way in and back out
+      zoomStep: ev => {
+        if (ev) { if (ev.stopPropagation) ev.stopPropagation(); if (ev.preventDefault) ev.preventDefault(); }
+        const now = Date.now();
+        if (this._zoomTick && now - this._zoomTick < 350) return;
+        this._zoomTick = now;
+        this.setState(s => ({ wZoom: ((s.wZoom || 0) + 1) % 4 }));
+      },
+      zoomOutStyle: {
+        background: 'none', border: 'none', padding: 0, borderRadius: 0,
+        cursor: (st.wZoom || 0) > 0 ? 'pointer' : 'default',
+        color: (st.wZoom || 0) > 0 ? '#4a4a4d' : '#cfcfd1',
+        display: 'flex', alignItems: 'center', justifyContent: 'center', width: 26, minHeight: 44
+      },
+      // the zoomed plate is dragged freely — pull it past the screen edge and the ground shows through
+      zoomImgRef: el => {
+        if (!el || !wShot) return;
+        const stage = st.wZoom || 0;
+        const place = () => {
+          const vw = window.innerWidth, vh = window.innerHeight;
+          const nw = el.naturalWidth || vw, nh = el.naturalHeight || vh;
+          const fit = Math.min(vw / nw, vh / nh), cover = Math.max(vw / nw, vh / nh);
+          const k = stage >= 3 ? cover * 1.6 : (stage === 2 ? cover : fit);
+          el.style.width = Math.round(nw * k) + 'px';
+          el.style.height = Math.round(nh * k) + 'px';
+          if (el._stage !== stage) { el._stage = stage; el._ox = 0; el._oy = 0; }
+          el.style.transform = 'translate(-50%,-50%) translate(' + (el._ox || 0) + 'px,' + (el._oy || 0) + 'px)';
+        };
+        el._place = place;
+        if (el.getAttribute('src') !== wShot) { el._ox = 0; el._oy = 0; el.onload = place; el.src = wShot; } else place();
+        if (el._panWired) return;
+        el._panWired = true;
+        let sx = 0, sy = 0, bx = 0, by = 0, t0 = 0, down = false;
+        el.addEventListener('pointerdown', e => {
+          if (e.button !== 0) return;
+          down = true; el._moved = false; t0 = Date.now();
+          sx = e.clientX; sy = e.clientY; bx = el._ox || 0; by = el._oy || 0;
+          el.style.cursor = 'grabbing';
+          el.setPointerCapture(e.pointerId);
+        });
+        el.addEventListener('pointermove', e => {
+          if (!down) return;
+          const dx = e.clientX - sx, dy = e.clientY - sy;
+          if (Math.abs(dx) > 7 || Math.abs(dy) > 7) el._moved = true;
+          el._ox = bx + dx; el._oy = by + dy;
+          el.style.transform = 'translate(-50%,-50%) translate(' + el._ox + 'px,' + el._oy + 'px)';
+        });
+        const end = () => {
+          // a slow press-and-release is a hold, not a stage click
+          if (down && Date.now() - t0 > 320) el._moved = true;
+          down = false; el.style.cursor = 'grab';
+        };
+        el.addEventListener('pointerup', end);
+        el.addEventListener('pointercancel', end);
+        el.addEventListener('click', e => { if (el._moved) { e.stopPropagation(); e.preventDefault(); el._moved = false; } }, true);
+        window.addEventListener('resize', () => { if (el._place) el._place(); });
+      },
+      wZoomOpen: (st.wZoom || 0) > 0 && !w.video && st.view === 'work',
       wIsVideo: !!w.video,
       wIsStill: !w.video,
+      // a work with several views gets the gallery's single/grid pair
+      wHasShots: wShots.length > 1,
+      wGridMode: wShots.length > 1 && st.wDet === 'grid',
+      wSingleMode: !(wShots.length > 1 && st.wDet === 'grid'),
+      setWorkFull: () => this.setState({ wMode: 'full' }),
+      setWorkGrid: () => this.setState({ wMode: 'grid' }),
+      wDetailLabel: st.wDet ? 'Close details' : 'Details (' + wShots.length + ')',
+      // double-clicking the plate opens that work's other views
+      wImgStyle: {
+        maxWidth: '100%', maxHeight: '100%', width: 'auto', height: 'auto', objectFit: 'contain',
+        boxShadow: '0 14px 34px rgba(20,20,20,.08), 0 2px 6px rgba(20,20,20,.05)',
+        cursor: 'zoom-in'
+      },
+      openWorkDetails: () => { if (wShots.length > 1) this.setState({ wDet: 'grid', wShot: 0 }); },
+      toggleWorkDetails: () => this.setState(s => s.wDet
+        ? { wDet: false, wShot: 0 }
+        : { wDet: 'grid', wShot: 0 }),
+      wFullBtnStyle: { cursor: 'pointer', display: 'flex', alignItems: 'center', padding: 3, color: st.wMode === 'grid' ? '#c4c4c6' : '#1a1a1c' },
+      wGridBtnStyle: { cursor: 'pointer', display: 'flex', alignItems: 'center', padding: 3, color: st.wMode === 'grid' ? '#1a1a1c' : '#c4c4c6' },
+      wShotTiles: wShots.map((u, i) => ({
+        label: [w.t, w.y].filter(Boolean).join(', '),
+        imgRef: mkRef(u, this.markBroken),
+        open: () => this.setState({ wDet: 'shot', wShot: i })
+      })),
       wVideoRef: el => {
         if (!el || el._wired || !w.video) return;
         el._wired = true;
@@ -1996,8 +2337,8 @@ class Component extends DCLogic {
       wTitle: w.t || '', wYear: w.y ? String(w.y) : '',
       wMedium: w.m || '', wDims: w.d || '', wSeries: st.series || 'Works',
       wCaption: [w.t, w.y, w.m, w.d].filter(Boolean).join(', '),
-      wPos: seriesWorks.length ? (st.sel + 1) + ' of ' + seriesWorks.length : '',
-      wSlash: seriesWorks.length ? (st.sel + 1) + ' / ' + seriesWorks.length : '',
+      wPos: shotScope ? (wShotI + 1) + ' of ' + wShots.length : (seriesWorks.length ? (st.sel + 1) + ' of ' + seriesWorks.length : ''),
+      wSlash: shotScope ? (wShotI + 1) + ' / ' + wShots.length : (seriesWorks.length ? (st.sel + 1) + ' / ' + seriesWorks.length : ''),
       // phone only: swipe across a series page steps to the next series
       seriesTouchStart: e => {
         if (!st.phone) return;
@@ -2030,7 +2371,8 @@ class Component extends DCLogic {
       },
 
       exhFilters: ['All', 'Solo', 'Group', 'Curated'].map(f => ({
-        label: f,
+        // the unfiltered state reads as "Exhibits" rather than a bare "All"
+        label: f === 'All' ? 'Exhibits' : f,
         pick: () => this.setState({ exhFilter: f }),
         // quiet, but the inactive words still have to be readable — they are the only control
         style: {
@@ -2056,6 +2398,14 @@ class Component extends DCLogic {
       newsFilters: ['All', 'Press', 'Event'].map(f => ({
         label: f === 'Event' ? 'Events' : f,
         pick: () => this.setState({ newsFilter: f }),
+        styleDark: {
+          cursor: 'pointer', fontFamily: 'Raleway,Helvetica,Arial,sans-serif',
+          fontSize: 10.5, letterSpacing: '.2em', textTransform: 'uppercase',
+          textShadow: '0 0 6px rgba(255,255,255,1), 0 0 12px rgba(255,255,255,.95)',
+          color: f === nF ? '#141414' : 'rgba(20,20,20,.5)',
+          fontWeight: f === nF ? 600 : 400,
+          background: 'none', border: 'none', padding: 0, borderRadius: 0
+        },
         // white version for the black bar
         styleLight: {
           cursor: 'pointer', fontFamily: 'Raleway,Helvetica,Arial,sans-serif',
@@ -2139,13 +2489,40 @@ class Component extends DCLogic {
           })
           .catch(() => { this.setState({ contactSent: '' }); openMail(); });
       },
+      mailOpen: !!st.mailOpen,
+      mailIdle: st.mailSent !== 'sent',
+      mailDone: st.mailSent === 'sent',
+      mailSendLabel: st.mailSent === 'sending' ? 'Joining' : 'Join',
+      mailImgRef: mkRef(((d.works || []).find(w => /Crow.{0,3}s Foot/.test(w.t || '')) || {}).img || ''),
+      closeMail: () => this.closeMailPrompt(),
+      mailBackdrop: ev => { if (ev.target === ev.currentTarget) this.closeMailPrompt(); },
+      onMailSubmit: e => {
+        e.preventDefault();
+        const f = e.target;
+        const from = (f.email && f.email.value) || '';
+        const who = (f.name && f.name.value) || '';
+        const body = new FormData();
+        body.append('email', from);
+        body.append('message', 'Mailing list signup' + (who ? ' — ' + who : ''));
+        body.append('subject', 'Mailing list signup');
+        this.setState({ mailSent: 'sending' });
+        try { window.localStorage.setItem('dc-mail-list-v2', '1'); } catch (err) {}
+        fetch('./contact.php', { method: 'POST', body })
+          .then(r => r.ok ? r.json().catch(() => ({ ok: true })) : Promise.reject(r.status))
+          .then(() => this.setState({ mailSent: 'sent' }))
+          .catch(() => {
+            window.location.href = 'mailto:doug@dougcrocco.com?subject=' + encodeURIComponent('Mailing list signup') +
+              '&body=' + encodeURIComponent('Please add me to the list.' + (who ? '\n\n' + who : '') + (from ? '\n' + from : ''));
+            this.setState({ mailSent: 'sent' });
+          });
+      },
       cvSections: (d.cv || []).map(sec => ({
         h: sec.h,
         items: (sec.items || []).map(r => ({ y: r.y, t: r.t, v: r.v ? '  ·  ' + r.v : '' }))
       })),
       // home scroll: five most recent shows — one full plate, then two rows of halves
       // All = a 7-show taste; a named filter shows every matching show, so the filter never lies about the set
-      homeExhibits: exhList.slice().sort((a, b) => (b.y || 0) - (a.y || 0)).slice(0, exhF === 'All' ? 4 : 99)
+      homeExhibits: exhList.slice().sort((a, b) => rank(b) - rank(a)).slice(0, exhF === 'All' ? 4 : 99)
         .map((e, i) => homeTile(this, e, i % 3 === 0, st, mkRef)),
       exhibitLabel: 'Exhibitions · ' + exhList.length + (exhF === 'All' ? '' : ' ' + exhF.toLowerCase()) + ' · 2005 – 2024',
       // a full-width plate, then a pair of tall halves, repeating
@@ -2195,7 +2572,7 @@ class Component extends DCLogic {
             letterSpacing: st.phone ? '.12em' : '.18em',
             textTransform: 'uppercase', marginTop: st.phone ? 7 : 10, opacity: 0.85
           },
-          wrapStyle: { cursor: 'pointer', width: full ? '100%' : 'calc(50% - 1px)', color: 'inherit', textDecoration: 'none' },
+          wrapStyle: { cursor: 'pointer', width: full ? '100%' : '50%', color: 'inherit', textDecoration: 'none' },
           // the opening tile fills the first screen; the rest keep the 16:9 / 8:9 rhythm
           // one row height for every tile, full or half — 16:9 full-width equals two 8:9 halves
           // 16:9 full-width is exactly the height of two 8:9 halves — same row height, taller tiles
@@ -2236,8 +2613,7 @@ class Component extends DCLogic {
         paddingLeft: st.phone ? 18 : 44, paddingRight: st.phone ? 18 : 44,
         paddingTop: 16, paddingBottom: 11,
         fontFamily: 'Raleway,Helvetica,Arial,sans-serif', fontSize: 12, fontWeight: 500,
-        letterSpacing: '.2em', textTransform: 'uppercase', color: '#6e6e72',
-        borderBottom: '1px solid rgba(20,20,20,.16)'
+        letterSpacing: '.2em', textTransform: 'uppercase', color: '#6e6e72'
       },
       toggleExArtists: () => this.setState({ exArtistsOpen: !this.state.exArtistsOpen }),
       exArtists: (cx.artists || []).slice().sort((a, b) => {
@@ -2311,7 +2687,13 @@ class Component extends DCLogic {
         position: 'absolute', top: 0, left: 0, right: 0, bottom: 0,
         overflowY: 'auto', padding: (st.phone ? '0 18px ' : '0 44px ') + (st.exMode === 'full' ? (st.phone ? '8vh' : '20vh') : '70px')
       },
-      homeScrollRef: el => { this._homeScroll = el; },
+      homeScrollRef: el => {
+        this._homeScroll = el;
+        // reaching the end of the CV counts as interest: the card asks there too
+        if (!el || el._mailWatch) return;
+        el._mailWatch = true;
+
+      },
       navStyle: {
         position: 'absolute', top: 0, left: 0, right: 0, height: 86,
         background: navOnWhite ? '#ffffff' : 'transparent',
@@ -2339,9 +2721,16 @@ class Component extends DCLogic {
         padding: (st.phone ? '14px 18px ' : '18px 44px ') + (cx.hero ? '24px' : '40px')
       },
       exHasHero: !!cx.hero,
+      exCoverStyle: {
+        position: 'relative', zIndex: 6, background: '#ffffff',
+        minHeight: cx.hero ? 'min(56vh, 620px)' : 0,
+        margin: st.phone ? '0 -18px' : '0 -44px',
+        padding: cx.hero ? (st.phone ? '34px 18px 0' : '34px 44px 0') : (st.phone ? '0 18px' : '0 44px')
+      },
       heroFrameStyle: {
         width: '100vw', marginLeft: 'calc(50% - 50vw)', marginRight: 'calc(50% - 50vw)',
-        marginBottom: 34, overflow: 'hidden',
+        position: 'sticky', top: 0, zIndex: 0,
+        overflow: 'hidden',
         height: 'min(56vh, 620px)',
         background: '#f2f1ee',
         touchAction: st.phone ? 'pan-y' : 'auto'
