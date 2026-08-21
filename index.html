@@ -142,7 +142,7 @@
 <meta name="twitter:image" content="https://dougcrocco.com/artwork/works/USA-Doug-Crocco.jpg">
 <meta name="theme-color" content="#000000">
 <link href="https://fonts.googleapis.com/css2?family=Julius+Sans+One&family=Raleway:wght@400;500;600&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
-<script src="./works-data.js?v=90"></script>
+<script src="./works-data.js?v=91"></script>
 </helmet>
 
 <div role="main" style="position:fixed;inset:0;background:#ffffff;color:#141414;font-family:Helvetica,'Helvetica Neue',Arial,sans-serif;overflow:hidden">
@@ -2355,16 +2355,17 @@ class Component extends DCLogic {
           const botPad = 16;
           const arw = el.parentNode ? Math.max.apply(null, [0].concat([].map.call(el.parentNode.querySelectorAll('[data-r~="zoomarrow"]'), b => b.getBoundingClientRect().width))) : 0;
           const innerW = Math.max(120, vw - (arw + 8) * 2);
-          const fit = Math.min((vh - topPad - botPad) / nh, innerW / nw), cover = Math.max(vw / nw, vh / nh);
+          const band = vh - Math.max(topPad, botPad) * 2;
+          const fit = Math.min(band / nh, innerW / nw), cover = Math.max(vw / nw, vh / nh);
           const k = stage >= 3 ? cover * 1.6 : (stage === 2 ? cover : fit);
           const nextW = Math.round(nw * k) + 'px', nextH = Math.round(nh * k) + 'px';
-          const nextTop = stage === 1 ? topPad + 'px' : '50%';
+          const nextTop = '50%';
           if (el.style.width === nextW && el.style.height === nextH && el.style.top === nextTop && el._stage === stage) return;
           el.style.visibility = 'hidden';
           el.style.width = nextW;
           el.style.height = nextH;
           if (el._stage !== stage) { el._stage = stage; el._ox = 0; el._oy = 0; }
-          const base = stage === 1 ? 'translate(-50%,0)' : 'translate(-50%,-50%)';
+          const base = 'translate(-50%,-50%)';
           el.style.top = nextTop;
           el.style.transform = base + ' translate(' + (el._ox || 0) + 'px,' + (el._oy || 0) + 'px)';
           el.style.visibility = '';
