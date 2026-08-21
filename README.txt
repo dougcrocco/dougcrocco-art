@@ -15,3 +15,5 @@ Banners:
   artwork/banners/quantum-banner.jpg            Quantum
   artwork/banners/entropy-wall-street.jpg       Entropy venue photo
   artwork/banners/transmutation-install-laz.jpg Transmutation install view
+
+  artwork/works/The-essance-of-Everything-2018-web.jpg  (The Essence of Everything — was missing from the repo)
