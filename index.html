@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -28,6 +28,11 @@
   @media only screen and (max-width: 1024px) {
     [data-r~="feature"] { grid-template-columns: repeat(2, minmax(0,1fr)) !important; }
     [data-r~="arrowgut"] { height: min(calc(100dvh - 140px), 84vh) !important; }
+  }
+  /* iPad portrait and down: section bars trade the wordmark for the hamburger */
+  @media only screen and (max-width: 834px) {
+    [data-r~="exbar"]:not([data-r~="homebar"]) [data-r~="markfull"] { display: none !important; }
+    [data-r~="exbar"]:not([data-r~="homebar"]) [data-r~="barburger"] { display: flex !important; }
   }
   @media only screen and (max-width: 900px) {
     [data-r~="galcols"] { grid-template-columns: repeat(2, minmax(0,1fr)) !important; }
@@ -143,7 +148,7 @@
 <meta name="twitter:image" content="https://allart.la/artwork/uploads/2013/09/USA-Doug-Crocco.jpg">
 <meta name="theme-color" content="#000000">
 <link href="https://fonts.googleapis.com/css2?family=Julius+Sans+One&family=Raleway:wght@400;500;600&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
-<script src="./works-data-403.js?v=117"></script>
+<script src="./works-data.js?v=121"></script>
 </helmet>
 
 <div role="main" style="position:fixed;inset:0;background:#ffffff;color:#141414;font-family:Helvetica,'Helvetica Neue',Arial,sans-serif;overflow:hidden">
@@ -160,16 +165,16 @@
           </div>
           <div style="display:flex;flex-direction:column;padding-top:0">
             <div data-r="navrow" style="padding:14px 0">
-              <button type="button" onClick="{{ toExhibits }}" data-r="homenav menuitem" style="background:none;border:none;padding:0;border-radius:0;color:#ffffff;font:inherit;cursor:pointer;display:inline-block;text-align:left;font-family:'Julius Sans One',Helvetica,Arial,sans-serif;font-size:28px;letter-spacing:.08em;text-transform:uppercase;border-bottom:1px dotted rgba(255,255,255,.3);padding-bottom:12px;transition:color .3s ease,border-color .3s ease" style-hover="color:#c9a227;border-bottom-color:rgba(201,162,39,.7)" style-focus="outline:1px dotted currentColor;outline-offset:4px">Exhibits</button>
+              <button type="button" onClick="{{ toExhibits }}" data-r="homenav menuitem" style="background:none;border:none;padding:0;border-radius:0;color:#ffffff;font:inherit;cursor:pointer;display:inline-block;text-align:left;font-family:'Julius Sans One',Helvetica,Arial,sans-serif;font-size:28px;letter-spacing:.08em;text-transform:uppercase;padding-bottom:12px;transition:color .3s ease" style-hover="color:rgba(255,255,255,.6)" style-focus="outline:1px dotted currentColor;outline-offset:4px">Exhibits</button>
             </div>
             <div data-r="navrow" style="padding:14px 0">
-              <button type="button" onClick="{{ toWorks }}" data-r="homenav menuitem" style="background:none;border:none;padding:0;border-radius:0;color:#ffffff;font:inherit;cursor:pointer;display:inline-block;text-align:left;font-family:'Julius Sans One',Helvetica,Arial,sans-serif;font-size:28px;letter-spacing:.08em;text-transform:uppercase;border-bottom:1px dotted rgba(255,255,255,.3);padding-bottom:12px;transition:color .3s ease,border-color .3s ease" style-hover="color:#c9a227;border-bottom-color:rgba(201,162,39,.7)" style-focus="outline:1px dotted currentColor;outline-offset:4px">Works</button>
+              <button type="button" onClick="{{ toWorks }}" data-r="homenav menuitem" style="background:none;border:none;padding:0;border-radius:0;color:#ffffff;font:inherit;cursor:pointer;display:inline-block;text-align:left;font-family:'Julius Sans One',Helvetica,Arial,sans-serif;font-size:28px;letter-spacing:.08em;text-transform:uppercase;padding-bottom:12px;transition:color .3s ease" style-hover="color:rgba(255,255,255,.6)" style-focus="outline:1px dotted currentColor;outline-offset:4px">Works</button>
             </div>
             <div data-r="navrow" style="padding:14px 0">
-              <button type="button" onClick="{{ toNews }}" data-r="homenav menuitem" style="background:none;border:none;padding:0;border-radius:0;color:#ffffff;font:inherit;cursor:pointer;display:inline-block;text-align:left;font-family:'Julius Sans One',Helvetica,Arial,sans-serif;font-size:28px;letter-spacing:.08em;text-transform:uppercase;border-bottom:1px dotted rgba(255,255,255,.3);padding-bottom:12px;transition:color .3s ease,border-color .3s ease" style-hover="color:#c9a227;border-bottom-color:rgba(201,162,39,.7)" style-focus="outline:1px dotted currentColor;outline-offset:4px">News</button>
+              <button type="button" onClick="{{ toNews }}" data-r="homenav menuitem" style="background:none;border:none;padding:0;border-radius:0;color:#ffffff;font:inherit;cursor:pointer;display:inline-block;text-align:left;font-family:'Julius Sans One',Helvetica,Arial,sans-serif;font-size:28px;letter-spacing:.08em;text-transform:uppercase;padding-bottom:12px;transition:color .3s ease" style-hover="color:rgba(255,255,255,.6)" style-focus="outline:1px dotted currentColor;outline-offset:4px">News</button>
             </div>
             <div data-r="navrow" style="padding:14px 0">
-              <button type="button" onClick="{{ toInfo }}" data-r="homenav menuitem" style="background:none;border:none;padding:0;border-radius:0;color:#ffffff;font:inherit;cursor:pointer;display:inline-block;text-align:left;font-family:'Julius Sans One',Helvetica,Arial,sans-serif;font-size:28px;letter-spacing:.08em;text-transform:uppercase;border-bottom:1px dotted rgba(255,255,255,.3);padding-bottom:12px;transition:color .3s ease,border-color .3s ease" style-hover="color:#c9a227;border-bottom-color:rgba(201,162,39,.7)" style-focus="outline:1px dotted currentColor;outline-offset:4px">Info</button>
+              <button type="button" onClick="{{ toInfo }}" data-r="homenav menuitem" style="background:none;border:none;padding:0;border-radius:0;color:#ffffff;font:inherit;cursor:pointer;display:inline-block;text-align:left;font-family:'Julius Sans One',Helvetica,Arial,sans-serif;font-size:28px;letter-spacing:.08em;text-transform:uppercase;padding-bottom:12px;transition:color .3s ease" style-hover="color:rgba(255,255,255,.6)" style-focus="outline:1px dotted currentColor;outline-offset:4px">Info</button>
             </div>
             <div data-r="navrow" style="padding:14px 0;">
               <button type="button" onClick="{{ toSearch }}" data-r="homenav menuitem" aria-label="Search" style="background:none;border:none;padding:0;border-radius:0;color:#ffffff;font:inherit;cursor:pointer;display:flex;align-items:center;min-height:44px" style-focus="outline:1px dotted currentColor;outline-offset:4px"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><circle cx="10" cy="10" r="7.4"></circle><path d="M15.4 15.4L22.4 22.4"></path></svg></button>
@@ -349,21 +354,21 @@
           <div>
             <div ref="{{ pressAnchorRef }}" style="font-family:'Julius Sans One',Helvetica,Arial,sans-serif;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:#141414;padding-bottom:9px;border-bottom:1px dotted rgba(20,20,20,.32);margin-bottom:16px">Selected press</div>
             <div style="display:grid;grid-template-columns:46px minmax(0,1fr);gap:7px 16px;font-family:Raleway,Helvetica,Arial,sans-serif;font-weight:400;font-size:13px;line-height:1.62;color:#414142">
-              <div style="color:#8c8c8e">2020</div><div style="text-wrap:pretty"><a href="./NYT artist-run galleries.dc.html" style="border-bottom:1px solid rgba(20,20,20,.28)">Jori Finkel, “Artist-Run Galleries Defy the Mega-Dealer Trend in Los Angeles,” <em>The New York Times</em>, February 7</a></div>
-              <div style="color:#8c8c8e">2018</div><div style="text-wrap:pretty"><a href="./LA Weekly West Adams gallery row.dc.html" style="border-bottom:1px solid rgba(20,20,20,.28)">Shana Nys Dambrot, “West Adams Is L.A.’s New Gallery Row,” <em>L.A. Weekly</em>, August 3</a></div>
-              <div style="color:#8c8c8e">2017</div><div style="text-wrap:pretty"><a href="./Staring at the Sun review.dc.html" style="border-bottom:1px solid rgba(20,20,20,.28)">David Pagel, “Where dread and beauty collide,” <em>Los Angeles Times</em>, September 11</a></div>
-              <div style="color:#8c8c8e">2017</div><div style="text-wrap:pretty"><a href="./Polaroid Black LA Weekly.dc.html" style="border-bottom:1px solid rgba(20,20,20,.28)">Catherine Wagley, “5 Shows to See,” <em>L.A. Weekly</em>, April 26</a></div>
-              <div style="color:#8c8c8e">2017</div><div style="text-wrap:pretty"><a href="./WAHA West Adams art scene.dc.html" style="border-bottom:1px solid rgba(20,20,20,.28)">Lisa Raymond, “The Unassuming Art Scene in West Adams,” <em>WAHA Newsletter</em>, March</a></div>
-              <div style="color:#8c8c8e">2015</div><div style="text-wrap:pretty"><a href="./Big Pictures Neighborhood News.dc.html" style="border-bottom:1px solid rgba(20,20,20,.28)">Renee Montgomery, “Big Pictures Los Angeles,” <em>The Neighborhood News</em>, August/September</a></div>
-              <div style="color:#8c8c8e">2008</div><div style="text-wrap:pretty"><a href="./Palm Beach Post Art connections.dc.html" style="border-bottom:1px solid rgba(20,20,20,.28)">Christine Davis, “Art Connections,” <em>Palm Beach Post</em>, August 3</a></div>
+              <div style="color:#8c8c8e">2020</div><div style="text-wrap:pretty"><a href="press/nyt-artist-run-galleries.html" style="border-bottom:1px solid rgba(20,20,20,.28)">Jori Finkel, “Artist-Run Galleries Defy the Mega-Dealer Trend in Los Angeles,” <em>The New York Times</em>, February 7</a></div>
+              <div style="color:#8c8c8e">2018</div><div style="text-wrap:pretty"><a href="press/la-weekly-west-adams-gallery-row.html" style="border-bottom:1px solid rgba(20,20,20,.28)">Shana Nys Dambrot, “West Adams Is L.A.’s New Gallery Row,” <em>L.A. Weekly</em>, August 3</a></div>
+              <div style="color:#8c8c8e">2017</div><div style="text-wrap:pretty"><a href="press/staring-at-the-sun-review.html" style="border-bottom:1px solid rgba(20,20,20,.28)">David Pagel, “Where dread and beauty collide,” <em>Los Angeles Times</em>, September 11</a></div>
+              <div style="color:#8c8c8e">2017</div><div style="text-wrap:pretty"><a href="press/polaroid-black-la-weekly.html" style="border-bottom:1px solid rgba(20,20,20,.28)">Catherine Wagley, “5 Shows to See,” <em>L.A. Weekly</em>, April 26</a></div>
+              <div style="color:#8c8c8e">2017</div><div style="text-wrap:pretty"><a href="press/waha-west-adams-art-scene.html" style="border-bottom:1px solid rgba(20,20,20,.28)">Lisa Raymond, “The Unassuming Art Scene in West Adams,” <em>WAHA Newsletter</em>, March</a></div>
+              <div style="color:#8c8c8e">2015</div><div style="text-wrap:pretty"><a href="press/big-pictures-neighborhood-news.html" style="border-bottom:1px solid rgba(20,20,20,.28)">Renee Montgomery, “Big Pictures Los Angeles,” <em>The Neighborhood News</em>, August/September</a></div>
+              <div style="color:#8c8c8e">2008</div><div style="text-wrap:pretty"><a href="press/palm-beach-post-art-connections.html" style="border-bottom:1px solid rgba(20,20,20,.28)">Christine Davis, “Art Connections,” <em>Palm Beach Post</em>, August 3</a></div>
             </div>
           </div>
         </div>
       </div>
 
       <div data-r="gut" style="padding:44px 44px 0;display:flex;flex-wrap:wrap;gap:12px 26px">
-        <a href="./Doug Crocco CV.dc.html" target="_blank" rel="noopener" style="display:inline-block;font-family:'Julius Sans One',Helvetica,Arial,sans-serif;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#141414;border-bottom:1px solid rgba(20,20,20,.45);padding-bottom:3px">Download CV</a>
-        <a href="./unused-files.dc.html" target="_blank" rel="noopener" style="display:inline-block;font-family:'Julius Sans One',Helvetica,Arial,sans-serif;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#141414;border-bottom:1px solid rgba(20,20,20,.45);padding-bottom:3px">PDF Archive</a>
+        <a href="doug-crocco-cv.html" target="_blank" rel="noopener" style="display:inline-block;font-family:'Julius Sans One',Helvetica,Arial,sans-serif;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#141414;border-bottom:1px solid rgba(20,20,20,.45);padding-bottom:3px">Download CV</a>
+        <a href="pdf-archive.html" target="_blank" rel="noopener" style="display:inline-block;font-family:'Julius Sans One',Helvetica,Arial,sans-serif;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#141414;border-bottom:1px solid rgba(20,20,20,.45);padding-bottom:3px">PDF Archive</a>
       </div>
 
       <div style="position:relative;margin:60px 0 0;background:#f2f1ee;min-height:340px;overflow:hidden">
@@ -392,9 +397,10 @@
       <div data-r="exbar" style="display:flex;align-items:center;justify-content:space-between;gap:30px;height:64px;padding:0 60px 0 44px;margin:0 -44px;background:#ffffff">
         <button type="button" data-r="barburger" onClick="{{ toggleMenu }}" aria-label="Menu" aria-expanded="{{ menuOpen }}" style="display:none;flex-direction:column;justify-content:center;gap:5px;background:none;border:none;padding:10px 2px;margin:-10px 0;border-radius:0;cursor:pointer;flex:0 0 auto;min-height:44px" style-focus="outline:1px dotted rgba(20,20,20,.5);outline-offset:3px"><span style="width:21px;height:1px;background:#141414"></span><span style="width:21px;height:1px;background:#141414"></span><span style="width:21px;height:1px;background:#141414"></span></button><button type="button" onClick="{{ toggleMenu }}" aria-expanded="{{ menuOpen }}" style="background:none;border:none;padding:0;border-radius:0;cursor:pointer;font-family:'Julius Sans One',Helvetica,Arial,sans-serif;font-size:14px;letter-spacing:.14em;text-transform:uppercase;color:#141414;white-space:nowrap" style-hover="opacity:.62" style-focus="outline:1px dotted currentColor;outline-offset:4px"><span data-r="markfull">Doug Crocco</span></button>
         <div data-r="exfilters" style="display:flex;gap:22px">
-          <sc-for list="{{ worksModes }}" as="m" hint-placeholder-count="4">
+          <sc-for list="{{ worksBarModes }}" as="m" hint-placeholder-count="1">
             <button type="button" onClick="{{ m.pick }}" style="{{ m.style }}" style-hover="color:#141414" style-focus="color:#141414;outline:1px dotted rgba(20,20,20,.5);outline-offset:3px">{{ m.label }}</button>
           </sc-for>
+          <button type="button" onClick="{{ toggleWorksModes }}" aria-label="Browse works" aria-expanded="{{ worksModesOpen }}" style="background:none;border:none;padding:0;border-radius:0;cursor:pointer;color:#6e6e72;display:flex;align-items:center" style-hover="color:#141414"><svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.1" aria-hidden="true" style="display:block"><circle cx="8.4" cy="8.4" r="5.6"></circle><line x1="12.6" y1="12.6" x2="18" y2="18"></line></svg></button>
         </div>
       </div>
       <div style="max-width:62ch;padding:36px 0 30px;margin-bottom:34px;border-bottom:1px dotted rgba(20,20,20,.32)">
@@ -431,9 +437,10 @@
       <div data-r="exbar" style="display:flex;align-items:center;justify-content:space-between;gap:30px;height:64px;padding:0 60px 0 44px;margin:0 -44px;background:#ffffff">
         <button type="button" data-r="barburger" onClick="{{ toggleMenu }}" aria-label="Menu" aria-expanded="{{ menuOpen }}" style="display:none;flex-direction:column;justify-content:center;gap:5px;background:none;border:none;padding:10px 2px;margin:-10px 0;border-radius:0;cursor:pointer;flex:0 0 auto;min-height:44px" style-focus="outline:1px dotted rgba(20,20,20,.5);outline-offset:3px"><span style="width:21px;height:1px;background:#141414"></span><span style="width:21px;height:1px;background:#141414"></span><span style="width:21px;height:1px;background:#141414"></span></button><button type="button" onClick="{{ toggleMenu }}" aria-expanded="{{ menuOpen }}" style="background:none;border:none;padding:0;border-radius:0;cursor:pointer;font-family:'Julius Sans One',Helvetica,Arial,sans-serif;font-size:14px;letter-spacing:.14em;text-transform:uppercase;color:#141414;white-space:nowrap" style-hover="opacity:.62" style-focus="outline:1px dotted currentColor;outline-offset:4px"><span data-r="markfull">Doug Crocco</span></button>
         <div data-r="exfilters" style="display:flex;gap:22px">
-          <sc-for list="{{ worksModes }}" as="m" hint-placeholder-count="4">
+          <sc-for list="{{ worksBarModes }}" as="m" hint-placeholder-count="1">
             <button type="button" onClick="{{ m.pick }}" style="{{ m.style }}" style-hover="color:#141414" style-focus="color:#141414;outline:1px dotted rgba(20,20,20,.5);outline-offset:3px">{{ m.label }}</button>
           </sc-for>
+          <button type="button" onClick="{{ toggleWorksModes }}" aria-label="Browse works" aria-expanded="{{ worksModesOpen }}" style="background:none;border:none;padding:0;border-radius:0;cursor:pointer;color:#6e6e72;display:flex;align-items:center" style-hover="color:#141414"><svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.1" aria-hidden="true" style="display:block"><circle cx="8.4" cy="8.4" r="5.6"></circle><line x1="12.6" y1="12.6" x2="18" y2="18"></line></svg></button>
         </div>
       </div>
       <div data-r="serstick" style="position:relative">
@@ -495,9 +502,10 @@
       <div data-r="exbar" style="display:flex;align-items:center;justify-content:space-between;gap:30px;height:64px;padding:0 60px 0 44px;margin:0 -44px;background:#ffffff">
         <button type="button" data-r="barburger" onClick="{{ toggleMenu }}" aria-label="Menu" aria-expanded="{{ menuOpen }}" style="display:none;flex-direction:column;justify-content:center;gap:5px;background:none;border:none;padding:10px 2px;margin:-10px 0;border-radius:0;cursor:pointer;flex:0 0 auto;min-height:44px" style-focus="outline:1px dotted rgba(20,20,20,.5);outline-offset:3px"><span style="width:21px;height:1px;background:#141414"></span><span style="width:21px;height:1px;background:#141414"></span><span style="width:21px;height:1px;background:#141414"></span></button><button type="button" onClick="{{ toggleMenu }}" aria-expanded="{{ menuOpen }}" style="background:none;border:none;padding:0;border-radius:0;cursor:pointer;font-family:'Julius Sans One',Helvetica,Arial,sans-serif;font-size:14px;letter-spacing:.14em;text-transform:uppercase;color:#141414;white-space:nowrap" style-hover="opacity:.62" style-focus="outline:1px dotted currentColor;outline-offset:4px"><span data-r="markfull">Doug Crocco</span></button>
         <div data-r="exfilters" style="display:flex;gap:22px">
-          <sc-for list="{{ worksModes }}" as="m" hint-placeholder-count="4">
+          <sc-for list="{{ worksBarModes }}" as="m" hint-placeholder-count="1">
             <button type="button" onClick="{{ m.pick }}" style="{{ m.style }}" style-hover="color:#141414" style-focus="color:#141414;outline:1px dotted rgba(20,20,20,.5);outline-offset:3px">{{ m.label }}</button>
           </sc-for>
+          <button type="button" onClick="{{ toggleWorksModes }}" aria-label="Browse works" aria-expanded="{{ worksModesOpen }}" style="background:none;border:none;padding:0;border-radius:0;cursor:pointer;color:#6e6e72;display:flex;align-items:center" style-hover="color:#141414"><svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.1" aria-hidden="true" style="display:block"><circle cx="8.4" cy="8.4" r="5.6"></circle><line x1="12.6" y1="12.6" x2="18" y2="18"></line></svg></button>
         </div>
       </div>
       <div style="display:flex;flex-wrap:wrap;gap:26px;padding:30px 0 26px">
@@ -533,19 +541,20 @@
       <div data-r="exbar flushbar" style="display:flex;align-items:center;justify-content:space-between;gap:30px;height:64px;padding:0 60px 0 44px;margin:0;background:#ffffff;flex:none">
         <button type="button" data-r="barburger" onClick="{{ toggleMenu }}" aria-label="Menu" aria-expanded="{{ menuOpen }}" style="display:none;flex-direction:column;justify-content:center;gap:5px;background:none;border:none;padding:10px 2px;margin:-10px 0;border-radius:0;cursor:pointer;flex:0 0 auto;min-height:44px" style-focus="outline:1px dotted rgba(20,20,20,.5);outline-offset:3px"><span style="width:21px;height:1px;background:#141414"></span><span style="width:21px;height:1px;background:#141414"></span><span style="width:21px;height:1px;background:#141414"></span></button><button type="button" onClick="{{ toggleMenu }}" aria-expanded="{{ menuOpen }}" style="background:none;border:none;padding:0;border-radius:0;cursor:pointer;font-family:'Julius Sans One',Helvetica,Arial,sans-serif;font-size:14px;letter-spacing:.14em;text-transform:uppercase;color:#141414;white-space:nowrap" style-hover="opacity:.62" style-focus="outline:1px dotted currentColor;outline-offset:4px"><span data-r="markfull">Doug Crocco</span></button>
         <div data-r="exfilters" style="display:flex;gap:22px">
-          <sc-for list="{{ worksModes }}" as="m" hint-placeholder-count="4">
+          <sc-for list="{{ worksBarModes }}" as="m" hint-placeholder-count="1">
             <button type="button" onClick="{{ m.pick }}" style="{{ m.style }}" style-hover="color:#141414" style-focus="color:#141414;outline:1px dotted rgba(20,20,20,.5);outline-offset:3px">{{ m.label }}</button>
           </sc-for>
+          <button type="button" onClick="{{ toggleWorksModes }}" aria-label="Browse works" aria-expanded="{{ worksModesOpen }}" style="background:none;border:none;padding:0;border-radius:0;cursor:pointer;color:#6e6e72;display:flex;align-items:center" style-hover="color:#141414"><svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.1" aria-hidden="true" style="display:block"><circle cx="8.4" cy="8.4" r="5.6"></circle><line x1="12.6" y1="12.6" x2="18" y2="18"></line></svg></button>
         </div>
       </div>
-      <div style="flex:none;height:14px"></div>
+      <div style="flex:none;height:10px"></div>
       <div ref="{{ wallRef }}" style="{{ wallStyle }}">
         <div style="{{ wallRowStyle }}">
           <sc-for list="{{ yearGroups }}" as="g" hint-placeholder-count="6">
             <div style="{{ yearColStyle }}">
               <div style="{{ yearRowStyle }}">
                 <sc-for list="{{ g.items }}" as="w" hint-placeholder-count="3">
-                  <div onClick="{{ w.open }}" data-wall-label="{{ w.label }}" style="{{ w.style }}">
+                  <div onClick="{{ w.open }}" data-wall-label="{{ w.label }}" data-wall-h="{{ w.h }}" style="{{ w.style }}">
                     <img ref="{{ w.imgRef }}" alt="{{ w.title }}" loading="lazy" decoding="async" style="{{ wallImgStyle }}">
                   </div>
                 </sc-for>
@@ -566,7 +575,7 @@
       <div data-r="gut" style="display:flex;align-items:center;justify-content:space-between;gap:30px;padding:26px 44px 0;flex:none">
         <button type="button" onClick="{{ toSeriesPage }}" style="background:none;border:none;padding:0;border-radius:0;font-family:inherit;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#4a4a4d;cursor:pointer;display:flex;align-items:center;min-height:44px" style-hover="color:#1a1a1c">{{ wSeries }}</button>
         <div style="display:flex;align-items:center;gap:26px">
-          <sc-if value="{{ wHasShots }}" hint-placeholder-val="{{ false }}">
+          <sc-if value="{{ wShowDetailBtn }}" hint-placeholder-val="{{ false }}">
             <div onClick="{{ toggleWorkDetails }}" style="cursor:pointer;font-size:12px;letter-spacing:.16em;text-transform:uppercase;padding:14px 4px;margin:-14px 0;display:flex;align-items:center;min-height:44px;color:#1a1a1c">{{ wDetailLabel }}</div>
           </sc-if>
           <div onClick="{{ toContact }}" style="cursor:pointer;font-size:12px;letter-spacing:.16em;text-transform:uppercase;padding:14px 4px;margin:-14px 0;display:flex;align-items:center;min-height:44px">Enquire</div>
@@ -664,9 +673,10 @@
       <div data-r="exbar" style="display:flex;align-items:center;justify-content:space-between;gap:30px;height:64px;padding:0 60px 0 44px;margin:0 -44px;background:#ffffff">
         <button type="button" data-r="barburger" onClick="{{ toggleMenu }}" aria-label="Menu" aria-expanded="{{ menuOpen }}" style="display:none;flex-direction:column;justify-content:center;gap:5px;background:none;border:none;padding:10px 2px;margin:-10px 0;border-radius:0;cursor:pointer;flex:0 0 auto;min-height:44px" style-focus="outline:1px dotted rgba(20,20,20,.5);outline-offset:3px"><span style="width:21px;height:1px;background:#141414"></span><span style="width:21px;height:1px;background:#141414"></span><span style="width:21px;height:1px;background:#141414"></span></button><button type="button" onClick="{{ toggleMenu }}" aria-expanded="{{ menuOpen }}" style="background:none;border:none;padding:0;border-radius:0;cursor:pointer;font-family:'Julius Sans One',Helvetica,Arial,sans-serif;font-size:14px;letter-spacing:.14em;text-transform:uppercase;color:#141414;white-space:nowrap" style-hover="opacity:.62" style-focus="outline:1px dotted currentColor;outline-offset:4px"><span data-r="markfull">Doug Crocco</span></button>
         <div data-r="exfilters" style="display:flex;gap:22px">
-          <sc-for list="{{ exhFilters }}" as="f" hint-placeholder-count="4">
+          <sc-for list="{{ exhFilters }}" as="f" hint-placeholder-count="1">
             <button type="button" onClick="{{ f.pick }}" style="{{ f.style }}" style-hover="color:#141414" style-focus="color:#141414;outline:1px dotted rgba(20,20,20,.5);outline-offset:3px">{{ f.label }}</button>
           </sc-for>
+          <button type="button" onClick="{{ toggleExhFilters }}" aria-label="Filter exhibitions" aria-expanded="{{ exhFiltersOpen }}" style="background:none;border:none;padding:0;border-radius:0;cursor:pointer;color:#6e6e72;display:flex;align-items:center" style-hover="color:#141414"><svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.1" aria-hidden="true" style="display:block"><circle cx="8.4" cy="8.4" r="5.6"></circle><line x1="12.6" y1="12.6" x2="18" y2="18"></line></svg></button>
         </div>
       </div>
       <div data-r="exbleed" style="position:relative;margin:0 -44px">
@@ -692,9 +702,10 @@
       <div data-r="exbar" style="display:flex;align-items:center;justify-content:space-between;gap:30px;height:64px;padding:0 60px 0 44px;margin:0 -44px 26px;background:#ffffff">
         <button type="button" data-r="barburger" onClick="{{ toggleMenu }}" aria-label="Menu" aria-expanded="{{ menuOpen }}" style="display:none;flex-direction:column;justify-content:center;gap:5px;background:none;border:none;padding:10px 2px;margin:-10px 0;border-radius:0;cursor:pointer;flex:0 0 auto;min-height:44px" style-focus="outline:1px dotted rgba(20,20,20,.5);outline-offset:3px"><span style="width:21px;height:1px;background:#141414"></span><span style="width:21px;height:1px;background:#141414"></span><span style="width:21px;height:1px;background:#141414"></span></button><button type="button" onClick="{{ toggleMenu }}" aria-expanded="{{ menuOpen }}" style="background:none;border:none;padding:0;border-radius:0;cursor:pointer;font-family:'Julius Sans One',Helvetica,Arial,sans-serif;font-size:14px;letter-spacing:.14em;text-transform:uppercase;color:#141414;white-space:nowrap" style-hover="opacity:.62" style-focus="outline:1px dotted currentColor;outline-offset:4px"><span data-r="markfull">Doug Crocco</span></button>
         <div data-r="exfilters" style="display:flex;gap:22px">
-          <sc-for list="{{ exhFiltersNav }}" as="f" hint-placeholder-count="4">
+          <sc-for list="{{ exhFiltersNav }}" as="f" hint-placeholder-count="1">
             <button type="button" onClick="{{ f.pick }}" style="{{ f.style }}" style-hover="color:#141414" style-focus="color:#141414;outline:1px dotted rgba(20,20,20,.5);outline-offset:3px">{{ f.label }}</button>
           </sc-for>
+          <button type="button" onClick="{{ toggleExhFilters }}" aria-label="Filter exhibitions" aria-expanded="{{ exhFiltersOpen }}" style="background:none;border:none;padding:0;border-radius:0;cursor:pointer;color:#6e6e72;display:flex;align-items:center" style-hover="color:#141414"><svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.1" aria-hidden="true" style="display:block"><circle cx="8.4" cy="8.4" r="5.6"></circle><line x1="12.6" y1="12.6" x2="18" y2="18"></line></svg></button>
         </div>
       </div>
       <div ref="{{ exStickWrapRef }}" data-r="exstickwrap" style="position:relative">
@@ -852,10 +863,27 @@
     <div data-live-layer data-r="gut" style="position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;padding:0 44px 70px">
       <div data-r="exbar" style="position:sticky;top:0;z-index:5;display:flex;align-items:center;justify-content:space-between;gap:30px;height:64px;padding:0 60px 0 44px;margin:0 -44px;background:transparent;pointer-events:none">
         <button type="button" data-r="barburger" onClick="{{ toggleMenu }}" aria-label="Menu" aria-expanded="{{ menuOpen }}" style="display:none;flex-direction:column;justify-content:center;gap:5px;background:none;border:none;padding:10px 2px;margin:-10px 0;border-radius:0;cursor:pointer;flex:0 0 auto;min-height:44px;pointer-events:auto" style-focus="outline:1px dotted rgba(255,255,255,.6);outline-offset:3px"><span style="width:21px;height:1px;background:#141414"></span><span style="width:21px;height:1px;background:#141414"></span><span style="width:21px;height:1px;background:#141414"></span></button><button type="button" onClick="{{ toggleMenu }}" aria-expanded="{{ menuOpen }}" style="background:none;border:none;padding:0;border-radius:0;cursor:pointer;font-family:'Julius Sans One',Helvetica,Arial,sans-serif;font-size:14px;letter-spacing:.14em;text-transform:uppercase;color:#141414;white-space:nowrap;pointer-events:auto;text-shadow:0 0 6px rgba(255,255,255,1), 0 0 12px rgba(255,255,255,.95)" style-hover="opacity:.62" style-focus="outline:1px dotted currentColor;outline-offset:4px"><span data-r="markfull">Doug Crocco</span></button>
-        <div data-r="exfilters" style="display:flex;gap:22px;pointer-events:auto">
-          <sc-for list="{{ newsFilters }}" as="f" hint-placeholder-count="3">
+        <div data-r="exfilters" style="position:relative;display:flex;flex-direction:column;align-items:flex-end;gap:6px;pointer-events:auto">
+          <div style="display:flex;gap:22px">
+          <sc-for list="{{ newsFilters }}" as="f" hint-placeholder-count="1">
             <button type="button" onClick="{{ f.pick }}" style="{{ f.styleDark }}" style-hover="color:#141414" style-focus="color:#141414;outline:1px dotted rgba(20,20,20,.5);outline-offset:3px">{{ f.label }}</button>
           </sc-for>
+          </div>
+          <div style="height:14px;display:flex;align-items:center;justify-content:flex-end">
+          <sc-if value="{{ newsShowIcon }}" hint-placeholder-val="{{ true }}">
+          <button type="button" onClick="{{ toggleNewsFilters }}" aria-label="Filter news" aria-expanded="{{ newsFiltersOpen }}" style="background:none;border:none;padding:0;border-radius:0;cursor:pointer;color:#6e6e72;display:flex;align-items:center" style-hover="color:#141414" style-focus="color:#141414;outline:none"><svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.1" aria-hidden="true" style="display:block"><circle cx="8.4" cy="8.4" r="5.6"></circle><line x1="12.6" y1="12.6" x2="18" y2="18"></line></svg></button>
+          </sc-if>
+          <sc-if value="{{ newsHasFilter }}" hint-placeholder-val="{{ false }}">
+            <button type="button" onClick="{{ toggleNewsFilters }}" aria-expanded="{{ newsFiltersOpen }}" style="background:none;border:none;padding:0;border-radius:0;cursor:pointer;font-family:Raleway,Helvetica,Arial,sans-serif;font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:#141414;font-weight:600" style-hover="color:#141414">{{ newsActiveLabel }}</button>
+          </sc-if>
+          </div>
+          <sc-if value="{{ newsFiltersOpen }}" hint-placeholder-val="{{ false }}">
+            <div style="position:absolute;top:calc(100% - 14px);right:0;display:flex;flex-direction:column;align-items:flex-end;gap:8px;background:transparent">
+              <sc-for list="{{ newsFilterMenu }}" as="f" hint-placeholder-count="2">
+                <button type="button" onClick="{{ f.pick }}" style="{{ f.style }}" style-hover="color:#141414">{{ f.label }}</button>
+              </sc-for>
+            </div>
+          </sc-if>
         </div>
       </div>
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(352px,100%),1fr));gap:70px 60px;align-items:start;justify-items:center;max-width:1300px;margin:0 auto;padding:48px 0 0">
@@ -1138,8 +1166,24 @@ class Component extends DCLogic {
       (e.venue_img || []).forEach(u => rest.push(u));
       if (e.img) rest.push(e.img);
     });
+    // third wave: the series covers/banners and every work plate, so the Series and
+    // Works pages are already painted by the time a visitor navigates to them
+    const later = [];
+    (d.series || []).forEach(s => { if (s.cover) later.push(s.cover); if (s.hero) later.push(s.hero); });
+    (d.works || []).forEach(w => { if (w.img) later.push(w.img); });
+    (d.news || []).forEach(n => { if (n.img) later.push(n.img); });
     this.warm(first);
-    setTimeout(() => this.warm(rest), 400);
+    setTimeout(() => this.warm(rest), 300);
+    setTimeout(() => this.warm(later), 900);
+  }
+
+  // the work a visitor is about to arrow into, plus its other views
+  warmWork(i) {
+    const list = this.list ? this.list() : [];
+    if (!list.length) return;
+    const at = ((i % list.length) + list.length) % list.length;
+    const w = list[at] || {};
+    this.warm([w.img].concat(w.alt || []));
   }
 
   warmNear(i) {
@@ -1459,6 +1503,8 @@ class Component extends DCLogic {
       if (nw !== this.state.narrow) this.setState({ narrow: nw });
       const wd = window.innerWidth > 820;
       if (n !== this.state.colCount || p !== this.state.phone || wd !== this.state.wide) this.setState({ colCount: n, phone: p, wide: wd });
+      // the year wall re-picks its centred work on the new geometry
+      if (this._wallMark) this._wallMark();
     };
     this._resize();
     window.addEventListener('resize', this._resize);
@@ -1533,6 +1579,7 @@ class Component extends DCLogic {
     clearInterval(this._tick);
     clearInterval(this._venueFlip); clearInterval(this._wait);
     cancelAnimationFrame(this._venueRaf);
+    if (this._wallHoverClear) this._wallHoverClear();
     window.removeEventListener('keydown', this._key);
     window.removeEventListener('resize', this._resize);
     window.removeEventListener('hashchange', this._hashNav);
@@ -1788,8 +1835,8 @@ class Component extends DCLogic {
     const inkTitle = view === 'home' ? (cur.title || '') : '';
     // per-image override for slides that share a title (the two Pensive frames)
     const INK_BY_IMAGE = {
-      'artwork/uploads/2018/01/dmc-install-miami-shadow8.jpg': 'dark',
-      'artwork/uploads/2025/01/splash-3.jpg': 'dark'
+      'artwork/site/dmc-install-miami-shadow8.jpg': 'dark',
+      'artwork/site/splash-3.jpg': 'dark'
     };
     const override = view === 'home'
       ? (INK_BY_IMAGE[String(cur.img || '').replace(/^https?:\/\/[^/]+\//, '')] || null)
@@ -1835,7 +1882,9 @@ class Component extends DCLogic {
     })();
     const nAll = d.news || [];
     const nF = st.newsFilter || 'All';
-    const nList = nF === 'All' ? nAll : nAll.filter(n => n.kind === nF);
+    const nQ = (st.newsQ || '').trim().toLowerCase();
+    const nList = (nF === 'All' ? nAll : nAll.filter(n => n.kind === nF))
+      .filter(n => !nQ || [n.title, n.kind, n.y].filter(Boolean).join(' ').toLowerCase().indexOf(nQ) >= 0);
     const paras = cx.paras || [];
     const p0 = paras[0] || '';
     const ABBR = /(?:\b(?:Vs|Mr|Mrs|Ms|Dr|St|Ave|Blvd|Inc|Co|Jr|Sr|No|vol|pp|Feb|Sept|Oct|Nov|Dec|Jan|Mar|Apr|Jun|Jul|Aug)|\s[A-Z])\.$/;
@@ -1934,25 +1983,44 @@ class Component extends DCLogic {
           const mark = () => {
             const cap = this._wallCap;
             if (!cap) return;
-            const box = el.getBoundingClientRect();
-            const mid = box.left + box.width / 2;
+            const nodes = Array.prototype.slice.call(el.querySelectorAll('[data-wall-label]'));
+            if (!nodes.length) return;
+            // the wall is a horizontal hang at every width, so normalise the lift out of the
+            // layout first and measure the untouched run — otherwise the winner's own margin
+            // moves the very positions the next frame reads
+            nodes.forEach(n => { n.style.marginInline = '0px'; n.style.height = n.getAttribute('data-wall-h') || n.style.height; });
+            const mid = el.scrollLeft + el.clientWidth / 2;
             let best = null, bestD = Infinity;
-            el.querySelectorAll('[data-wall-label]').forEach(n => {
-              const r = n.getBoundingClientRect();
-              const d = Math.abs(r.left + r.width / 2 - mid);
+            nodes.forEach(n => {
+              const d = Math.abs(n.offsetLeft + n.offsetWidth / 2 - mid);
               if (d < bestD) { bestD = d; best = n; }
             });
             const txt = best ? best.getAttribute('data-wall-label') : '';
             if (txt && cap.textContent !== txt) cap.textContent = txt;
             cap.style.opacity = txt ? 1 : 0;
+            el._best = best;
+            // the named work grows to fill the wall's height, so the run reads as a hang
+            // that keeps filling its space rather than a filmstrip of small plates
+            const row = best && best.parentElement;
+            const tall = row ? Math.max(0, row.clientHeight - 4) : 0;
+            nodes.forEach(n => {
+              const on = n === best;
+              if (on && tall) n.style.height = tall + 'px';
+              n.style.marginInline = on ? '22px' : '0px';
+              n.style.zIndex = on ? 2 : 1;
+              n.style.position = 'relative';
+            });
           };
           el._mark = mark;
+          this._wallMark = mark;
           el.addEventListener('scroll', () => {
             if (el._raf) return;
             el._raf = requestAnimationFrame(() => { el._raf = null; mark(); });
           }, { passive: true });
+          el.querySelectorAll('img').forEach(im => im.addEventListener('load', () => mark(), { once: true }));
           setTimeout(mark, 60);
           setTimeout(mark, 400);
+          setTimeout(mark, 1200);
         }
       },
       ...this.yearStyles(),
@@ -1969,7 +2037,10 @@ class Component extends DCLogic {
               title: w.t || '',
               label: [w.t || 'Untitled', w.y, w.m, w.d].filter(Boolean).join(', '),
               // a repeating 3-step height ladder so the run reads like a hang rather than a filmstrip
-              style: { cursor: 'pointer', flex: 'none', height: st.phone
+              h: st.phone
+                ? 'min(' + (i % 3 === 0 ? 38 : (i % 3 === 1 ? 27 : 33)) + 'dvh, ' + (i % 3 === 0 ? 300 : (i % 3 === 1 ? 215 : 255)) + 'px)'
+                : 'min(' + (i % 3 === 0 ? 44 : (i % 3 === 1 ? 32 : 38)) + 'vh, ' + (i % 3 === 0 ? 400 : (i % 3 === 1 ? 290 : 340)) + 'px)',
+              style: { cursor: 'pointer', flex: 'none', transformOrigin: 'center bottom', transition: 'height .45s cubic-bezier(.22,.61,.36,1), margin .45s cubic-bezier(.22,.61,.36,1)', height: st.phone
                 ? 'min(' + (i % 3 === 0 ? 38 : (i % 3 === 1 ? 27 : 33)) + 'dvh, ' + (i % 3 === 0 ? 300 : (i % 3 === 1 ? 215 : 255)) + 'px)'
                 : 'min(' + (i % 3 === 0 ? 44 : (i % 3 === 1 ? 32 : 38)) + 'vh, ' + (i % 3 === 0 ? 400 : (i % 3 === 1 ? 290 : 340)) + 'px)' },
               imgRef: mkRef(w.img, this.markBroken, true),
@@ -2008,21 +2079,56 @@ class Component extends DCLogic {
         opacity: st.modesOpen ? 1 : 0.62, background: 'none', border: 'none',
         padding: 0, borderRadius: 0, marginLeft: 4
       },
-      worksModes: [
-        // the unfiltered archive sits first, the way Exhibits does on that page
-        { label: 'Works', v: 'overview', all: true, on: view === 'overview' && (st.ovFilter || 'All') === 'All' },
+      worksModesOpen: !!st.worksModesOpen,
+      worksIconShown: !st.worksModesOpen,
+      toggleWorksModes: () => this.setState(s => ({ worksModesOpen: !s.worksModesOpen })),
+      // collapsed, the bar reads as the section; the icon opens the other three ways in
+      // one row, exhibitions-style: the words, then the magnifier at the right
+      worksBarModes: (st.worksModesOpen
+        ? [
+            { label: 'Works', on: view === 'overview' && (st.ovFilter || 'All') === 'All', set: { view: 'overview', ovFilter: 'All' } },
+            { label: 'Series', on: view === 'works' || view === 'series', set: { view: 'works' } },
+            { label: 'Media', on: view === 'overview' && (st.ovFilter || 'All') !== 'All', set: { view: 'overview', ovFilter: 'Drawing' } },
+            { label: 'Year', on: view === 'year', set: { view: 'year' } }
+          ]
+        : [{ label: 'Works', on: true, set: { view: 'overview', ovFilter: 'All' } }]
+      ).map(m => ({
+        label: m.label,
+        pick: () => this.setState(m.set),
+        style: {
+          cursor: 'pointer', fontFamily: 'Raleway,Helvetica,Arial,sans-serif',
+          fontSize: 10.5, letterSpacing: '.2em', textTransform: 'uppercase',
+          color: m.on ? '#141414' : '#6e6e72',
+          fontWeight: m.on ? 600 : 400,
+          background: 'none', border: 'none', padding: 0, borderRadius: 0
+        }
+      })),
+      worksModesTop: [{ label: 'Works', v: 'overview', all: true, on: true }].map(m => ({
+        label: m.label,
+        pick: () => this.setState({ view: 'overview', ovFilter: 'All', worksModesOpen: false }),
+        style: {
+          cursor: 'pointer', fontFamily: 'Raleway,Helvetica,Arial,sans-serif',
+          fontSize: 10.5, letterSpacing: '.2em', textTransform: 'uppercase',
+          color: '#141414', fontWeight: 500,
+          background: 'none', border: 'none', padding: 0, borderRadius: 0
+        }
+      })),
+      worksModeMenu: [
         { label: 'Series', v: 'works', on: view === 'works' || view === 'series' },
-        { label: 'Media', v: 'overview', on: view === 'overview' && (st.ovFilter || 'All') !== 'All' },
+        { label: 'Media', v: 'overview', medium: true, on: view === 'overview' && (st.ovFilter || 'All') !== 'All' },
         { label: 'Year', v: 'year', on: view === 'year' }
       ].map(m => ({
         label: m.label,
-        pick: () => this.setState(m.all ? { view: m.v, ovFilter: 'All' } : { view: m.v }),
+        // Media has to seed a medium, or it lands on the same unfiltered overview as WORKS
+        pick: () => this.setState(m.medium
+          ? { view: 'overview', ovFilter: 'Drawing', worksModesOpen: true }
+          : { view: m.v, worksModesOpen: true }),
         style: {
           cursor: 'pointer', fontFamily: 'Raleway,Helvetica,Arial,sans-serif',
           fontSize: 10.5, letterSpacing: '.2em', textTransform: 'uppercase',
           color: m.on ? '#141414' : 'rgba(20,20,20,.5)',
-          fontWeight: 500,
-          background: 'none', border: 'none', padding: 0, borderRadius: 0
+          fontWeight: m.on ? 600 : 500,
+          background: 'none', border: 'none', padding: 0, borderRadius: 0, textAlign: 'right'
         }
       })),
       ovFilters: ['All', 'Drawing', 'Print', 'Sculpture', 'Public', 'Video'].map(f => ({
@@ -2120,7 +2226,7 @@ class Component extends DCLogic {
       // the back button out of a show always lands on the unfiltered list
       toAllExhibits: () => this.setState({ view: 'exhibits', exhFilter: 'All' }),
       // the detail page's copy of the filter row leaves the show and lands on the list
-      exhFiltersNav: ['All', 'Solo', 'Group', 'Curated'].map(f => ({
+      exhFiltersNav: (st.exhFiltersOpen ? ['All', 'Solo', 'Group', 'Curated'] : ['All']).map(f => ({
         label: f === 'All' ? 'Exhibitions' : f,
         pick: () => this.setState({ view: 'exhibits', exhFilter: f }),
         style: {
@@ -2150,12 +2256,16 @@ class Component extends DCLogic {
 
       },
       toTop: () => { if (this._homeScroll) this._homeScroll.scrollTo({ top: 0, behavior: 'smooth' }); },
-      backToSeries: () => this.setState({ view: st.workFrom || 'series', wZoom: 0 }),
+      // × steps out of details first, and only then out of the work
+      backToSeries: () => this.setState(s => s.wDet
+        ? { wDet: false, wShot: 0, wZoom: 0 }
+        : { view: s.workFrom || 'series', wZoom: 0 }),
       wBackLabel: st.workFrom === 'overview' ? 'Overview' : (st.workFrom === 'year' ? 'By year' : (st.series || 'Works')),
       nextSlide: () => { this.warmNear(si + 2); this.setState(s => ({ slide: s.slide + 1 })); },
       prevSlide: () => { this.warmNear(si - 2); this.setState(s => ({ slide: s.slide - 1 + slides.length })); },
       openSlideShow: () => { if (cur.title) this.openExhibit(cur.title); },
-      nextWork: () => this.step(1), prevWork: () => this.step(-1),
+      nextWork: () => { this.warmWork(st.sel + 2); this.step(1); },
+      prevWork: () => { this.warmWork(st.sel - 2); this.step(-1); },
       zoomNext: () => { if (inExLb) stepExLb(1, true); else this.step(1, true); },
       zoomPrev: () => { if (inExLb) stepExLb(-1, true); else this.step(-1, true); },
 
@@ -2437,7 +2547,9 @@ class Component extends DCLogic {
       wSingleMode: !(wShots.length > 1 && st.wDet === 'grid'),
       setWorkFull: () => this.setState({ wMode: 'full' }),
       setWorkGrid: () => this.setState({ wMode: 'grid' }),
-      wDetailLabel: st.wDet ? 'Close details' : 'Details (' + wShots.length + ')',
+      // in details view the label drops out — the × becomes the way back
+      wShowDetailBtn: wShots.length > 1 && !st.wDet,
+      wDetailLabel: 'Details (' + wShots.length + ')',
       // double-clicking the plate opens that work's other views
       wImgStyle: {
         maxWidth: '100%', maxHeight: '100%', width: 'auto', height: 'auto', objectFit: 'contain',
@@ -2500,7 +2612,11 @@ class Component extends DCLogic {
         this.step(dx < 0 ? 1 : -1);
       },
 
-      exhFilters: ['All', 'Solo', 'Group', 'Curated'].map(f => ({
+      exhFiltersOpen: !!st.exhFiltersOpen,
+      toggleExhFilters: () => this.setState(s => s.exhFiltersOpen
+        ? { exhFiltersOpen: false, exhFilter: 'All' }
+        : { exhFiltersOpen: true }),
+      exhFilters: (st.exhFiltersOpen ? ['All', 'Solo', 'Group', 'Curated'] : ['All']).map(f => ({
         // the unfiltered state reads as "Exhibits" rather than a bare "All"
         label: f === 'All' ? 'Exhibitions' : f,
         pick: () => this.setState({ exhFilter: f }),
@@ -2525,9 +2641,37 @@ class Component extends DCLogic {
       oNews: view === 'news' ? 1 : 0.62,
       toNews: this.go('news'),
       newsLabel: 'News',
-      newsFilters: ['All', 'Press', 'Event'].map(f => ({
+      newsFiltersOpen: !!st.newsFiltersOpen,
+      newsFiltersClosed: !st.newsFiltersOpen,
+      // the list takes the icon's place while it is open
+      newsShowIcon: (st.newsFilter || 'All') === 'All' && !st.newsFiltersOpen,
+      newsHasFilter: (st.newsFilter || 'All') !== 'All' && !st.newsFiltersOpen,
+      newsActiveLabel: st.newsFilter === 'Event' ? 'Events' : (st.newsFilter || ''),
+      newsFilterMenu: ['Press', 'Event'].map(f => ({
         label: f === 'Event' ? 'Events' : f,
-        pick: () => this.setState({ newsFilter: f }),
+        pick: () => this.setState({ newsFilter: f, newsFiltersOpen: true }),
+        style: {
+          cursor: 'pointer', fontFamily: 'Raleway,Helvetica,Arial,sans-serif',
+          fontSize: 10.5, letterSpacing: '.2em', textTransform: 'uppercase',
+          color: st.newsFilter === f ? '#141414' : '#6e6e72',
+          fontWeight: st.newsFilter === f ? 600 : 400,
+          background: 'none', border: 'none', padding: 0, borderRadius: 0, textAlign: 'right'
+        }
+      })),
+      newsQ: st.newsQ || '',
+      onNewsQ: ev => this.setState({ newsQ: ev.target.value }),
+      newsFieldRef: el => { if (el && st.newsFiltersOpen && document.activeElement !== el) el.focus(); },
+      // collapsing always returns to the unfiltered listing
+      toggleNewsFilters: () => this.setState(s => s.newsFiltersOpen
+        ? { newsFiltersOpen: false, newsQ: '', newsFilter: 'All' }
+        : { newsFiltersOpen: true, newsQ: '' }),
+      newsFilters: ['All'].map(f => ({
+        // collapsed, the row reads as the section name
+        label: f === 'All' ? 'News' : (f === 'Event' ? 'Events' : f),
+        // clicking NEWS again folds the row back to the single word
+        pick: () => this.setState(s => f === 'All'
+          ? { newsFilter: 'All', newsFiltersOpen: false, newsQ: '' }
+          : { newsFilter: f }),
         styleDark: {
           cursor: 'pointer', fontFamily: 'Raleway,Helvetica,Arial,sans-serif',
           fontSize: 10.5, letterSpacing: '.2em', textTransform: 'uppercase',
@@ -2584,10 +2728,10 @@ class Component extends DCLogic {
       closeNewsView: () => this.setState({ newsView: '', newsViewCap: '', newsViewUrl: '', newsViewLabel: '' }),
       portraitRef: mkRef('./images/doug-crocco-portrait.jpg', this.markBroken),
       portraitRef2: mkRef('./images/doug-crocco-portrait.jpg', this.markBroken),
-      infoBgRef: mkRef((window.IMG_BASE||'') + 'artwork/uploads/2019/02/19-1.jpg'),
-      infoBgRef2: mkRef((window.IMG_BASE||'') + 'artwork/uploads/2014/10/PB3.jpg'),
-      infoBgRef3: mkRef((window.IMG_BASE||'') + 'artwork/uploads/2014/10/PB3.jpg'),
-      infoBgRefHome: mkRef((window.IMG_BASE||'') + 'artwork/uploads/2019/02/19-1.jpg'),
+      infoBgRef: mkRef((window.IMG_BASE||'') + 'artwork/site/19-1.jpg'),
+      infoBgRef2: mkRef((window.IMG_BASE||'') + 'artwork/site/PB3.jpg'),
+      infoBgRef3: mkRef((window.IMG_BASE||'') + 'artwork/site/PB3.jpg'),
+      infoBgRefHome: mkRef((window.IMG_BASE||'') + 'artwork/site/19-1.jpg'),
       contactSent: st.contactSent === 'sent',
       contactFailed: st.contactSent === 'failed',
       contactPending: st.contactSent === 'sending',
