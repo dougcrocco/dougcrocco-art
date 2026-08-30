@@ -147,7 +147,7 @@
 <meta name="twitter:image" content="https://allart.la/artwork/uploads/2013/09/USA-Doug-Crocco.jpg">
 <meta name="theme-color" content="#000000">
 <link href="https://fonts.googleapis.com/css2?family=Julius+Sans+One&family=Archivo:wght@400;500;600;700;900&family=Raleway:wght@400;500;600&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
-<script src="./works-data.js?v=128"></script>
+<script src="./works-data.js?v=129"></script>
 </helmet>
 
 <div role="main" style="position:fixed;inset:0;background:#ffffff;color:#141414;font-family:Helvetica,'Helvetica Neue',Arial,sans-serif;overflow:hidden">
@@ -451,7 +451,7 @@
         </div>
       </div>
       <sc-if value="{{ seriesHasHero }}" hint-placeholder-val="{{ false }}">
-        <div data-r="exbleed" onClick="{{ toSeriesGrid }}" style="{{ seriesHeroFrameStyle }}">
+        <div data-r="exbleed" ref="{{ bannerRef }}" onClick="{{ toSeriesGrid }}" style="{{ seriesHeroFrameStyle }}">
           <img ref="{{ seriesHeroRef }}" alt="{{ curSeries }}" decoding="async" style="{{ seriesHeroImgStyle }}">
         </div>
       </sc-if>
@@ -572,7 +572,6 @@
                   </div>
                 </sc-for>
               </div>
-              <h2 style="{{ yearLabelStyle }}">{{ g.year }}</h2>
             </div>
           </sc-for>
         </div>
@@ -1251,7 +1250,7 @@ class Component extends DCLogic {
     return {
       wallStyle: ph
         ? { flex: 1, minHeight: 0, overflowY: 'auto', overflowX: 'hidden', padding: '0 18px 40px' }
-        : { flex: 1, minHeight: 0, maxHeight: this.state.phone ? 'calc(100dvh - 150px)' : 'none', overflowX: 'auto', overflowY: 'hidden', padding: this.state.phone ? '0 18px 34px' : '0 44px 44px', WebkitOverflowScrolling: 'touch' },
+        : { flex: 1, minHeight: 0, maxHeight: this.state.phone ? 'calc(100dvh - 150px)' : 'none', overflowX: 'auto', overflowY: 'hidden', padding: this.state.phone ? '40px 18px 34px' : '58px 44px 44px', WebkitOverflowScrolling: 'touch' },
       wallRowStyle: ph
         ? { display: 'flex', flexDirection: 'column', gap: 40 }
         : { display: 'flex', alignItems: 'flex-end', gap: this.state.phone ? 22 : 34, height: '100%' },
@@ -1265,9 +1264,49 @@ class Component extends DCLogic {
         ? { display: 'block', width: '100%', height: 'auto' }
         : { display: 'block', height: '100%', width: 'auto', maxWidth: 'none' },
       yearLabelStyle: ph
-        ? Object.assign({ flex: 'none', margin: '0 0 16px', paddingBottom: 10, borderBottom: '1px solid rgba(20,20,20,.25)' }, lbl)
-        : Object.assign({ flex: 'none', marginTop: 20, paddingTop: 12, borderTop: '1px solid rgba(20,20,20,.25)' }, lbl)
+        ? Object.assign({ flex: 'none', margin: '0 0 16px', paddingBottom: 10 }, lbl)
+        : Object.assign({ flex: 'none', marginTop: 22, paddingTop: 12 }, lbl)
     };
+  }
+
+  // banners drift slower than the page. the frames are sticky, so their own rect is frozen
+  // while pinned — progress is read from the non-sticky parent, which really travels
+  parallax(el) {
+    if (!el || el._plx) return;
+    const img = el.querySelector('img');
+    if (!img) return;
+    el._plx = true;
+    const AMT = 0.12;
+    // the plate is grown, not scaled: the resting crop is the same centre as before
+    img.style.height = 'calc(100% + ' + (AMT * 200) + '%)';
+    img.style.willChange = 'transform';
+    let sc = el.parentElement;
+    while (sc && sc !== document.body) {
+      const oy = getComputedStyle(sc).overflowY;
+      if (oy === 'auto' || oy === 'scroll') break;
+      sc = sc.parentElement;
+    }
+    const host = (sc && sc !== document.body) ? sc : window;
+    const track = el.parentElement || el;
+    const draw = () => {
+      el._raf = null;
+      const h = el.offsetHeight || 1;
+      const r = track.getBoundingClientRect();
+      const vb = (host === window) ? { top: 0, height: window.innerHeight } : (() => { const b = host.getBoundingClientRect(); return { top: b.top, height: b.height }; })();
+      const span = vb.height / 2 + r.height / 2;
+      const p = Math.max(-1, Math.min(1, ((r.top - vb.top) + r.height / 2 - vb.height / 2) / (span || 1)));
+      const drift = -p * h * AMT;
+      img.style.transform = 'translate3d(0,' + (-h * AMT + drift).toFixed(1) + 'px,0)';
+    };
+    const onScroll = () => { if (el._raf) return; el._raf = requestAnimationFrame(draw); };
+    host.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+    (this._plxOff = this._plxOff || []).push(() => {
+      host.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
+    });
+    if (!img.complete) img.addEventListener('load', onScroll, { once: true });
+    draw(); setTimeout(draw, 120);
   }
 
   slug(s) {
@@ -1638,6 +1677,9 @@ class Component extends DCLogic {
     this._navMiss = 0;
   }
   componentWillUnmount() {
+    if (this._plxOff) { this._plxOff.forEach(f => { try { f(); } catch (e) {} }); this._plxOff = null; }
+    if (this._wallStop) { try { this._wallStop(); } catch (e) {} this._wallStop = null; }
+    if (this._wallOff) { this._wallOff.forEach(f => { try { f(); } catch (e) {} }); this._wallOff = null; }
     this.navUnwatch();
     if (typeof document !== 'undefined' && this._ptrTrack) {
       document.removeEventListener('pointermove', this._ptrTrack);
@@ -2056,26 +2098,57 @@ class Component extends DCLogic {
           el._centre = true;
           // the work nearest the middle of the wall names itself above the run
           const mark = () => {
+            if (!el.isConnected) return;
             const cap = this._wallCap;
             if (!cap) return;
             const nodes = Array.prototype.slice.call(el.querySelectorAll('[data-wall-label]'));
             if (!nodes.length) return;
-            // the wall is a horizontal hang at every width, so normalise the lift out of the
-            // layout first and measure the untouched run — otherwise the winner's own margin
-            // moves the very positions the next frame reads
-            nodes.forEach(n => { n.style.marginInline = '0px'; n.style.height = n.getAttribute('data-wall-h') || n.style.height; });
-            const mid = el.scrollLeft + el.clientWidth / 2;
-            let best = null, bestD = Infinity;
+            // resting geometry per plate: only measurable once its image has decoded, and only
+            // valid for the wall's current size — so the stamp is the wall's own box
+            const gen = el.clientWidth + 'x' + el.clientHeight;
+            if (el._gen !== gen) {
+              el._gen = gen;
+              // measuring has to happen with nothing lifted, so the winner is laid back down
+              const w0 = el._bestNode;
+              if (w0) {
+                w0.style.transition = 'none';
+                w0.style.height = w0.getAttribute('data-wall-h') || w0.style.height;
+                w0.style.marginInline = '0px';
+                w0.style.transform = '';
+                void w0.offsetWidth;
+                w0.style.transition = '';
+              }
+              nodes.forEach(n => { n._bw = 0; });
+              el._bestNode = null;
+            }
             nodes.forEach(n => {
-              const d = Math.abs(n.offsetLeft + n.offsetWidth / 2 - mid);
+              if (n._bw) return;
+              const im = n.querySelector('img');
+              if (!im || !im.complete || !im.naturalWidth) return;
+              if (n === el._bestNode) return;
+              n._bw = n.offsetWidth;
+            });
+            // a plate whose plate has not decoded yet cannot take part in the selection
+            const ready = nodes.filter(n => n._bw);
+            if (!ready.length) return;
+            const win = el._bestNode;
+            // how much room the current winner is taking beyond its resting size
+            const dW = win ? (win.offsetWidth - win._bw) + 44 : 0;
+            const winL = win ? win.offsetLeft - 22 : 0;
+            const baseLeft = n => n.offsetLeft - (win && n !== win && n.offsetLeft > win.offsetLeft ? dW : 0) - (n === win ? 22 : 0);
+            let mid = el.scrollLeft + el.clientWidth / 2;
+            if (win && winL + win._bw / 2 < mid) mid -= dW;
+            let best = null, bestD = Infinity;
+            ready.forEach(n => {
+              const d = Math.abs(baseLeft(n) + n._bw / 2 - mid);
               if (d < bestD) { bestD = d; best = n; }
             });
             const txt = best ? best.getAttribute('data-wall-label') : '';
             if (txt && cap.textContent !== txt) cap.textContent = txt;
             cap.style.opacity = txt ? 1 : 0;
             el._best = best;
-            // the named work grows to fill the wall's height, so the run reads as a hang
-            // that keeps filling its space rather than a filmstrip of small plates
+            // the named work grows to fill the wall's height (or as wide as the wall allows),
+            // so the run reads as a hang that keeps filling its space
             const row = best && best.parentElement;
             let tall = row ? Math.max(0, row.clientHeight - 4) : 0;
             if (tall && best) {
@@ -2086,13 +2159,47 @@ class Component extends DCLogic {
                 tall = Math.min(tall, Math.round(maxW * nh / nw));
               }
             }
-            nodes.forEach(n => {
-              const on = n === best;
-              if (on && tall) n.style.height = tall + 'px';
-              n.style.marginInline = on ? '22px' : '0px';
-              n.style.zIndex = on ? 2 : 1;
-              n.style.position = 'relative';
-            });
+            if (el._bestNode !== best) {
+              const prev = el._bestNode;
+              if (prev && prev !== best) {
+                prev.style.transform = '';
+                prev.style.height = prev.getAttribute('data-wall-h') || prev.style.height;
+                prev.style.marginInline = '0px';
+                prev.style.zIndex = 1;
+              }
+              if (best) {
+                best.style.transform = '';
+                if (tall) best.style.height = tall + 'px';
+                best.style.marginInline = '22px';
+                best.style.zIndex = 2;
+                best.style.position = 'relative';
+              }
+              el._bestNode = best;
+            }
+            // touch has no cursor, so once a flick settles the grown plate glides to centre
+            // itself, at the same unhurried pace as the growth
+            if (this.state.phone && best) {
+              clearTimeout(el._settle);
+              el._settle = setTimeout(() => {
+                if (el._glide) return;
+                const target = () => Math.max(0, Math.min(el.scrollWidth - el.clientWidth,
+                  best.offsetLeft + best.offsetWidth / 2 - el.clientWidth / 2));
+                const from = el.scrollLeft;
+                if (Math.abs(target() - from) < 6) return;
+                const t0 = performance.now(), dur = 1900;
+                el._glide = true;
+                const step = now => {
+                  // any touch, drag or wheel clears the flag; the loop must yield at once
+                  if (!el._glide) { el._glideRaf = null; return; }
+                  const k = Math.min(1, (now - t0) / dur);
+                  const e2 = k < 0.5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2;
+                  el.scrollLeft = from + (target() - from) * e2;
+                  if (k < 1) { el._glideRaf = requestAnimationFrame(step); }
+                  else { el._glide = false; el._glideRaf = null; }
+                };
+                el._glideRaf = requestAnimationFrame(step);
+              }, 340);
+            }
           };
           el._mark = mark;
           this._wallMark = mark;
@@ -2100,6 +2207,26 @@ class Component extends DCLogic {
             if (el._raf) return;
             el._raf = requestAnimationFrame(() => { el._raf = null; mark(); });
           }, { passive: true });
+          const onResize = () => {
+            if (!el.isConnected) { offResize(); return; }
+            el._gen = null;
+            if (el._mark) el._mark();
+          };
+          const offResize = () => {
+            window.removeEventListener('resize', onResize);
+            window.removeEventListener('orientationchange', onResize);
+          };
+          window.addEventListener('resize', onResize, { passive: true });
+          window.addEventListener('orientationchange', onResize, { passive: true });
+          (this._wallOff = this._wallOff || []).push(offResize);
+          const stopGlide = () => {
+            el._glide = false;
+            if (el._glideRaf) { cancelAnimationFrame(el._glideRaf); el._glideRaf = null; }
+            clearTimeout(el._settle);
+          };
+          el._stopGlide = stopGlide;
+          this._wallStop = stopGlide;
+          ['touchstart', 'pointerdown', 'wheel'].forEach(ev => el.addEventListener(ev, stopGlide, { passive: true }));
           el.querySelectorAll('img').forEach(im => im.addEventListener('load', () => mark(), { once: true }));
           setTimeout(mark, 60);
           setTimeout(mark, 400);
@@ -2123,7 +2250,7 @@ class Component extends DCLogic {
               h: st.phone
                 ? 'min(' + (i % 3 === 0 ? 38 : (i % 3 === 1 ? 27 : 33)) + 'dvh, ' + (i % 3 === 0 ? 300 : (i % 3 === 1 ? 215 : 255)) + 'px)'
                 : 'min(' + (i % 3 === 0 ? 44 : (i % 3 === 1 ? 32 : 38)) + 'vh, ' + (i % 3 === 0 ? 400 : (i % 3 === 1 ? 290 : 340)) + 'px)',
-              style: { cursor: 'pointer', flex: 'none', transformOrigin: 'center bottom', transition: 'height 1.6s cubic-bezier(.25,.1,.25,1), margin 1.6s cubic-bezier(.25,.1,.25,1)', height: st.phone
+              style: { cursor: 'pointer', flex: 'none', transformOrigin: 'center bottom', transition: 'height 1.2s cubic-bezier(.33,0,.2,1), margin 1.2s cubic-bezier(.33,0,.2,1)', height: st.phone
                 ? 'min(' + (i % 3 === 0 ? 38 : (i % 3 === 1 ? 27 : 33)) + 'dvh, ' + (i % 3 === 0 ? 300 : (i % 3 === 1 ? 215 : 255)) + 'px)'
                 : 'min(' + (i % 3 === 0 ? 44 : (i % 3 === 1 ? 32 : 38)) + 'vh, ' + (i % 3 === 0 ? 400 : (i % 3 === 1 ? 290 : 340)) + 'px)' },
               imgRef: mkRef(w.img, this.markBroken, true),
@@ -2631,6 +2758,7 @@ class Component extends DCLogic {
       sRule: this.darkSeries(st.series) ? 'rgba(255,255,255,.34)' : 'rgba(20,20,20,.32)',
       seriesHasHero: !!(curSeriesRec.hero || curSeriesRec.cover),
       seriesHeroRef: mkRef(curSeriesRec.hero || curSeriesRec.cover),
+      bannerRef: el => this.parallax(el),
       toSeriesGrid: () => {
         const sc = this._seriesScroll;
         if (!sc) return;
@@ -3164,7 +3292,7 @@ class Component extends DCLogic {
       },
       fullSwipeRef: el => { this._fullFrame = el; this.attachSwipe(el, d => this.stepFull(d)); },
       exGridRef: el => { this._exGrid = el; },
-      heroFrameRef: el => { this._heroFrame = el; },
+      heroFrameRef: el => { this._heroFrame = el; this.parallax(el); },
       exTitleBlockRef: el => { this._exTitleBlock = el; },
       exStickWrapRef: el => { this._exStickWrap = el; },
       // the second pin: once the title block has handed off, the PRESS RELEASE rule
@@ -3261,11 +3389,15 @@ class Component extends DCLogic {
         const u = cx.hero || '';
         if (!el || !u) return;
         if (el.getAttribute('src') === u) return;
-        el.onerror = () => { el.style.display = 'none'; this.markBroken(u); };
-        el.onload = () => { el.style.display = ''; };
+        el.onerror = () => { el.style.visibility = 'hidden'; this.markBroken(u); };
+        // the previous show's plate keeps painting until the new one decodes, which on a
+        // slower tablet reads as a strip of the last show — so it is hidden until ready
+        el.onload = () => { el.style.visibility = ''; el.style.display = ''; };
         el.style.display = '';
+        el.style.visibility = 'hidden';
         el.src = u;
         el.style.animation = 'none';
+        if (el.complete && el.naturalWidth) el.style.visibility = '';
       },
       // heroPos lets a show anchor its banner crop (e.g. 'right center') instead of centering
       heroImgStyle: { display: 'block', width: '100%', height: '100%', objectFit: 'cover', objectPosition: cx.heroPos || 'center' },
