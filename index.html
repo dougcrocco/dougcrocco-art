@@ -82,6 +82,8 @@
     [data-r~="gut"], [data-r~="arrowgut"] { padding-left:18px !important; padding-right:18px !important; }
     /* the bleed must always equal the current gutter */
     [data-r~="exbleed"] { margin-left: -18px !important; margin-right: -18px !important; }
+    /* the show grid's own frame steps down with everything else */
+    [data-r~="exgrid"] { padding: 8px 18px 18px !important; }
     [data-r~="exbar"] { margin-left: -18px !important; margin-right: -18px !important; padding-left: 18px !important; padding-right: 28px !important; height: 54px !important; }
     [data-r~="vhero"] { padding-left: 18px !important; padding-right: 18px !important; }
     [data-r~="heromenu"] [data-r~="navrow"]:first-child { height: 54px !important; }
@@ -95,6 +97,10 @@
     [data-r~="fullcap"] { padding-top:30px !important; height:auto !important; }
     [data-r~="fullnum"] { margin-top:22px !important; }
     [data-r~="w2"] { gap: 0 14px !important; }
+    /* the series list keeps real separation on phone — just less of it */
+    [data-r~="serlist"] { gap: 56px !important; }
+    /* the strips hide their scrollbar and keep the drag surface flush */
+    [data-r~="serstrip"]::-webkit-scrollbar { height: 0 !important; }
     /* the filter row is the only part of a section bar that can give way: it keeps the
        wordmark whole and swipes sideways when the four labels can't fit the viewport,
        instead of pushing the whole view off-screen */
@@ -124,12 +130,18 @@
   @media only screen and (max-width: 560px) {
     [data-r~="searchcols"] { gap: 18px 10px !important; }
   }
-  /* exhibit tiles: a very quiet rollover — image eases up a hair and lightens */
-  [data-r~="extile"] img { transition: transform 900ms cubic-bezier(.22,.61,.36,1), filter 700ms ease, opacity 700ms ease; }
-  [data-r~="extile"] h3, [data-r~="extile"] [data-r~="explate"] > div { transition: opacity 500ms ease; }
+  /* the lead plate's arrow: rolling onto the image shows it, then it fades on its own
+     after about two seconds. leaving and returning plays it again. */
+  @keyframes exHint { 0% { opacity: 0 } 12% { opacity: 1 } 55% { opacity: 1 } 100% { opacity: 0 } }
+  [data-r~="exnext"] { opacity: 0; }
   @media (hover: hover) {
-    [data-r~="extile"]:hover img { transform: scale(1.012); filter: brightness(1.07); }
-    [data-r~="extile"]:hover [data-r~="explate"] > div:last-child { opacity: 1; }
+    [data-r~="explate"]:hover [data-r~="exnext"] { animation: exHint 2s ease forwards; }
+  }
+  @media (prefers-reduced-motion: reduce) { [data-r~="exnext"] { animation: none !important; } }
+  /* exhibit plates: a very quiet rollover, per image rather than per row */
+  [data-r~="extile"] img { transition: transform 900ms cubic-bezier(.22,.61,.36,1), filter 700ms ease, opacity 700ms ease; }
+  @media (hover: hover) {
+    [data-r~="extile"] [data-r~="serstrip"] > div > div:hover img { transform: scale(1.012); filter: brightness(1.07); }
   }
   ::-webkit-scrollbar { width:0; height:0; }
   * { scrollbar-width:none; -ms-overflow-style:none; }
@@ -147,7 +159,7 @@
 <meta name="twitter:image" content="https://allart.la/artwork/uploads/2013/09/USA-Doug-Crocco.jpg">
 <meta name="theme-color" content="#000000">
 <link href="https://fonts.googleapis.com/css2?family=Julius+Sans+One&family=Archivo:wght@400;500;600;700;900&family=Inter+Tight:wght@700;800;900&family=Raleway:ital,wght@0,400;0,500;0,600;1,400&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
-<script src="./works-data.js?v=129"></script>
+<script src="./works-data.js?v=146"></script>
 </helmet>
 
 <div role="main" style="position:fixed;inset:0;background:#ffffff;color:#141414;font-family:Helvetica,'Helvetica Neue',Arial,sans-serif;overflow:hidden">
@@ -257,7 +269,7 @@
 
 
       <div data-r="c2 gut" style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:80px;max-width:1500px;padding:86px 44px 0">
-        <div style="display:flex;flex-direction:column;gap:44px">
+        <div style="display:flex;flex-direction:column;gap:96px">
           <div>
             <div style="font-family:'Julius Sans One',Helvetica,Arial,sans-serif;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:#141414;padding-bottom:9px;border-bottom:1px dotted rgba(20,20,20,.32);margin-bottom:16px">Education</div>
             <div style="display:grid;grid-template-columns:46px minmax(0,1fr);gap:7px 16px;font-family:Raleway,Helvetica,Arial,sans-serif;font-weight:400;font-size:13px;line-height:1.62;color:#414142">
@@ -297,7 +309,7 @@
           </div>
         </div>
 
-        <div style="display:flex;flex-direction:column;gap:44px">
+        <div style="display:flex;flex-direction:column;gap:96px">
           <div>
           <div style="font-family:'Julius Sans One',Helvetica,Arial,sans-serif;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:#141414;padding-bottom:9px;border-bottom:1px dotted rgba(20,20,20,.32);margin-bottom:16px">Selected group exhibitions</div>
           <div style="display:grid;grid-template-columns:46px minmax(0,1fr);gap:7px 16px;font-family:Raleway,Helvetica,Arial,sans-serif;font-weight:400;font-size:13px;line-height:1.62;color:#414142">
@@ -398,26 +410,24 @@
       <div style="max-width:62ch;padding:36px 0 30px;margin-bottom:34px;border-bottom:1px dotted rgba(20,20,20,.32)">
         <div style="font-family:Raleway,Helvetica,Arial,sans-serif;font-size:17px;line-height:1.7;color:#2a2a2b;text-wrap:pretty">{{ statement }}</div>
       </div>
-      <div onClick="{{ seriesLead.open }}" style="cursor:pointer;max-width:1500px;padding:6px 0 30px">
-        <div style="width:100%;height:min(46vh,520px);overflow:hidden;background:#f2f1ee">
-          <img ref="{{ seriesLead.imgRef }}" alt="{{ seriesLead.name }}" loading="lazy" decoding="async" style="display:block;width:100%;height:100%;object-fit:cover">
-        </div>
-        <h3 style="font-family:Raleway,Helvetica,Arial,sans-serif;font-size:13px;line-height:1.4;color:#2a2a2b;margin-top:9px">{{ seriesLead.name }}</h3>
-      </div>
-      <div data-r="w2" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 30px;align-items:start;max-width:1500px;padding:6px 0 0">
-        <sc-for list="{{ seriesColumns }}" as="col" hint-placeholder-count="2">
-          <div style="display:flex;flex-direction:column;gap:30px">
-            <sc-for list="{{ col.items }}" as="s" hint-placeholder-count="3">
-              <div onClick="{{ s.open }}" style="cursor:pointer">
-                <sc-if value="{{ s.isStill }}" hint-placeholder-val="{{ true }}">
-                  <img ref="{{ s.imgRef }}" alt="{{ s.name }}" loading="lazy" decoding="async" style="display:block;width:100%;height:auto">
-                </sc-if>
-                <sc-if value="{{ s.isPoster }}" hint-placeholder-val="{{ false }}">
-                  <video ref="{{ s.videoRef }}" poster="./hero-poster.jpg" autoPlay="{{ true }}" muted="{{ true }}" loop="{{ true }}" playsInline="{{ true }}" style="display:block;width:100%;height:auto;aspect-ratio:4/5;object-fit:cover;object-position:left bottom;background:#000000"></video>
-                </sc-if>
-                <h3 style="font-family:Raleway,Helvetica,Arial,sans-serif;font-size:13px;line-height:1.4;color:#2a2a2b;margin-top:9px">{{ s.name }}</h3>
+      <div data-r="serlist" style="display:flex;flex-direction:column;gap:96px;max-width:1500px;padding:6px 0 0">
+        <sc-for list="{{ seriesRows }}" as="s" hint-placeholder-count="7">
+          <div>
+            <h3 onClick="{{ s.open }}" style="font-family:'Inter Tight',Helvetica,Arial,sans-serif;font-size:clamp(34px,4vw,64px);font-weight:700;line-height:1.02;letter-spacing:-.025em;text-transform:uppercase;color:#141414;display:inline-block;padding-bottom:10px;margin-bottom:18px;border-bottom:1px solid rgba(20,20,20,.28);cursor:pointer" style-hover="opacity:.6">{{ s.name }}</h3>
+            <div ref="{{ s.stripRef }}" data-r="serstrip" style="{{ seriesStripStyle }}">
+              <div style="{{ seriesStripRowStyle }}">
+                <sc-for list="{{ s.items }}" as="w" hint-placeholder-count="4">
+                  <div onClick="{{ w.open }}" style="{{ seriesPlateStyle }}">
+                    <sc-if value="{{ w.isStill }}" hint-placeholder-val="{{ true }}">
+                      <img ref="{{ w.imgRef }}" alt="{{ w.title }}" loading="lazy" decoding="async" draggable="{{ false }}" style="{{ seriesPlateImgStyle }}">
+                    </sc-if>
+                    <sc-if value="{{ w.isPoster }}" hint-placeholder-val="{{ false }}">
+                      <video ref="{{ w.videoRef }}" poster="./hero-poster.jpg" autoPlay="{{ true }}" muted="{{ true }}" loop="{{ true }}" playsInline="{{ true }}" style="{{ seriesPlateVidStyle }}"></video>
+                    </sc-if>
+                  </div>
+                </sc-for>
               </div>
-            </sc-for>
+            </div>
           </div>
         </sc-for>
       </div>
@@ -443,7 +453,7 @@
         </div>
       </div>
       <div data-r="serstick" style="position:relative">
-      <div data-r="sertitle" style="position:sticky;top:0;z-index:4;display:flex;align-items:baseline;gap:14px;margin:0 -44px;padding:26px 44px;background:{{ sBg }};font-family:Raleway,Helvetica,Arial,sans-serif;font-size:17px;color:{{ sInk }}">
+      <div data-r="sertitle" style="position:sticky;top:0;z-index:4;display:flex;align-items:baseline;gap:14px;margin:0 -44px;padding:26px 44px;background:{{ sBg }};font-family:'EB Garamond',Georgia,serif;font-size:clamp(30px,3vw,52px);line-height:1.12;letter-spacing:-.01em;color:{{ sInk }}">
         <h2 style="color:{{ sInk }}">{{ curSeries }}</h2>
         <div style="margin-left:auto;display:flex;align-items:center;gap:12px">
           <button type="button" aria-label="Previous series" style-focus="outline:1px dotted currentColor;outline-offset:3px" onClick="{{ prevSeries }}" style="background:none;border:none;padding:0;border-radius:0;color:inherit;font:inherit;cursor:pointer;width:30px;height:30px;display:flex;align-items:center;justify-content:center;font-size:15px;color:{{ sInk2 }}"><span style="display:block;transform:scaleX(-1)"><svg width="13" height="22" viewBox="0 0 13 22" fill="none" aria-hidden="true" style="display:block"><path d="M2 1.5L11 11L2 20.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="square"></path></svg></span></button>
@@ -702,17 +712,28 @@
         <p style="margin:0;font-family:Raleway,Helvetica,Arial,sans-serif;font-weight:400;font-size:16px;line-height:1.72;letter-spacing:.004em;color:#3c3c3d;text-wrap:pretty">Solo and group exhibitions, alongside shows organized for Big Pictures Los Angeles, the project space Crocco ran in West Adams. Filter by <em>Solo</em>, <em>Group</em>, or <em>Curated</em>, or open any show for installation views and the works included.</p>
       </div>
       <div data-r="exbleed" style="position:relative;margin:0 -44px">
-      <div style="display:flex;flex-wrap:wrap;gap:12px;padding:12px;margin:0;background:#ffffff;box-sizing:border-box">
+      <div data-r="exgrid" style="display:flex;flex-wrap:wrap;gap:12px;padding:14px 44px 44px;margin:0;background:#ffffff;box-sizing:border-box">
         <sc-for list="{{ exhibits }}" as="e" hint-placeholder-count="4">
-          <a data-r="extile" href="{{ e.href }}" aria-label="{{ e.label }}" onClick="{{ e.open }}" style="{{ e.wrapStyle }}">
-            <div data-r="explate" style="{{ e.plateStyle }}">
-              <img ref="{{ e.imgRef }}" alt="{{ e.title }}" loading="lazy" decoding="async" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
-              <div style="{{ e.capStyle }}">
-                <h3 style="{{ e.titleStyle }}">{{ e.title }}</h3>
-                <div style="{{ e.metaStyle }}">{{ e.overlayMeta }}</div>
+          <div data-r="extile" style="{{ e.wrapStyle }}">
+            <a href="{{ e.href }}" aria-label="{{ e.label }}" onClick="{{ e.open }}" style="{{ e.capStyle }}">
+              <h3 style="{{ e.titleStyle }}">{{ e.title }}</h3>
+              <div style="{{ e.metaStyle }}">{{ e.overlayMeta }}</div>
+            </a>
+            <div ref="{{ e.stripRef }}" data-r="serstrip exstrip" style="{{ exStripStyle }}">
+              <div style="{{ exStripRowStyle }}">
+                <sc-for list="{{ e.shots }}" as="p" hint-placeholder-count="3">
+                  <div onClick="{{ p.open }}" data-r="explate" style="{{ p.style }}">
+                    <img ref="{{ p.imgRef }}" alt="{{ p.alt }}" draggable="{{ false }}" decoding="async" style="{{ p.imgStyle }}">
+                    <sc-if value="{{ p.isLead }}" hint-placeholder-val="{{ false }}">
+                      <div data-r="exnext" aria-hidden="true" style="{{ exNextStyle }}">
+                        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true" style="display:block"><path d="M9 5L17 12L9 19"></path></svg>
+                      </div>
+                    </sc-if>
+                  </div>
+                </sc-for>
               </div>
             </div>
-          </a>
+          </div>
         </sc-for>
       </div>
       </div>
@@ -740,8 +761,8 @@
       <div ref="{{ exStickWrapRef }}" data-r="exstickwrap" style="position:relative">
         <div ref="{{ exTitleBlockRef }}" style="{{ exTitleBlockStyle }}">
           <div style="display:flex;align-items:flex-start;gap:24px">
-            <h2 style="font-family:'Julius Sans One',Helvetica,Arial,sans-serif;font-size:clamp(26px,2.4vw,42px);letter-spacing:.04em;text-transform:uppercase;line-height:1.16;font-weight:400;max-width:min(100%,44ch);text-wrap:balance;color:#1a1a1c">{{ exTitle }}</h2>
-            <div style="margin-left:auto;display:flex;align-items:center;gap:12px;flex:0 0 auto;height:calc(clamp(26px,2.4vw,42px) * 1.16)">
+            <h2 style="font-family:'EB Garamond',Georgia,serif;font-size:clamp(30px,3vw,52px);letter-spacing:-.01em;line-height:1.12;font-weight:400;max-width:min(100%,44ch);text-wrap:balance;color:#1a1a1c">{{ exTitle }}</h2>
+            <div style="margin-left:auto;display:flex;align-items:center;gap:12px;flex:0 0 auto;height:calc(clamp(30px,3vw,52px) * 1.12)">
               <button type="button" aria-label="Previous exhibition" style-focus="outline:1px dotted currentColor;outline-offset:3px" onClick="{{ prevExhibit }}" style="background:none;border:none;padding:0;border-radius:0;font:inherit;cursor:pointer;width:30px;height:30px;display:flex;align-items:center;justify-content:center;font-size:15px;color:#6e6e72" style-hover="color:#1a1a1c"><span style="display:block;transform:scaleX(-1)"><svg width="13" height="22" viewBox="0 0 13 22" fill="none" aria-hidden="true" style="display:block"><path d="M2 1.5L11 11L2 20.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="square"></path></svg></span></button>
               <button type="button" aria-label="Next exhibition" style-focus="outline:1px dotted currentColor;outline-offset:3px" onClick="{{ nextExhibit }}" style="background:none;border:none;padding:0;border-radius:0;font:inherit;cursor:pointer;width:30px;height:30px;display:flex;align-items:center;justify-content:center;font-size:15px;color:#6e6e72" style-hover="color:#1a1a1c"><svg width="13" height="22" viewBox="0 0 13 22" fill="none" aria-hidden="true" style="display:block"><path d="M2 1.5L11 11L2 20.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="square"></path></svg></button>
             </div>
@@ -1251,6 +1272,54 @@ class Component extends DCLogic {
     this.setState({ series: next.name, sel: 0 });
   }
 
+  // horizontal drag with momentum, for the series strips. touch is left to the
+  // browser — its own panning and deceleration beat anything scripted here.
+  dragScroll() {
+    return el => {
+      if (!el || el._dragWired) return;
+      el._dragWired = true;
+      let down = false, startX = 0, startLeft = 0, lastX = 0, lastT = 0, v = 0, raf = 0, moved = false;
+      const stop = () => { if (raf) cancelAnimationFrame(raf); raf = 0; };
+      const glide = () => {
+        v *= 0.93;
+        if (Math.abs(v) < 0.04) { stop(); return; }
+        el.scrollLeft -= v * 16;
+        raf = requestAnimationFrame(glide);
+      };
+      el.addEventListener('pointerdown', e => {
+        if (e.pointerType !== 'mouse' || e.button !== 0) return;
+        stop();
+        down = true; moved = false; v = 0;
+        startX = lastX = e.clientX; startLeft = el.scrollLeft; lastT = performance.now();
+        el.style.cursor = 'grabbing';
+      });
+      el.addEventListener('pointermove', e => {
+        if (!down) return;
+        const dx = e.clientX - startX;
+        if (Math.abs(dx) > 4) moved = true;
+        el.scrollLeft = startLeft - dx;
+        const t = performance.now();
+        if (t > lastT) { v = (e.clientX - lastX) / (t - lastT); lastX = e.clientX; lastT = t; }
+      });
+      const release = () => {
+        if (!down) return;
+        down = false;
+        el.style.cursor = 'grab';
+        if (Math.abs(v) > 0.04) { stop(); raf = requestAnimationFrame(glide); }
+      };
+      el.addEventListener('pointerup', release);
+      el.addEventListener('pointerleave', release);
+      el.addEventListener('pointercancel', release);
+      // a drag that ends over a plate must not read as a click on it
+      el.addEventListener('click', e => {
+        if (!moved) return;
+        moved = false;
+        e.preventDefault(); e.stopPropagation();
+      }, true);
+      (this._stripStops = this._stripStops || []).push(stop);
+    };
+  }
+
   splitCols(items, n) {
     const cols = []; for (let k = 0; k < n; k++) cols.push([]);
     items.forEach((it, i) => cols[i % n].push(it));
@@ -1731,6 +1800,7 @@ class Component extends DCLogic {
   }
   componentWillUnmount() {
     this._gone = true; this._q = [];
+    if (this._stripStops) { this._stripStops.forEach(f => { try { f(); } catch (e) {} }); this._stripStops = null; }
     if (this._navLock) { document.documentElement.style.overflow = ''; document.body.style.overflow = ''; this._navLock = false; }
     if (this._plxOff) { this._plxOff.forEach(f => { try { f(); } catch (e) {} }); this._plxOff = null; }
     if (this._wallStop) { try { this._wallStop(); } catch (e) {} this._wallStop = null; }
@@ -1981,6 +2051,9 @@ class Component extends DCLogic {
 
     const seriesWorks = this.workScope();
     const curSeriesRec = (d.series || []).find(x => x.name === st.series) || {};
+    // only the files in artwork/banners/ are drawn at banner proportions; anything
+    // else is a work, and cropping one to a 3:1 strip throws most of it away
+    const seriesHeroIsBanner = /artwork\/banners\//.test(curSeriesRec.hero || curSeriesRec.cover || '');
     const w = seriesWorks[st.sel] || {};
     const wShots = [w.img].concat(w.alt || []).filter(Boolean);
     const wShotI = Math.min(Math.max(st.wShot || 0, 0), Math.max(wShots.length - 1, 0));
@@ -2739,34 +2812,58 @@ class Component extends DCLogic {
 
       workCount: d.works.length,
       seriesCount: d.series.length,
-      seriesColumns: (() => {
-        const items = d.series.map(x => ({
-          name: x.name,
-          isPoster: (d.works || []).some(w => w.s === x.name && w.video),
-          isStill: !(d.works || []).some(w => w.s === x.name && w.video),
-          videoRef: el => {
-            const vid = ((d.works || []).find(w => w.s === x.name && w.video) || {}).video;
-            if (!el || el._wired || !vid) return;
-            el._wired = true;
-            el.muted = true; el.defaultMuted = true; el.loop = true;
-            fetch(vid).then(r => r.blob()).then(b => {
-              el.src = URL.createObjectURL(b); el.load(); el.play().catch(() => {});
-            }).catch(() => { el.src = vid; el.play().catch(() => {}); });
-          },
-          open: () => this.setState({ view: 'series', series: x.name, sel: 0 }),
-          imgRef: mkRef(x.cover, this.markBroken)
-        }));
-        // the lead series runs full width above the two-column list
-        return this.splitCols(items.slice(1), this.state.colCount >= 2 ? 2 : 1);
-      })(),
-      seriesLead: (() => {
-        const x = d.series[0] || {};
+      // each series is a horizontal strip of its own works: one shared plate height,
+      // widths follow the image. the title opens the series page; a plate does too.
+      seriesStripStyle: {
+        overflowX: 'auto', overflowY: 'hidden', cursor: 'grab',
+        WebkitOverflowScrolling: 'touch', touchAction: 'pan-x',
+        scrollbarWidth: 'none', msOverflowStyle: 'none'
+      },
+      seriesStripRowStyle: { display: 'flex', gap: 22, alignItems: 'flex-end', width: 'max-content' },
+      exStripStyle: {
+        overflowX: 'auto', overflowY: 'hidden', cursor: 'grab',
+        WebkitOverflowScrolling: 'touch', touchAction: 'pan-x',
+        scrollbarWidth: 'none', msOverflowStyle: 'none',
+        marginRight: st.phone ? -18 : -44
+      },
+      // every plate carries the lead plate's height outright — a stretched follower
+      // has an indefinite height, which would hand the row its natural image height
+      exStripRowStyle: { display: 'flex', gap: 22, alignItems: 'flex-start', width: 'max-content' },
+      exNextStyle: {
+        position: 'absolute', right: 14, top: '50%', transform: 'translateY(-50%)',
+        width: 44, height: 44, display: 'flex', alignItems: 'center', justifyContent: 'center',
+        background: 'rgba(255,255,255,.82)', border: 'none', borderRadius: 0, padding: 0,
+        // a hint, not a control: it must never swallow a click once it has faded
+        color: '#141414', pointerEvents: 'none', backdropFilter: 'blur(2px)'
+      },
+      seriesPlateStyle: {
+        flex: '0 0 auto', height: st.phone ? 'min(34vh,300px)' : 'min(46vh,460px)',
+        background: '#f6f5f2', cursor: 'pointer', overflow: 'hidden'
+      },
+      seriesPlateImgStyle: { display: 'block', height: '100%', width: 'auto', maxWidth: 'none' },
+      seriesPlateVidStyle: { display: 'block', height: '100%', width: 'auto', maxWidth: 'none', background: '#000000' },
+      seriesRows: d.series.map(x => {
+        const works = (d.works || []).filter(w => w.s === x.name);
         return {
-          name: x.name || '',
+          name: x.name,
           open: () => this.setState({ view: 'series', series: x.name, sel: 0 }),
-          imgRef: mkRef(x.hero || x.cover, this.markBroken)
+          stripRef: this.dragScroll(),
+          items: works.map((w, i) => ({
+            title: w.t || 'Untitled',
+            isPoster: !!w.video, isStill: !w.video,
+            // the plate has no width of its own — a deferred image would collapse the
+            // run to zero width, the same reason the year wall loads eagerly
+            imgRef: mkRef(w.img, this.markBroken, true),
+            videoRef: el => {
+              if (!el || el._wired || !w.video) return;
+              el._wired = true;
+              el.muted = true; el.defaultMuted = true; el.loop = true;
+              el.src = w.video; el.play().catch(() => {});
+            },
+            open: () => this.setState({ view: 'series', series: x.name, sel: i })
+          }))
         };
-      })(),
+      }),
       seriesWorkColumns: (() => {
         const items = seriesWorks.map((it, i) => ({
           title: it.t || 'Untitled',
@@ -2815,7 +2912,8 @@ class Component extends DCLogic {
       sRule: this.darkSeries(st.series) ? 'rgba(255,255,255,.34)' : 'rgba(20,20,20,.32)',
       seriesHasHero: !!(curSeriesRec.hero || curSeriesRec.cover),
       seriesHeroRef: mkRef(curSeriesRec.hero || curSeriesRec.cover),
-      bannerRef: el => this.parallax(el),
+      // the series banner holds still — no parallax on this section
+      bannerRef: () => {},
       toSeriesGrid: () => {
         const sc = this._seriesScroll;
         if (!sc) return;
@@ -2833,10 +2931,16 @@ class Component extends DCLogic {
         };
         requestAnimationFrame(tick);
       },
+      // a purpose-made banner file is cropped to fill the frame; a plain artwork file
+      // is shown whole on white instead, the same call as the series menu strips
       seriesHeroFrameStyle: {
         width: '100vw', marginLeft: 'calc(50% - 50vw)', marginRight: 'calc(50% - 50vw)',
         position: 'sticky', top: 0, zIndex: 0, cursor: 'pointer',
-        marginBottom: 34, overflow: 'hidden', height: 'min(56vh, 620px)', background: '#f2f1ee'
+        marginBottom: 34, overflow: 'hidden',
+        height: seriesHeroIsBanner ? 'min(56vh, 620px)' : 'min(46vh, 520px)',
+        // white bed in both cases: the frame height lands on a fraction of a pixel, so a
+        // tinted bed showed through as a hairline under the image
+        background: '#ffffff'
       },
       // the series index opens on a banner too, drawn from the first series' plate
       seriesIndexHeroRef: mkRef(((d.series || []).find(x => x.name === 'Red Dawn') || {}).cover),
@@ -2845,7 +2949,11 @@ class Component extends DCLogic {
         marginTop: 0, overflow: 'hidden', height: 'min(56vh, 620px)', background: '#f2f1ee'
       },
       // a hair of overscan keeps subpixel rounding from sampling the plate's outer row
-      seriesHeroImgStyle: { display: 'block', width: 'calc(100% + 2px)', height: 'calc(100% + 2px)', marginLeft: '-1px', marginTop: '-1px', objectFit: 'cover', objectPosition: curSeriesRec.heroPos || 'center' },
+      // no drift on the series banner: it sits still. transform is stated so nothing
+      // left over on a reused element can shift it.
+      seriesHeroImgStyle: seriesHeroIsBanner
+        ? { display: 'block', width: 'calc(100% + 2px)', height: 'calc(100% + 2px)', marginLeft: '-1px', marginTop: '-1px', transform: 'none', objectFit: 'cover', objectPosition: curSeriesRec.heroPos || 'center' }
+        : { display: 'block', width: '100%', height: '100%', transform: 'none', objectFit: 'contain', objectPosition: curSeriesRec.heroPos || 'center' },
       statement: (d.statement || ''),
       // the one h1 on the page, named for whatever view is showing
       pageHeading: this.headFor().h,
@@ -3207,14 +3315,16 @@ class Component extends DCLogic {
         h: sec.h,
         items: (sec.items || []).map(r => ({ y: r.y, t: r.t, v: r.v ? '  ·  ' + r.v : '' }))
       })),
-      // home scroll: five most recent shows — one full plate, then two rows of halves
-      // All = a 7-show taste; a named filter shows every matching show, so the filter never lies about the set
-      homeExhibits: exhList.slice().sort((a, b) => rank(b) - rank(a)).slice(0, exhF === 'All' ? 4 : 99)
+      // home scroll: the seven most recent shows — every third one takes a full plate,
+      // so it reads full / two halves / full / two halves / full
+      // a named filter shows every matching show, so the filter never lies about the set
+      homeExhibits: exhList.slice().sort((a, b) => rank(b) - rank(a)).slice(0, exhF === 'All' ? 7 : 99)
         .map((e, i) => homeTile(this, e, i % 3 === 0, st, mkRef)),
       exhibitLabel: 'Exhibitions · ' + exhList.length + (exhF === 'All' ? '' : ' ' + exhF.toLowerCase()) + ' · 2005 – 2024',
-      // a full-width plate, then a pair of tall halves, repeating
+      // a full-width plate for every show, one per row
       exhibits: exhList.map((e, i) => {
-        const full = i % 3 === 0;
+        // every show takes its own full-width row
+        const full = true;
         return {
           year: e.y ? String(e.y) : '', title: e.title,
           venue: [e.venue, e.city].filter(Boolean).join(', '),
@@ -3223,26 +3333,14 @@ class Component extends DCLogic {
           href: '#/exhibit/' + this.slug(e.title),
           label: [e.title, e.venue, e.city, e.y, e.kinds.join(' ')].filter(Boolean).join(', '),
           open: ev => { if (ev && !ev.metaKey && !ev.ctrlKey && !ev.shiftKey) this.openExhibit(e.title); },
-          imgRef: (() => { const base = mkRef(e.img); const pos = e.tilePos || e.heroPos; return el => { base(el); if (el && pos) el.style.objectPosition = pos; }; })(),
-          // per-show ink: black type on light imagery, white on everything else
-          capStyle: (() => {
-            const dark = e.ink === 'dark' || DARK_TILE_TITLES.indexOf(e.title) >= 0;
-            return {
-              position: 'absolute', left: 0, right: 0, bottom: 0, zIndex: 2,
-              display: 'flex', flexDirection: 'column', justifyContent: 'flex-end',
-              // the scrim is sized to the caption box, not the tile: its height is the text
-              // plus this padding, so the darkening only ever covers the type and the image
-              // above it stays untouched however many lines the title takes
-              paddingTop: st.phone ? 38 : 58,
-              paddingBottom: st.phone ? (full ? 18 : 14) : (full ? 40 : 26),
-              paddingLeft: st.phone ? (full ? 18 : 14) : (full ? 40 : 30),
-              paddingRight: st.phone ? (full ? 18 : 14) : (full ? 40 : 30),
-              color: dark ? '#141414' : '#ffffff',
-              background: dark
-                ? 'linear-gradient(to top, rgba(255,255,255,.62) 0%, rgba(255,255,255,.4) 55%, rgba(255,255,255,0) 100%)'
-                : 'linear-gradient(to top, rgba(0,0,0,.6) 0%, rgba(0,0,0,.38) 55%, rgba(0,0,0,0) 100%)'
-            };
-          })(),
+          // the caption sits above the plate on the white ground, so it is always black
+          // type on white — no scrim, no per-show ink test
+          capStyle: {
+            display: 'flex', flexDirection: 'column',
+            paddingTop: st.phone ? 4 : 6,
+            paddingBottom: st.phone ? 12 : 18,
+            color: '#141414', textDecoration: 'none'
+          },
           // one ladder for both lines; the narrow string drops the city rather than the type size
           overlayMeta: (() => {
             const city = e.city || '';
@@ -3255,23 +3353,48 @@ class Component extends DCLogic {
           })(),
           metaStyle: {
             fontFamily: 'Raleway,Helvetica,Arial,sans-serif',
-            fontSize: st.phone ? 11 : 12, fontWeight: 500,
-            letterSpacing: st.phone ? '.12em' : '.18em',
-            textTransform: 'uppercase', marginTop: st.phone ? 7 : 10, opacity: 0.85
+            fontSize: st.phone ? 11 : 11.5, fontWeight: 500,
+            letterSpacing: st.phone ? '.12em' : '.16em',
+            textTransform: 'uppercase', marginTop: st.phone ? 6 : 7,
+            color: '#6b6b6d'
           },
           // the 12px gutter comes out of each tile's width, so two halves still make one row
-          wrapStyle: { cursor: 'pointer', width: full ? '100%' : 'calc(50% - 6px)', color: 'inherit', textDecoration: 'none' },
+          wrapStyle: { cursor: 'pointer', width: full ? '100%' : 'calc(50% - 6px)', color: 'inherit', textDecoration: 'none', paddingBottom: st.phone ? 34 : 56 },
           // the opening tile fills the first screen; the rest keep the 16:9 / 8:9 rhythm
           // one row height for every tile, full or half — 16:9 full-width equals two 8:9 halves
           // 16:9 full-width is exactly the height of two 8:9 halves — same row height, taller tiles
-          plateStyle: Object.assign({ height: 0, paddingBottom: full ? '56.25%' : '112.5%' }, PLATE, { boxShadow: 'none', backgroundColor: '#0a0a0a' }),
+          stripRef: this.dragScroll(),
+          // the tile image leads at full width, exactly as it read before; the rest of the
+          // show's images follow at the same height and run off the right of the screen
+          shots: (() => {
+            const seen = {}, out = [];
+            [{ u: e.img, c: e.title }].concat(e.gal || []).forEach(g => {
+              if (!g || !g.u || seen[g.u]) return;
+              seen[g.u] = 1;
+              const lead = out.length === 0;
+              out.push({
+                alt: g.c || e.title,
+                imgRef: mkRef(g.u, this.markBroken, true),
+                isLead: lead,
+                style: lead
+                  // the grid is full-bleed with a gutter each side, so the lead plate is
+                  // the content width — the same frame it filled before. the extra right
+                  // margin sets the queue that follows it apart from the lead.
+                  ? { position: 'relative', flex: '0 0 auto', width: st.phone ? 'calc(100vw - 36px)' : 'calc(100vw - 88px)', aspectRatio: '16 / 9', background: '#f6f5f2', cursor: 'pointer', overflow: 'hidden', marginRight: st.phone ? 12 : 22 }
+                  : { flex: '0 0 auto', height: st.phone ? 'calc((100vw - 36px) * 0.5625)' : 'calc((100vw - 88px) * 0.5625)', background: '#f6f5f2', cursor: 'pointer', overflow: 'hidden' },
+                imgStyle: lead
+                  ? { display: 'block', width: '100%', height: '100%', objectFit: 'cover', objectPosition: e.tilePos || e.heroPos || 'center' }
+                  : { display: 'block', height: '100%', width: 'auto', maxWidth: 'none' },
+                open: ev => { if (ev && !ev.metaKey && !ev.ctrlKey && !ev.shiftKey) this.openExhibit(e.title); }
+              });
+            });
+            return out;
+          })(),
           titleStyle: {
             fontFamily: "'EB Garamond',Georgia,serif",
-            fontSize: st.narrow ? (full ? 22 : 17) : (st.phone ? (full ? 26 : 19) : 38),
-            lineHeight: 1.15, letterSpacing: '-.01em', maxWidth: '26ch',
-            textWrap: 'balance', color: 'inherit',
-            // a tight shadow for edge definition where the image is busy — no visible haze
-            textShadow: '0 1px 3px rgba(0,0,0,.32)'
+            fontSize: st.narrow ? (full ? 22 : 17) : (st.phone ? (full ? 26 : 19) : (full ? 30 : 24)),
+            lineHeight: 1.15, letterSpacing: '-.01em', maxWidth: '34ch',
+            textWrap: 'balance', color: 'inherit'
           }
         };
       }),
