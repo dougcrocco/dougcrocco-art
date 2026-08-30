@@ -147,7 +147,7 @@
 <meta name="twitter:image" content="https://allart.la/artwork/uploads/2013/09/USA-Doug-Crocco.jpg">
 <meta name="theme-color" content="#000000">
 <link href="https://fonts.googleapis.com/css2?family=Julius+Sans+One&family=Archivo:wght@400;500;600;700;900&family=Raleway:wght@400;500;600&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
-<script src="./works-data.js?v=125"></script>
+<script src="./works-data.js?v=126"></script>
 </helmet>
 
 <div role="main" style="position:fixed;inset:0;background:#ffffff;color:#141414;font-family:Helvetica,'Helvetica Neue',Arial,sans-serif;overflow:hidden">
@@ -1474,6 +1474,23 @@ class Component extends DCLogic {
       && (this.state.worksModesOpen || this.state.exhFiltersOpen || this.state.newsFiltersOpen)) {
       this.setState({ worksModesOpen: false, exhFiltersOpen: false, newsFiltersOpen: false });
     }
+    // leaving a section entirely drops its filter, so the next visit starts unfiltered
+    if (prevState && prevState.view !== this.state.view) {
+      const inExh = v => v === 'exhibits' || v === 'exhibit';
+      const inWorks = v => ['works', 'series', 'overview', 'year', 'work'].includes(v);
+      const reset = {};
+      if (inExh(prevState.view) && !inExh(this.state.view) && this.state.exhFilter !== 'All') {
+        reset.exhFilter = 'All'; reset.exhFiltersOpen = false;
+      }
+      if (prevState.view === 'news' && this.state.view !== 'news'
+        && (this.state.newsFilter !== 'All' || this.state.newsQ)) {
+        reset.newsFilter = 'All'; reset.newsQ = ''; reset.newsFiltersOpen = false;
+      }
+      if (inWorks(prevState.view) && !inWorks(this.state.view) && this.state.worksModesOpen) {
+        reset.worksModesOpen = false;
+      }
+      if (Object.keys(reset).length) this.setState(reset);
+    }
     // filter rows expand on state, so re-test the mark for clipping every render
     if (this._marks) this._marks.forEach(m => { try { m(); } catch (err) {} });
     this.syncHash();
@@ -2374,9 +2391,9 @@ class Component extends DCLogic {
         zIndex: 44, background: 'rgba(20,20,20,.001)'
       },
       barNavItems: [
-        { label: 'Exhibits', go: () => this.setState({ view: 'exhibits', barNavOpen: false }) },
-        { label: 'Works', go: () => this.setState({ view: 'works', barNavOpen: false }) },
-        { label: 'News', go: () => this.setState({ view: 'news', barNavOpen: false }) },
+        { label: 'Exhibits', go: () => { this.navUnwatch(); this.setState({ barNavOpen: false }); this.go('exhibits')(); } },
+        { label: 'Works', go: () => { this.navUnwatch(); this.setState({ barNavOpen: false }); this.go('works')(); } },
+        { label: 'News', go: () => { this.navUnwatch(); this.setState({ barNavOpen: false }); this.go('news')(); } },
         { label: 'Info', go: () => { this.setState({ barNavOpen: false }); this.goInfo(); } },
         { label: '', icon: true, go: () => this.setState({ searchOpen: true, barNavOpen: false }) }
       ].filter(n => {
