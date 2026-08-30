@@ -1017,11 +1017,18 @@
   </div>
 
   <sc-if value="{{ barNavSheet }}" hint-placeholder-val="{{ false }}">
-    <div data-live-layer onClick="{{ barNavClose }}" style="{{ barBackdropStyle }}"></div>
     <div data-live-layer data-r="navsheet" style="{{ barSheetStyle }}">
-      <sc-for list="{{ barNavItems }}" as="n" hint-placeholder-count="5">
-        <button type="button" onClick="{{ n.pick }}" aria-label="{{ n.ariaLabel }}" style="{{ n.style }}" style-hover="opacity:.55"><sc-if value="{{ n.word }}" hint-placeholder-val="{{ true }}">{{ n.label }}</sc-if><sc-if value="{{ n.icon }}" hint-placeholder-val="{{ false }}"><svg width="{{ navIconSize }}" height="{{ navIconSize }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" style="display:block"><circle cx="10" cy="10" r="7.4"></circle><path d="M15.4 15.4L22.4 22.4"></path></svg></sc-if></button>
-      </sc-for>
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:20px;height:54px;flex:none;padding:0 18px">
+        <button type="button" onClick="{{ sheetHome }}" style="background:none;border:none;padding:0;border-radius:0;cursor:pointer;font-family:Archivo,Helvetica,Arial,sans-serif;font-size:18px;font-weight:900;letter-spacing:.02em;text-transform:uppercase;color:#141414">Doug Crocco</button>
+        <button type="button" onClick="{{ barNavClose }}" aria-label="Close menu" style="background:none;border:none;padding:0;border-radius:0;cursor:pointer;width:44px;height:44px;margin-right:-10px;display:flex;align-items:center;justify-content:center;color:#141414" style-focus="outline:1px dotted currentColor;outline-offset:2px">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true" style="display:block"><path d="M5 5L19 19"></path><path d="M19 5L5 19"></path></svg>
+        </button>
+      </div>
+      <div style="flex:1;min-height:0;overflow-y:auto;display:flex;flex-direction:column;padding:8px 18px 34px">
+        <sc-for list="{{ barNavItems }}" as="n" hint-placeholder-count="5">
+          <button type="button" onClick="{{ n.pick }}" aria-label="{{ n.ariaLabel }}" style="{{ n.style }}" style-hover="opacity:.55"><sc-if value="{{ n.word }}" hint-placeholder-val="{{ true }}">{{ n.label }}</sc-if><sc-if value="{{ n.icon }}" hint-placeholder-val="{{ false }}"><svg width="{{ navIconSize }}" height="{{ navIconSize }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" style="display:block"><circle cx="10" cy="10" r="7.4"></circle><path d="M15.4 15.4L22.4 22.4"></path></svg></sc-if></button>
+        </sc-for>
+      </div>
     </div>
   </sc-if>
 
@@ -1130,6 +1137,8 @@ const mkRef = (url, onFail, eager) => el => {
   // excluded — its columns take their width from the loaded image, so a deferred image
   // would collapse the run to zero width until it scrolled into view
   if (!el.getAttribute('loading')) { el.loading = eager ? 'eager' : 'lazy'; el.decoding = 'async'; }
+  // above-the-fold plates jump ahead of the background warm queue
+  if ('fetchPriority' in el) el.fetchPriority = eager ? 'high' : 'auto';
   el.onload = () => { el.style.visibility = ''; };
   // keep the element in the layout so nothing disappears from a gallery
   el.onerror = () => { el.style.visibility = 'hidden'; if (onFail) onFail(url); };
@@ -1151,23 +1160,53 @@ class Component extends DCLogic {
     const d = window.DC;
     if (!d || this._preloaded) return;
     this._preloaded = true;
-    // splash first — those are the images a visitor can step through immediately,
-    // and they used to queue behind every exhibit thumbnail
-    const first = [], rest = [];
+    const c = navigator.connection || {};
+    // never spend a metered or slow line on images nobody has asked for
+    if (c.saveData || /2g/.test(c.effectiveType || '')) return;
+    // splash first — those are the images a visitor can step through immediately.
+    // only the next couple: warming the whole set used to starve the plates on screen
+    const first = [], rest = [], later = [];
     (d.splash || []).forEach(s => { if (s.img) first.push(s.img); });
-    (d.exhibits || []).forEach(e => {
-      (e.venue_img || []).forEach(u => rest.push(u));
-      if (e.img) rest.push(e.img);
-    });
-    // third wave: the series covers/banners and every work plate, so the Series and
-    // Works pages are already painted by the time a visitor navigates to them
-    const later = [];
-    (d.series || []).forEach(s => { if (s.cover) later.push(s.cover); if (s.hero) later.push(s.hero); });
-    (d.works || []).forEach(w => { if (w.img) later.push(w.img); });
+    (d.exhibits || []).forEach(e => { if (e.img) rest.push(e.img); });
+    (d.series || []).forEach(s => { if (s.cover) rest.push(s.cover); if (s.hero) rest.push(s.hero); });
     (d.news || []).forEach(n => { if (n.img) later.push(n.img); });
-    this.warm(first);
-    setTimeout(() => this.warm(rest), 300);
-    setTimeout(() => this.warm(later), 900);
+    (d.exhibits || []).forEach(e => (e.venue_img || []).forEach(u => later.push(u)));
+    (d.works || []).forEach(w => { if (w.img) later.push(w.img); });
+    this.queueWarm(first.slice(0, 3));
+    // the rest waits for the load event: by then the visible <img> set has settled,
+    // so the queue fills idle bandwidth instead of competing for it
+    this.afterPaint(() => { this.queueWarm(rest); this.queueWarm(later); });
+  }
+
+  afterPaint(fn) {
+    const idle = window.requestIdleCallback || (f => setTimeout(f, 500));
+    const go = () => { if (!this._gone) idle(fn, { timeout: 4000 }); };
+    if (document.readyState === 'complete') go();
+    else window.addEventListener('load', go, { once: true });
+  }
+
+  // background warming, two at a time and at low priority, so a visible image
+  // requested mid-queue is never stuck behind hundreds of speculative fetches
+  queueWarm(urls) {
+    this._q = this._q || [];
+    this._warmed = this._warmed || {};
+    (urls || []).forEach(u => { if (u && !this._warmed[u]) { this._warmed[u] = 1; this._q.push(u); } });
+    this.pumpWarm();
+  }
+
+  pumpWarm() {
+    this._active = this._active || 0;
+    while (!this._gone && this._active < 2 && this._q && this._q.length) {
+      const im = new Image();
+      this._active++;
+      const u = this._q.shift();
+      this._sent = this._sent || {}; this._sent[u] = 1;
+      const done = () => { this._active--; this.pumpWarm(); };
+      im.decoding = 'async';
+      if ('fetchPriority' in im) im.fetchPriority = 'low';
+      im.onload = done; im.onerror = done;
+      im.src = u;
+    }
   }
 
   // the work a visitor is about to arrow into, plus its other views
@@ -1186,11 +1225,15 @@ class Component extends DCLogic {
     this.warm([(sl[at] || {}).img]);
   }
 
+  // on-demand: what a visitor is arrowing into now, fetched at once and pulled
+  // out of the background queue if it was waiting there
   warm(urls) {
     this._warmed = this._warmed || {};
+    this._sent = this._sent || {};
     (urls || []).forEach(u => {
-      if (!u || this._warmed[u]) return;
-      this._warmed[u] = 1;
+      if (!u || this._sent[u]) return;
+      if (this._q) { const at = this._q.indexOf(u); if (at > -1) this._q.splice(at, 1); }
+      this._warmed[u] = 1; this._sent[u] = 1;
       const im = new Image();
       im.decoding = 'async';
       im.src = u;
@@ -1508,6 +1551,13 @@ class Component extends DCLogic {
 
   componentDidUpdate(prevProps, prevState) {
     if (prevState && prevState.view !== this.state.view && this.state.barNavOpen) this.setState({ barNavOpen: false });
+    // the full-screen phone menu locks the page behind it, like a hamburger drawer
+    const lock = !!(this.state.phone && this.state.barNavOpen);
+    if (lock !== this._navLock) {
+      this._navLock = lock;
+      document.documentElement.style.overflow = lock ? 'hidden' : '';
+      document.body.style.overflow = lock ? 'hidden' : '';
+    }
     // every arrival in a section starts with its filter row collapsed
     if (prevState && prevState.view !== this.state.view
       && (this.state.worksModesOpen || this.state.exhFiltersOpen || this.state.newsFiltersOpen)) {
@@ -1677,6 +1727,8 @@ class Component extends DCLogic {
     this._navMiss = 0;
   }
   componentWillUnmount() {
+    this._gone = true; this._q = [];
+    if (this._navLock) { document.documentElement.style.overflow = ''; document.body.style.overflow = ''; this._navLock = false; }
     if (this._plxOff) { this._plxOff.forEach(f => { try { f(); } catch (e) {} }); this._plxOff = null; }
     if (this._wallStop) { try { this._wallStop(); } catch (e) {} this._wallStop = null; }
     if (this._wallOff) { this._wallOff.forEach(f => { try { f(); } catch (e) {} }); this._wallOff = null; }
@@ -2513,13 +2565,14 @@ class Component extends DCLogic {
             pointerEvents: st.barNavOpen ? 'auto' : 'none',
             transition: 'opacity .3s ease, transform .3s ease'
           },
-      // phone sheet lives at the root so no bar's stacking context can trap it
+      // phone menu behaves like a hamburger drawer: a full-screen sheet over
+      // everything, with its own mark + close row
       barSheetStyle: {
-        position: 'fixed', left: 0, right: 0, top: (typeof window !== 'undefined' && window.innerWidth <= 700) ? 54 : 64, zIndex: 45,
-        display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 0,
-        padding: '6px 18px 18px', background: '#ffffff',
-        borderBottom: '1px dotted rgba(20,20,20,.22)', boxShadow: '0 18px 40px rgba(20,20,20,.12)'
+        position: 'fixed', inset: 0, zIndex: 60,
+        display: 'flex', flexDirection: 'column',
+        background: '#ffffff', color: '#141414'
       },
+      sheetHome: () => { this.navUnwatch(); this.setState({ barNavOpen: false }); this.go('home')(); },
       // the backdrop starts under the bar, so the wordmark stays tappable
       barBackdropStyle: {
         position: 'fixed', left: 0, right: 0, bottom: 0, top: (typeof window !== 'undefined' && window.innerWidth <= 700) ? 54 : 64,
@@ -2544,16 +2597,17 @@ class Component extends DCLogic {
         ariaLabel: n.icon ? 'Search' : n.label,
         style: {
           cursor: 'pointer', background: 'none', border: 'none', padding: 0, borderRadius: 0,
-          textAlign: 'left', color: '#55555a',
+          textAlign: 'left', color: st.phone ? '#141414' : '#55555a',
           display: n.icon ? 'flex' : 'block', alignItems: 'center',
-          height: n.icon ? (st.phone ? 44 : 30) : 'auto',
+          height: n.icon ? (st.phone ? 60 : 30) : 'auto',
           marginTop: n.icon && !st.phone ? -6 : 0,
           width: '100%',
-          minHeight: st.phone ? 44 : 0,
-          lineHeight: st.phone ? '44px' : 'normal',
+          minHeight: st.phone ? 60 : 0,
+          borderBottom: 'none',
+          lineHeight: st.phone ? '60px' : 'normal',
           fontFamily: 'Archivo,Helvetica,Arial,sans-serif',
-          fontSize: st.phone ? 24 : 18, fontWeight: 900,
-          letterSpacing: st.phone ? '.06em' : '.08em', textTransform: 'uppercase'
+          fontSize: st.phone ? 30 : 18, fontWeight: 900,
+          letterSpacing: st.phone ? '.04em' : '.08em', textTransform: 'uppercase'
         }
       })),
       heroNavOver: () => this.setState({ heroNavOpen: true }),
