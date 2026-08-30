@@ -104,7 +104,7 @@
     /* the labels keep their full width; the wordmark is what gives way */
     [data-r~="exfilters"] { flex: 0 1 auto !important; min-width: 0 !important; justify-content: flex-end !important; gap: 16px !important; }
     /* three heavy 18px words plus the mark do not fit a phone bar — the filters step down */
-    [data-r~="exfilters"] > button { font-size: 13px !important; letter-spacing: .1em !important; }
+    [data-r~="exfilters"] > button { font-size: 13px !important; letter-spacing: -.02em !important; }
     [data-r~="markwrap"] { min-width: 0 !important; }
     /* narrow layout: the mark matches the sheet's 24px labels */
     [data-r~="markwrap"] > button { font-size: 24px !important; letter-spacing: -.02em !important; }
@@ -146,7 +146,7 @@
 <meta name="twitter:description" content="Drawings, prints and video. Colored pencil work made over two decades in Los Angeles.">
 <meta name="twitter:image" content="https://allart.la/artwork/uploads/2013/09/USA-Doug-Crocco.jpg">
 <meta name="theme-color" content="#000000">
-<link href="https://fonts.googleapis.com/css2?family=Julius+Sans+One&family=Archivo:wght@400;500;600;700;900&family=Inter+Tight:wght@700;800&family=Raleway:wght@400;500;600&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Julius+Sans+One&family=Archivo:wght@400;500;600;700;900&family=Inter+Tight:wght@700;800;900&family=Raleway:ital,wght@0,400;0,500;0,600;1,400&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
 <script src="./works-data.js?v=129"></script>
 </helmet>
 
@@ -681,7 +681,7 @@
   </sc-if>
 
   <sc-if value="{{ vExhibits }}" hint-placeholder-val="{{ true }}">
-    <div data-live-layer data-r="gut" style="position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;padding:0 44px 60px;background:#000000">
+    <div data-live-layer data-r="gut" style="position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;padding:0 44px 60px;background:#ffffff">
       <div data-r="exbar" style="display:flex;align-items:center;justify-content:space-between;gap:30px;height:64px;padding:0 60px 0 44px;margin:0 -44px;background:#ffffff">
         <div data-r="markwrap" ref="{{ barMarkRef }}" onPointerDown="{{ markPointerDown }}" onPointerEnter="{{ barNavOver }}" onPointerLeave="{{ barNavOut }}" onFocus="{{ barNavOver }}" onBlur="{{ barNavOut }}" style="position:relative;flex:0 0 auto;align-self:stretch;display:flex;align-items:center;pointer-events:auto">
           <button type="button" onClick="{{ markTap }}" aria-label="Doug Crocco — menu" style="background:none;border:none;padding:0;border-radius:0;cursor:pointer;font-family:'Inter Tight',Helvetica,Arial,sans-serif;font-size:18px;font-weight:800;letter-spacing:-.02em;text-transform:uppercase;color:#55555a;white-space:nowrap" style-hover="opacity:.62" style-focus="outline:1px dotted currentColor;outline-offset:4px"><span data-r="markfull">Doug Crocco</span><span data-r="markshort" style="display:none"><svg width="1.2em" height="0.85em" viewBox="0 0 24 17" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true" style="vertical-align:-2px"><path d="M1 2H23"></path><path d="M1 8.5H23"></path><path d="M1 15H23"></path></svg></span></button>
@@ -698,8 +698,11 @@
           <button type="button" onClick="{{ toggleExhFilters }}" aria-label="Filter exhibitions" aria-expanded="{{ exhFiltersOpen }}" style="background:none;border:none;padding:0;border-radius:0;cursor:pointer;color:#6e6e72;display:flex;align-items:center" style-hover="color:#141414"><svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.1" aria-hidden="true" style="display:block"><circle cx="8.4" cy="8.4" r="5.6"></circle><line x1="12.6" y1="12.6" x2="18" y2="18"></line></svg></button>
         </div>
       </div>
+      <div data-r="exintro" style="max-width:62ch;padding:30px 0 26px;margin-bottom:32px;border-bottom:1px dotted rgba(20,20,20,.22)">
+        <p style="margin:0;font-family:Raleway,Helvetica,Arial,sans-serif;font-weight:400;font-size:16px;line-height:1.72;letter-spacing:.004em;color:#3c3c3d;text-wrap:pretty">Solo and group exhibitions, alongside shows organized for Big Pictures Los Angeles, the project space Crocco ran in West Adams. Filter by <em>Solo</em>, <em>Group</em>, or <em>Curated</em>, or open any show for installation views and the works included.</p>
+      </div>
       <div data-r="exbleed" style="position:relative;margin:0 -44px">
-      <div style="display:flex;flex-wrap:wrap;gap:0;padding:0;margin:0">
+      <div style="display:flex;flex-wrap:wrap;gap:12px;padding:12px;margin:0;background:#ffffff;box-sizing:border-box">
         <sc-for list="{{ exhibits }}" as="e" hint-placeholder-count="4">
           <a data-r="extile" href="{{ e.href }}" aria-label="{{ e.label }}" onClick="{{ e.open }}" style="{{ e.wrapStyle }}">
             <div data-r="explate" style="{{ e.plateStyle }}">
@@ -3256,7 +3259,8 @@ class Component extends DCLogic {
             letterSpacing: st.phone ? '.12em' : '.18em',
             textTransform: 'uppercase', marginTop: st.phone ? 7 : 10, opacity: 0.85
           },
-          wrapStyle: { cursor: 'pointer', width: full ? '100%' : '50%', color: 'inherit', textDecoration: 'none' },
+          // the 12px gutter comes out of each tile's width, so two halves still make one row
+          wrapStyle: { cursor: 'pointer', width: full ? '100%' : 'calc(50% - 6px)', color: 'inherit', textDecoration: 'none' },
           // the opening tile fills the first screen; the rest keep the 16:9 / 8:9 rhythm
           // one row height for every tile, full or half — 16:9 full-width equals two 8:9 halves
           // 16:9 full-width is exactly the height of two 8:9 halves — same row height, taller tiles
