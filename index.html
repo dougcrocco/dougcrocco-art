@@ -147,7 +147,7 @@
 <meta name="twitter:image" content="https://allart.la/artwork/uploads/2013/09/USA-Doug-Crocco.jpg">
 <meta name="theme-color" content="#000000">
 <link href="https://fonts.googleapis.com/css2?family=Julius+Sans+One&family=Archivo:wght@400;500;600;700;900&family=Raleway:wght@400;500;600&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
-<script src="./works-data.js?v=126"></script>
+<script src="./works-data.js?v=127"></script>
 </helmet>
 
 <div role="main" style="position:fixed;inset:0;background:#ffffff;color:#141414;font-family:Helvetica,'Helvetica Neue',Arial,sans-serif;overflow:hidden">
@@ -2077,7 +2077,15 @@ class Component extends DCLogic {
             // the named work grows to fill the wall's height, so the run reads as a hang
             // that keeps filling its space rather than a filmstrip of small plates
             const row = best && best.parentElement;
-            const tall = row ? Math.max(0, row.clientHeight - 4) : 0;
+            let tall = row ? Math.max(0, row.clientHeight - 4) : 0;
+            if (tall && best) {
+              const im = best.querySelector('img');
+              const nw = im && im.naturalWidth, nh = im && im.naturalHeight;
+              if (nw && nh) {
+                const maxW = Math.max(120, el.clientWidth - 88);
+                tall = Math.min(tall, Math.round(maxW * nh / nw));
+              }
+            }
             nodes.forEach(n => {
               const on = n === best;
               if (on && tall) n.style.height = tall + 'px';
