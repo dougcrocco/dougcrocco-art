@@ -137,7 +137,11 @@
   @media (hover: hover) {
     [data-r~="explate"]:hover [data-r~="exnext"] { animation: exHint 2s ease forwards; }
   }
-  @media (prefers-reduced-motion: reduce) { [data-r~="exnext"] { animation: none !important; } }
+  /* no motion: the arrow simply sits there while the pointer is over the image */
+  @media (prefers-reduced-motion: reduce) {
+    [data-r~="exnext"] { animation: none !important; }
+    [data-r~="explate"]:hover [data-r~="exnext"] { opacity: 1; }
+  }
   /* exhibit plates: a very quiet rollover, per image rather than per row */
   [data-r~="extile"] img { transition: transform 900ms cubic-bezier(.22,.61,.36,1), filter 700ms ease, opacity 700ms ease; }
   @media (hover: hover) {
@@ -159,7 +163,7 @@
 <meta name="twitter:image" content="https://allart.la/artwork/uploads/2013/09/USA-Doug-Crocco.jpg">
 <meta name="theme-color" content="#000000">
 <link href="https://fonts.googleapis.com/css2?family=Julius+Sans+One&family=Archivo:wght@400;500;600;700;900&family=Inter+Tight:wght@700;800;900&family=Raleway:ital,wght@0,400;0,500;0,600;1,400&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
-<script src="./works-data.js?v=146"></script>
+<script src="./works-data.js?v=147"></script>
 </helmet>
 
 <div role="main" style="position:fixed;inset:0;background:#ffffff;color:#141414;font-family:Helvetica,'Helvetica Neue',Arial,sans-serif;overflow:hidden">
@@ -419,7 +423,7 @@
                 <sc-for list="{{ s.items }}" as="w" hint-placeholder-count="4">
                   <div onClick="{{ w.open }}" style="{{ seriesPlateStyle }}">
                     <sc-if value="{{ w.isStill }}" hint-placeholder-val="{{ true }}">
-                      <img ref="{{ w.imgRef }}" alt="{{ w.title }}" loading="lazy" decoding="async" draggable="{{ false }}" style="{{ seriesPlateImgStyle }}">
+                      <img ref="{{ w.imgRef }}" decoding="async" alt="{{ w.title }}" draggable="{{ false }}" style="{{ seriesPlateImgStyle }}">
                     </sc-if>
                     <sc-if value="{{ w.isPoster }}" hint-placeholder-val="{{ false }}">
                       <video ref="{{ w.videoRef }}" poster="./hero-poster.jpg" autoPlay="{{ true }}" muted="{{ true }}" loop="{{ true }}" playsInline="{{ true }}" style="{{ seriesPlateVidStyle }}"></video>
@@ -2814,15 +2818,20 @@ class Component extends DCLogic {
       seriesCount: d.series.length,
       // each series is a horizontal strip of its own works: one shared plate height,
       // widths follow the image. the title opens the series page; a plate does too.
+      // pan-x alone would swallow a vertical swipe that starts on a strip, and the
+      // strips cover most of a phone screen. overscroll containment stops a strip
+      // reaching its end from handing the scroll on to the page.
       seriesStripStyle: {
         overflowX: 'auto', overflowY: 'hidden', cursor: 'grab',
-        WebkitOverflowScrolling: 'touch', touchAction: 'pan-x',
+        WebkitOverflowScrolling: 'touch', touchAction: 'pan-x pan-y',
+        overscrollBehaviorX: 'contain', overscrollBehaviorY: 'auto',
         scrollbarWidth: 'none', msOverflowStyle: 'none'
       },
       seriesStripRowStyle: { display: 'flex', gap: 22, alignItems: 'flex-end', width: 'max-content' },
       exStripStyle: {
         overflowX: 'auto', overflowY: 'hidden', cursor: 'grab',
-        WebkitOverflowScrolling: 'touch', touchAction: 'pan-x',
+        WebkitOverflowScrolling: 'touch', touchAction: 'pan-x pan-y',
+        overscrollBehaviorX: 'contain', overscrollBehaviorY: 'auto',
         scrollbarWidth: 'none', msOverflowStyle: 'none',
         marginRight: st.phone ? -18 : -44
       },
@@ -3372,19 +3381,36 @@ class Component extends DCLogic {
               if (!g || !g.u || seen[g.u]) return;
               seen[g.u] = 1;
               const lead = out.length === 0;
+              // the gallery records carry intrinsic dimensions, so a follower plate can
+              // state its own width instead of waiting for the image to decode — which
+              // means only the lead needs to load eagerly. without this, opening the page
+              // fired hundreds of high-priority decodes for images off to the right.
+              const ratio = (g.w && g.h) ? (g.w / g.h) : 0;
+              const rowH = st.phone ? '(100vw - 36px) * 0.5625' : '(100vw - 88px) * 0.5625';
               out.push({
                 alt: g.c || e.title,
-                imgRef: mkRef(g.u, this.markBroken, true),
+                // the lead plate states its own width and 16:9 ratio, so it reserves its
+                // box with nothing loaded — only the first couple of shows, which are
+                // actually on screen, are worth loading eagerly. all 568 gallery entries
+                // carry w/h, so the dimensionless fallback is belt-and-braces.
+                imgRef: mkRef(g.u, this.markBroken, lead ? i < 2 : !ratio),
                 isLead: lead,
                 style: lead
                   // the grid is full-bleed with a gutter each side, so the lead plate is
                   // the content width — the same frame it filled before. the extra right
                   // margin sets the queue that follows it apart from the lead.
                   ? { position: 'relative', flex: '0 0 auto', width: st.phone ? 'calc(100vw - 36px)' : 'calc(100vw - 88px)', aspectRatio: '16 / 9', background: '#f6f5f2', cursor: 'pointer', overflow: 'hidden', marginRight: st.phone ? 12 : 22 }
-                  : { flex: '0 0 auto', height: st.phone ? 'calc((100vw - 36px) * 0.5625)' : 'calc((100vw - 88px) * 0.5625)', background: '#f6f5f2', cursor: 'pointer', overflow: 'hidden' },
+                  : {
+                      flex: '0 0 auto',
+                      height: 'calc(' + rowH + ')',
+                      width: ratio ? 'calc(' + rowH + ' * ' + ratio.toFixed(4) + ')' : 'auto',
+                      background: '#f6f5f2', cursor: 'pointer', overflow: 'hidden'
+                    },
                 imgStyle: lead
                   ? { display: 'block', width: '100%', height: '100%', objectFit: 'cover', objectPosition: e.tilePos || e.heroPos || 'center' }
-                  : { display: 'block', height: '100%', width: 'auto', maxWidth: 'none' },
+                  : ratio
+                    ? { display: 'block', width: '100%', height: '100%', objectFit: 'cover' }
+                    : { display: 'block', height: '100%', width: 'auto', maxWidth: 'none' },
                 open: ev => { if (ev && !ev.metaKey && !ev.ctrlKey && !ev.shiftKey) this.openExhibit(e.title); }
               });
             });
