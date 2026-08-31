@@ -1052,7 +1052,7 @@
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true" style="display:block"><path d="M5 5L19 19"></path><path d="M19 5L5 19"></path></svg>
         </button>
       </div>
-      <div style="flex:1;min-height:0;overflow-y:auto;display:flex;flex-direction:column;padding:8px 18px 34px">
+      <div style="flex:1;min-height:0;overflow-y:auto;display:flex;flex-direction:column;align-items:stretch;justify-content:flex-start;gap:6px;padding:6vh 18px 60px">
         <sc-for list="{{ barNavItems }}" as="n" hint-placeholder-count="5">
           <button type="button" onClick="{{ n.pick }}" aria-label="{{ n.ariaLabel }}" style="{{ n.style }}" style-hover="opacity:.55"><sc-if value="{{ n.word }}" hint-placeholder-val="{{ true }}">{{ n.label }}</sc-if><sc-if value="{{ n.icon }}" hint-placeholder-val="{{ false }}"><svg width="{{ navIconSize }}" height="{{ navIconSize }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" style="display:block"><circle cx="10" cy="10" r="7.4"></circle><path d="M15.4 15.4L22.4 22.4"></path></svg></sc-if></button>
         </sc-for>
@@ -1176,7 +1176,7 @@ const mkRef = (url, onFail, eager) => el => {
 };
 
 class Component extends DCLogic {
-  state = { q: '', phone: (typeof window !== 'undefined' && window.innerWidth <= 700), narrow: (typeof window !== 'undefined' && window.innerWidth <= 460), wide: (typeof window !== 'undefined' ? window.innerWidth > 820 : true), colCount: 3, view: 'home', series: null, sel: 0, slide: 0, exhFilter: 'All', exhibit: null, exOpen: false, lb: '', lbC: '', venue: '', newsFilter: 'All', exMode: 'full', exFullU: '', exFullFor: '', exInfoHidden: false, navOff: 0, navSnap: false, broken: {} };
+  state = { q: '', phone: (typeof window !== 'undefined' && window.innerWidth <= 700), pad: (typeof window !== 'undefined' && window.innerWidth <= 1024), narrow: (typeof window !== 'undefined' && window.innerWidth <= 460), wide: (typeof window !== 'undefined' ? window.innerWidth > 820 : true), colCount: 3, view: 'home', series: null, sel: 0, slide: 0, exhFilter: 'All', exhibit: null, exOpen: false, lb: '', lbC: '', venue: '', newsFilter: 'All', exMode: 'full', exFullU: '', exFullFor: '', exInfoHidden: false, navOff: 0, navSnap: false, broken: {} };
   _ratios = {};
   _probing = {};
   markBroken = url => {
@@ -1628,7 +1628,7 @@ class Component extends DCLogic {
   componentDidUpdate(prevProps, prevState) {
     if (prevState && prevState.view !== this.state.view && this.state.barNavOpen) this.setState({ barNavOpen: false });
     // the full-screen phone menu locks the page behind it, like a hamburger drawer
-    const lock = !!(this.state.phone && this.state.barNavOpen);
+    const lock = !!((this.state.phone || this.state.pad) && this.state.barNavOpen);
     if (lock !== this._navLock) {
       this._navLock = lock;
       document.documentElement.style.overflow = lock ? 'hidden' : '';
@@ -1696,6 +1696,8 @@ class Component extends DCLogic {
       const nw = window.innerWidth <= 460;
       if (nw !== this.state.narrow) this.setState({ narrow: nw });
       const wd = window.innerWidth > 820;
+      const pd = window.innerWidth <= 1024;
+      if (pd !== this.state.pad) this.setState({ pad: pd });
       if (n !== this.state.colCount || p !== this.state.phone || wd !== this.state.wide) this.setState({ colCount: n, phone: p, wide: wd });
       // the year wall re-picks its centred work on the new geometry
       if (this._wallMark) this._wallMark();
@@ -2620,7 +2622,7 @@ class Component extends DCLogic {
         if (this._navByHover) this.navWatch();
       },
       barNavClose: () => { this.navUnwatch(); this.setState({ barNavOpen: false }); },
-      barNavSheet: !!(st.phone && st.barNavOpen),
+      barNavSheet: !!((st.phone || st.pad) && st.barNavOpen),
       markTap: () => {
         const touch = (this._lastPointer && this._lastPointer !== 'mouse')
           || (typeof matchMedia !== 'undefined' && matchMedia('(hover: none)').matches);
@@ -2631,8 +2633,8 @@ class Component extends DCLogic {
         this.setState({ barNavOpen: false });
         this.go('home')();
       },
-      navIconSize: st.phone ? 24 : 18,
-      barNavStyle: st.phone
+      navIconSize: (st.phone || st.pad) ? 28 : 18,
+      barNavStyle: (st.phone || st.pad)
         ? { display: 'none' }
         : {
             position: 'absolute', top: '100%', left: -44, display: 'flex', flexDirection: 'column',
@@ -2675,18 +2677,24 @@ class Component extends DCLogic {
       }).map(n => ({
         label: n.label, pick: n.go, icon: !!n.icon, word: !n.icon,
         ariaLabel: n.icon ? 'Search' : n.label,
-        style: {
+        style: (st.phone || st.pad) ? {
           cursor: 'pointer', background: 'none', border: 'none', padding: 0, borderRadius: 0,
-          textAlign: 'left', color: st.phone ? '#141414' : '#55555a',
-          display: n.icon ? 'flex' : 'block', alignItems: 'center',
-          height: n.icon ? (st.phone ? 60 : 30) : 'auto',
-          marginTop: n.icon && !st.phone ? -6 : 0,
-          width: '100%',
-          minHeight: st.phone ? 60 : 0,
-          borderBottom: 'none',
-          lineHeight: st.phone ? '60px' : 'normal',
+          textAlign: 'left', color: '#141414',
+          display: 'flex', alignItems: 'center', justifyContent: 'flex-start',
+          width: '100%', minHeight: 64, borderRadius: 0,
+          lineHeight: 1.05,
           fontFamily: "'Inter Tight',Helvetica,Arial,sans-serif",
-          fontSize: st.phone ? 30 : 18, fontWeight: 800,
+          fontSize: st.narrow ? 40 : (st.phone ? 46 : 62), fontWeight: 800,
+          letterSpacing: '-.03em', textTransform: 'uppercase'
+        } : {
+          cursor: 'pointer', background: 'none', border: 'none', padding: 0, borderRadius: 0,
+          textAlign: 'left', color: '#55555a',
+          display: n.icon ? 'flex' : 'block', alignItems: 'center',
+          height: n.icon ? 30 : 'auto',
+          marginTop: n.icon ? -6 : 0,
+          width: '100%', minHeight: 0, borderBottom: 'none', lineHeight: 'normal',
+          fontFamily: "'Inter Tight',Helvetica,Arial,sans-serif",
+          fontSize: 18, fontWeight: 800,
           letterSpacing: '-.02em', textTransform: 'uppercase'
         }
       })),
@@ -3417,9 +3425,10 @@ class Component extends DCLogic {
             return out;
           })(),
           titleStyle: {
-            fontFamily: "'EB Garamond',Georgia,serif",
-            fontSize: st.narrow ? (full ? 22 : 17) : (st.phone ? (full ? 26 : 19) : (full ? 30 : 24)),
-            lineHeight: 1.15, letterSpacing: '-.01em', maxWidth: '34ch',
+            fontFamily: "'Inter Tight',Helvetica,Arial,sans-serif",
+            fontSize: st.narrow ? 30 : (st.phone ? 34 : 'clamp(34px,4vw,64px)'),
+            fontWeight: 700, textTransform: 'uppercase',
+            lineHeight: 1.02, letterSpacing: '-.025em', maxWidth: '20ch',
             textWrap: 'balance', color: 'inherit'
           }
         };
