@@ -63,6 +63,16 @@
     [data-r~="infoportrait"] { width: 210px !important; }
     [data-r~="infobio"] { margin-top: 30px !important; }
   }
+  /* the big mark can't share a line with the filters — the bar wraps and the
+     filters sit under it, left-aligned to the same gutter */
+  [data-r~="exbar"] { height: auto !important; min-height: 0 !important; flex-wrap: wrap !important; align-items: center !important; gap: 6px 16px !important; padding-top: 14px !important; padding-bottom: 6px !important; }
+  /* the mark hugs its text so the hover target is the words, not the whole row;
+     the filters' own 100% basis is what pushes them to the next line */
+  [data-r~="exbar"] [data-r~="markwrap"] { flex: 0 0 auto !important; max-width: 100% !important; width: fit-content !important; }
+  [data-r~="exfilters"] { flex: 1 0 100% !important; justify-content: flex-start !important; flex-wrap: wrap !important; row-gap: 2px !important; align-items: baseline !important; }
+  @media only screen and (max-width: 1024px) {
+    [data-r~="vhero"] { padding-left: 18px !important; padding-right: 18px !important; }
+  }
   @media only screen and (max-width: 700px) {
     [data-r~="artistcols"] { column-count: 2 !important; }
     [data-r~="mailcard"] { grid-template-columns: minmax(0,1fr) !important; }
@@ -72,11 +82,10 @@
     /* on phone the video fits the frame like a still: never taller than the row */
     [data-r~="workvid"] { width: auto !important; max-width: 100% !important; height: auto !important; max-height: 100% !important; object-fit: contain !important; }
     [data-r~="navrow"] { grid-template-columns: minmax(0,1fr) !important; gap: 4px !important; }
-    [data-r~="homenav"] { font-size: 30px !important; letter-spacing: -.02em !important; }
-    /* the hero menu matches the phone pull-down: bigger words, tap-sized rows */
-    [data-r~="menuitem"] { font-size: 30px !important; letter-spacing: -.02em !important; min-height: 44px !important; display: flex !important; align-items: center !important; }
-    [data-r~="heronavlist"] { gap: 4px !important; margin-top: -6px !important; }
-    [data-r~="heronavlist"] svg { width: 24px !important; height: 24px !important; }
+    [data-r~="homenav"] { letter-spacing: -.03em !important; line-height: 1.05 !important; white-space: nowrap !important; }
+    /* the hero menu matches the phone pull-down: same 46px words, tap-sized rows */
+    [data-r~="menuitem"] { letter-spacing: -.03em !important; line-height: 1.05 !important; min-height: 56px !important; display: flex !important; align-items: center !important; }
+    [data-r~="heronavlist"] { gap: 6px !important; margin-top: 6px !important; }
     [data-r~="herocred"] { right: 18px !important; bottom: 22px !important; }
     [data-r~="heromenu"] { width: 100% !important; margin-left: 0 !important; padding-top: 0 !important; }
     [data-r~="gut"], [data-r~="arrowgut"] { padding-left:18px !important; padding-right:18px !important; }
@@ -84,9 +93,9 @@
     [data-r~="exbleed"] { margin-left: -18px !important; margin-right: -18px !important; }
     /* the show grid's own frame steps down with everything else */
     [data-r~="exgrid"] { padding: 8px 18px 18px !important; }
-    [data-r~="exbar"] { margin-left: -18px !important; margin-right: -18px !important; padding-left: 18px !important; padding-right: 28px !important; height: 54px !important; }
+    [data-r~="exbar"] { margin-left: -18px !important; margin-right: -18px !important; padding-left: 18px !important; padding-right: 28px !important; }
     [data-r~="vhero"] { padding-left: 18px !important; padding-right: 18px !important; }
-    [data-r~="heromenu"] [data-r~="navrow"]:first-child { height: 54px !important; }
+    [data-r~="heromenu"] [data-r~="navrow"]:first-child { height: auto !important; }
     [data-r~="flushbar"] { margin-left: 0 !important; margin-right: 0 !important; }
     [data-r~="sernote"] { flex-direction: column !important; gap: 24px !important; }
     [data-r~="servenue"] { width: 100% !important; max-width: 320px !important; }
@@ -104,21 +113,19 @@
     /* the filter row is the only part of a section bar that can give way: it keeps the
        wordmark whole and swipes sideways when the four labels can't fit the viewport,
        instead of pushing the whole view off-screen */
-    [data-r~="exbar"] { gap: 16px !important; }
+    [data-r~="exbar"] { gap: 6px 16px !important; }
     /* section bars carry filters as well as the mark, so on phone they use DC and give the
        ~100px back to the labels; the sticky home mark keeps the full name */
     /* the labels keep their full width; the wordmark is what gives way */
-    [data-r~="exfilters"] { flex: 0 1 auto !important; min-width: 0 !important; justify-content: flex-end !important; gap: 16px !important; }
-    /* three heavy 18px words plus the mark do not fit a phone bar — the filters step down */
-    [data-r~="exfilters"] > button { font-size: 13px !important; letter-spacing: -.02em !important; }
+    [data-r~="exfilters"] { flex: 1 0 100% !important; min-width: 0 !important; justify-content: flex-start !important; gap: 2px 16px !important; }
+    [data-r~="exfilters"] > button { letter-spacing: -.03em !important; }
     [data-r~="markwrap"] { min-width: 0 !important; }
-    /* narrow layout: the mark matches the sheet's 24px labels */
-    [data-r~="markwrap"] > button { font-size: 24px !important; letter-spacing: -.02em !important; }
+    /* narrow layout: the mark matches the sheet's own big labels */
+    [data-r~="markwrap"] > button { letter-spacing: -.03em !important; }
     [data-r~="markwrap"] > button { min-width: 0 !important; overflow: hidden !important; }
     [data-r~="exbar"] > button:first-child { flex: 0 0 auto !important; }
   }
   @media only screen and (max-width: 460px) {
-    [data-r~="markwrap"] > button { font-size: 20px !important; }
     [data-r~="venuebox"] { height: 220px !important; }
     [data-r~="arrowgut"] { height: min(calc(100dvh - 220px), 76vh) !important; }
   }
@@ -134,13 +141,14 @@
      after about two seconds. leaving and returning plays it again. */
   @keyframes exHint { 0% { opacity: 0 } 12% { opacity: 1 } 55% { opacity: 1 } 100% { opacity: 0 } }
   [data-r~="exnext"] { opacity: 0; }
+  [data-r~="exnext"][data-seen] { animation: exHint 2s ease forwards; }
   @media (hover: hover) {
-    [data-r~="explate"]:hover [data-r~="exnext"] { animation: exHint 2s ease forwards; }
+    [data-r~="exstrip"]:hover + [data-r~="exnext"] { animation: exHint 2s ease forwards; }
   }
   /* no motion: the arrow simply sits there while the pointer is over the image */
   @media (prefers-reduced-motion: reduce) {
     [data-r~="exnext"] { animation: none !important; }
-    [data-r~="explate"]:hover [data-r~="exnext"] { opacity: 1; }
+    [data-r~="exstrip"]:hover + [data-r~="exnext"] { opacity: 1; }
   }
   /* exhibit plates: a very quiet rollover, per image rather than per row */
   [data-r~="extile"] img { transition: transform 900ms cubic-bezier(.22,.61,.36,1), filter 700ms ease, opacity 700ms ease; }
@@ -163,7 +171,7 @@
 <meta name="twitter:image" content="https://allart.la/artwork/uploads/2013/09/USA-Doug-Crocco.jpg">
 <meta name="theme-color" content="#000000">
 <link href="https://fonts.googleapis.com/css2?family=Julius+Sans+One&family=Archivo:wght@400;500;600;700;900&family=Inter+Tight:wght@700;800;900&family=Raleway:ital,wght@0,400;0,500;0,600;1,400&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
-<script src="./works-data.js?v=147"></script>
+<script src="./works-data.js?v=149"></script>
 </helmet>
 
 <div role="main" style="position:fixed;inset:0;background:#ffffff;color:#141414;font-family:Helvetica,'Helvetica Neue',Arial,sans-serif;overflow:hidden">
@@ -174,16 +182,16 @@
     <div ref="{{ homeScrollRef }}" data-live-layer style="position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;overflow-x:hidden">
       <div data-r="vhero" style="position:relative;min-height:100dvh;padding:0 44px 40px;box-sizing:border-box;background:#000000;color:#ffffff;overflow:hidden">
         <video ref="{{ heroVideoRef }}" autoPlay="{{ true }}" muted="{{ true }}" loop="{{ true }}" playsInline="{{ true }}" preload="auto" poster="./hero-still.jpg" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 100%;z-index:0"></video>
-        <div data-r="heromenu" onMouseEnter="{{ heroNavOver }}" onMouseLeave="{{ heroNavOut }}" onFocus="{{ heroNavOver }}" onBlur="{{ heroNavOut }}" style="position:relative;z-index:1;padding-top:0;width:min(100%,420px);margin-left:0">
-          <div data-r="navrow" style="height:64px;display:flex;align-items:center;padding:0">
-            <div data-r="homenav" style="font-family:'Inter Tight',Helvetica,Arial,sans-serif;font-size:18px;font-weight:800;letter-spacing:-.02em;text-transform:uppercase;color:#ffffff">Doug Crocco</div>
+        <div data-r="heromenu" onMouseLeave="{{ heroNavOut }}" onBlur="{{ heroNavOut }}" style="{{ heroMenuStyle }}">
+          <div data-r="navrow" onMouseEnter="{{ heroNavOver }}" onMouseLeave="{{ heroNavOut }}" onFocus="{{ heroNavOver }}" style="{{ heroRowStyle }}">
+            <div data-r="homenav" style="font-family:'Inter Tight',Helvetica,Arial,sans-serif;font-weight:800;letter-spacing:-.02em;text-transform:uppercase;color:#ffffff;white-space:nowrap;line-height:1.05;font-size:{{ heroMarkSize }}">Doug Crocco</div>
           </div>
-          <div data-r="heronavlist" style="{{ heroNavListStyle }}">
-            <button type="button" onClick="{{ toExhibits }}" data-r="homenav menuitem" style="background:none;border:none;padding:0;border-radius:0;color:#ffffff;font:inherit;cursor:pointer;display:inline-block;text-align:left;font-family:'Inter Tight',Helvetica,Arial,sans-serif;font-size:18px;font-weight:800;letter-spacing:-.02em;text-transform:uppercase;transition:color .3s ease" style-hover="color:rgba(255,255,255,.6)" style-focus="outline:1px dotted currentColor;outline-offset:4px">Exhibits</button>
-            <button type="button" onClick="{{ toWorks }}" data-r="homenav menuitem" style="background:none;border:none;padding:0;border-radius:0;color:#ffffff;font:inherit;cursor:pointer;display:inline-block;text-align:left;font-family:'Inter Tight',Helvetica,Arial,sans-serif;font-size:18px;font-weight:800;letter-spacing:-.02em;text-transform:uppercase;transition:color .3s ease" style-hover="color:rgba(255,255,255,.6)" style-focus="outline:1px dotted currentColor;outline-offset:4px">Works</button>
-            <button type="button" onClick="{{ toNews }}" data-r="homenav menuitem" style="background:none;border:none;padding:0;border-radius:0;color:#ffffff;font:inherit;cursor:pointer;display:inline-block;text-align:left;font-family:'Inter Tight',Helvetica,Arial,sans-serif;font-size:18px;font-weight:800;letter-spacing:-.02em;text-transform:uppercase;transition:color .3s ease" style-hover="color:rgba(255,255,255,.6)" style-focus="outline:1px dotted currentColor;outline-offset:4px">News</button>
-            <button type="button" onClick="{{ toInfo }}" data-r="homenav menuitem" style="background:none;border:none;padding:0;border-radius:0;color:#ffffff;font:inherit;cursor:pointer;display:inline-block;text-align:left;font-family:'Inter Tight',Helvetica,Arial,sans-serif;font-size:18px;font-weight:800;letter-spacing:-.02em;text-transform:uppercase;transition:color .3s ease" style-hover="color:rgba(255,255,255,.6)" style-focus="outline:1px dotted currentColor;outline-offset:4px">Info</button>
-            <button type="button" onClick="{{ toSearch }}" data-r="homenav menuitem" aria-label="Search" style="background:none;border:none;padding:0;border-radius:0;color:#ffffff;font:inherit;cursor:pointer;display:flex;align-items:center;height:18px" style-focus="outline:1px dotted currentColor;outline-offset:4px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" style="display:block"><circle cx="10" cy="10" r="7.4"></circle><path d="M15.4 15.4L22.4 22.4"></path></svg></button>
+          <div data-r="heronavlist" onMouseEnter="{{ heroNavOver }}" onMouseLeave="{{ heroNavOut }}" onFocus="{{ heroNavOver }}" style="{{ heroNavListStyle }}">
+            <button type="button" onClick="{{ toExhibits }}" data-r="homenav menuitem" style="{{ heroItemStyle }}" style-hover="color:rgba(255,255,255,.6)" style-focus="outline:1px dotted currentColor;outline-offset:4px">Exhibits</button>
+            <button type="button" onClick="{{ toWorks }}" data-r="homenav menuitem" style="{{ heroItemStyle }}" style-hover="color:rgba(255,255,255,.6)" style-focus="outline:1px dotted currentColor;outline-offset:4px">Works</button>
+            <button type="button" onClick="{{ toNews }}" data-r="homenav menuitem" style="{{ heroItemStyle }}" style-hover="color:rgba(255,255,255,.6)" style-focus="outline:1px dotted currentColor;outline-offset:4px">News</button>
+            <button type="button" onClick="{{ toInfo }}" data-r="homenav menuitem" style="{{ heroItemStyle }}" style-hover="color:rgba(255,255,255,.6)" style-focus="outline:1px dotted currentColor;outline-offset:4px">Info</button>
+            <button type="button" onClick="{{ toSearch }}" data-r="homenav menuitem" aria-label="Search" style="{{ heroSearchStyle }}" style-focus="outline:1px dotted currentColor;outline-offset:4px"><svg width="{{ heroIcon }}" height="{{ heroIcon }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" style="display:block"><circle cx="10" cy="10" r="7.4"></circle><path d="M15.4 15.4L22.4 22.4"></path></svg></button>
           </div>
         </div>
         <div data-r="herocred" style="position:absolute;right:44px;bottom:40px;z-index:1;text-align:right">
@@ -216,7 +224,7 @@
 
       <div data-r="exbar flushbar homebar" style="position:sticky;top:0;z-index:6;display:flex;align-items:center;justify-content:space-between;gap:30px;height:64px;padding:0 60px 0 44px;background:#f6f5f2;border-bottom:1px dotted rgba(20,20,20,.22)">
         <div data-r="markwrap" ref="{{ barMarkRef }}" onPointerDown="{{ markPointerDown }}" onPointerEnter="{{ barNavOver }}" onPointerLeave="{{ barNavOut }}" onFocus="{{ barNavOver }}" onBlur="{{ barNavOut }}" style="position:relative;flex:0 0 auto;align-self:stretch;display:flex;align-items:center;pointer-events:auto">
-          <button type="button" onClick="{{ markTap }}" aria-label="Doug Crocco — menu" style="background:none;border:none;padding:0;border-radius:0;cursor:pointer;font-family:'Inter Tight',Helvetica,Arial,sans-serif;font-size:18px;font-weight:800;letter-spacing:-.02em;text-transform:uppercase;color:#55555a;white-space:nowrap" style-hover="opacity:.62" style-focus="outline:1px dotted currentColor;outline-offset:4px"><span data-r="markfull">Doug Crocco</span><span data-r="markshort" style="display:none"><svg width="1.2em" height="0.85em" viewBox="0 0 24 17" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true" style="vertical-align:-2px"><path d="M1 2H23"></path><path d="M1 8.5H23"></path><path d="M1 15H23"></path></svg></span></button>
+          <button type="button" onClick="{{ markTap }}" aria-label="Doug Crocco — menu" style="background:none;border:none;padding:0;border-radius:0;cursor:pointer;font-family:'Inter Tight',Helvetica,Arial,sans-serif;font-weight:800;text-transform:uppercase;color:#55555a;white-space:nowrap;font-size:{{ barMarkSize }};letter-spacing:{{ barMarkTrack }};line-height:1.05" style-hover="opacity:.62" style-focus="outline:1px dotted currentColor;outline-offset:4px"><span data-r="markfull">Doug Crocco</span><span data-r="markshort" style="display:none"><svg width="1.2em" height="0.85em" viewBox="0 0 24 17" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true" style="vertical-align:-2px"><path d="M1 2H23"></path><path d="M1 8.5H23"></path><path d="M1 15H23"></path></svg></span></button>
           <div style="{{ barNavStyle }}" onPointerEnter="{{ barNavOver }}" onPointerLeave="{{ barNavOut }}">
             <sc-for list="{{ barNavItems }}" as="n" hint-placeholder-count="5">
               <button type="button" onClick="{{ n.pick }}" aria-label="{{ n.ariaLabel }}" style="{{ n.style }}" style-hover="opacity:.55"><sc-if value="{{ n.word }}" hint-placeholder-val="{{ true }}">{{ n.label }}</sc-if><sc-if value="{{ n.icon }}" hint-placeholder-val="{{ false }}"><svg width="{{ navIconSize }}" height="{{ navIconSize }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" style="display:block"><circle cx="10" cy="10" r="7.4"></circle><path d="M15.4 15.4L22.4 22.4"></path></svg></sc-if></button>
@@ -397,7 +405,7 @@
     <div data-live-layer data-r="gut" style="position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;padding:0 44px 60px">
       <div data-r="exbar" style="display:flex;align-items:center;justify-content:space-between;gap:30px;height:64px;padding:0 60px 0 44px;margin:0 -44px;background:#ffffff">
         <div data-r="markwrap" ref="{{ barMarkRef }}" onPointerDown="{{ markPointerDown }}" onPointerEnter="{{ barNavOver }}" onPointerLeave="{{ barNavOut }}" onFocus="{{ barNavOver }}" onBlur="{{ barNavOut }}" style="position:relative;flex:0 0 auto;align-self:stretch;display:flex;align-items:center;pointer-events:auto">
-          <button type="button" onClick="{{ markTap }}" aria-label="Doug Crocco — menu" style="background:none;border:none;padding:0;border-radius:0;cursor:pointer;font-family:'Inter Tight',Helvetica,Arial,sans-serif;font-size:18px;font-weight:800;letter-spacing:-.02em;text-transform:uppercase;color:#55555a;white-space:nowrap" style-hover="opacity:.62" style-focus="outline:1px dotted currentColor;outline-offset:4px"><span data-r="markfull">Doug Crocco</span><span data-r="markshort" style="display:none"><svg width="1.2em" height="0.85em" viewBox="0 0 24 17" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true" style="vertical-align:-2px"><path d="M1 2H23"></path><path d="M1 8.5H23"></path><path d="M1 15H23"></path></svg></span></button>
+          <button type="button" onClick="{{ markTap }}" aria-label="Doug Crocco — menu" style="background:none;border:none;padding:0;border-radius:0;cursor:pointer;font-family:'Inter Tight',Helvetica,Arial,sans-serif;font-weight:800;text-transform:uppercase;color:#55555a;white-space:nowrap;font-size:{{ barMarkSize }};letter-spacing:{{ barMarkTrack }};line-height:1.05" style-hover="opacity:.62" style-focus="outline:1px dotted currentColor;outline-offset:4px"><span data-r="markfull">Doug Crocco</span><span data-r="markshort" style="display:none"><svg width="1.2em" height="0.85em" viewBox="0 0 24 17" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true" style="vertical-align:-2px"><path d="M1 2H23"></path><path d="M1 8.5H23"></path><path d="M1 15H23"></path></svg></span></button>
           <div style="{{ barNavStyle }}" onPointerEnter="{{ barNavOver }}" onPointerLeave="{{ barNavOut }}">
             <sc-for list="{{ barNavItems }}" as="n" hint-placeholder-count="5">
               <button type="button" onClick="{{ n.pick }}" aria-label="{{ n.ariaLabel }}" style="{{ n.style }}" style-hover="opacity:.55"><sc-if value="{{ n.word }}" hint-placeholder-val="{{ true }}">{{ n.label }}</sc-if><sc-if value="{{ n.icon }}" hint-placeholder-val="{{ false }}"><svg width="{{ navIconSize }}" height="{{ navIconSize }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" style="display:block"><circle cx="10" cy="10" r="7.4"></circle><path d="M15.4 15.4L22.4 22.4"></path></svg></sc-if></button>
@@ -409,6 +417,11 @@
             <button type="button" onClick="{{ m.pick }}" style="{{ m.style }}" style-hover="color:#141414" style-focus="color:#141414;outline:1px dotted rgba(20,20,20,.5);outline-offset:3px">{{ m.label }}</button>
           </sc-for>
           <button type="button" onClick="{{ toggleWorksModes }}" aria-label="Browse works" aria-expanded="{{ worksModesOpen }}" style="background:none;border:none;padding:0;border-radius:0;cursor:pointer;color:#6e6e72;display:flex;align-items:center" style-hover="color:#141414"><svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.1" aria-hidden="true" style="display:block"><circle cx="8.4" cy="8.4" r="5.6"></circle><line x1="12.6" y1="12.6" x2="18" y2="18"></line></svg></button>
+        </div>
+        <div data-r="exsubs" style="display:flex;gap:22px;flex:1 0 100%">
+          <sc-for list="{{ worksSubModes }}" as="m" hint-placeholder-count="0">
+            <button type="button" onClick="{{ m.pick }}" style="{{ m.style }}" style-hover="color:#141414" style-focus="color:#141414;outline:1px dotted rgba(20,20,20,.5);outline-offset:3px">{{ m.label }}</button>
+          </sc-for>
         </div>
       </div>
       <div style="max-width:62ch;padding:36px 0 30px;margin-bottom:34px;border-bottom:1px dotted rgba(20,20,20,.32)">
@@ -442,7 +455,7 @@
     <div data-live-layer ref="{{ seriesScrollRef }}" data-r="gut" onTouchStart="{{ seriesTouchStart }}" onTouchEnd="{{ seriesTouchEnd }}" style="position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;padding:0 44px 60px;background:{{ sBg }};touch-action:pan-y">
       <div data-r="exbar" style="display:flex;align-items:center;justify-content:space-between;gap:30px;height:64px;padding:0 60px 0 44px;margin:0 -44px;background:#ffffff">
         <div data-r="markwrap" ref="{{ barMarkRef }}" onPointerDown="{{ markPointerDown }}" onPointerEnter="{{ barNavOver }}" onPointerLeave="{{ barNavOut }}" onFocus="{{ barNavOver }}" onBlur="{{ barNavOut }}" style="position:relative;flex:0 0 auto;align-self:stretch;display:flex;align-items:center;pointer-events:auto">
-          <button type="button" onClick="{{ markTap }}" aria-label="Doug Crocco — menu" style="background:none;border:none;padding:0;border-radius:0;cursor:pointer;font-family:'Inter Tight',Helvetica,Arial,sans-serif;font-size:18px;font-weight:800;letter-spacing:-.02em;text-transform:uppercase;color:#55555a;white-space:nowrap" style-hover="opacity:.62" style-focus="outline:1px dotted currentColor;outline-offset:4px"><span data-r="markfull">Doug Crocco</span><span data-r="markshort" style="display:none"><svg width="1.2em" height="0.85em" viewBox="0 0 24 17" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true" style="vertical-align:-2px"><path d="M1 2H23"></path><path d="M1 8.5H23"></path><path d="M1 15H23"></path></svg></span></button>
+          <button type="button" onClick="{{ markTap }}" aria-label="Doug Crocco — menu" style="background:none;border:none;padding:0;border-radius:0;cursor:pointer;font-family:'Inter Tight',Helvetica,Arial,sans-serif;font-weight:800;text-transform:uppercase;color:#55555a;white-space:nowrap;font-size:{{ barMarkSize }};letter-spacing:{{ barMarkTrack }};line-height:1.05" style-hover="opacity:.62" style-focus="outline:1px dotted currentColor;outline-offset:4px"><span data-r="markfull">Doug Crocco</span><span data-r="markshort" style="display:none"><svg width="1.2em" height="0.85em" viewBox="0 0 24 17" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true" style="vertical-align:-2px"><path d="M1 2H23"></path><path d="M1 8.5H23"></path><path d="M1 15H23"></path></svg></span></button>
           <div style="{{ barNavStyle }}" onPointerEnter="{{ barNavOver }}" onPointerLeave="{{ barNavOut }}">
             <sc-for list="{{ barNavItems }}" as="n" hint-placeholder-count="5">
               <button type="button" onClick="{{ n.pick }}" aria-label="{{ n.ariaLabel }}" style="{{ n.style }}" style-hover="opacity:.55"><sc-if value="{{ n.word }}" hint-placeholder-val="{{ true }}">{{ n.label }}</sc-if><sc-if value="{{ n.icon }}" hint-placeholder-val="{{ false }}"><svg width="{{ navIconSize }}" height="{{ navIconSize }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" style="display:block"><circle cx="10" cy="10" r="7.4"></circle><path d="M15.4 15.4L22.4 22.4"></path></svg></sc-if></button>
@@ -454,6 +467,11 @@
             <button type="button" onClick="{{ m.pick }}" style="{{ m.style }}" style-hover="color:#141414" style-focus="color:#141414;outline:1px dotted rgba(20,20,20,.5);outline-offset:3px">{{ m.label }}</button>
           </sc-for>
           <button type="button" onClick="{{ toggleWorksModes }}" aria-label="Browse works" aria-expanded="{{ worksModesOpen }}" style="background:none;border:none;padding:0;border-radius:0;cursor:pointer;color:#6e6e72;display:flex;align-items:center" style-hover="color:#141414"><svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.1" aria-hidden="true" style="display:block"><circle cx="8.4" cy="8.4" r="5.6"></circle><line x1="12.6" y1="12.6" x2="18" y2="18"></line></svg></button>
+        </div>
+        <div data-r="exsubs" style="display:flex;gap:22px;flex:1 0 100%">
+          <sc-for list="{{ worksSubModes }}" as="m" hint-placeholder-count="0">
+            <button type="button" onClick="{{ m.pick }}" style="{{ m.style }}" style-hover="color:#141414" style-focus="color:#141414;outline:1px dotted rgba(20,20,20,.5);outline-offset:3px">{{ m.label }}</button>
+          </sc-for>
         </div>
       </div>
       <div data-r="serstick" style="position:relative">
@@ -514,7 +532,7 @@
     <div data-live-layer data-r="gut" style="position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;padding:0 44px 60px">
       <div data-r="exbar" style="display:flex;align-items:center;justify-content:space-between;gap:30px;height:64px;padding:0 60px 0 44px;margin:0 -44px;background:#ffffff">
         <div data-r="markwrap" ref="{{ barMarkRef }}" onPointerDown="{{ markPointerDown }}" onPointerEnter="{{ barNavOver }}" onPointerLeave="{{ barNavOut }}" onFocus="{{ barNavOver }}" onBlur="{{ barNavOut }}" style="position:relative;flex:0 0 auto;align-self:stretch;display:flex;align-items:center;pointer-events:auto">
-          <button type="button" onClick="{{ markTap }}" aria-label="Doug Crocco — menu" style="background:none;border:none;padding:0;border-radius:0;cursor:pointer;font-family:'Inter Tight',Helvetica,Arial,sans-serif;font-size:18px;font-weight:800;letter-spacing:-.02em;text-transform:uppercase;color:#55555a;white-space:nowrap" style-hover="opacity:.62" style-focus="outline:1px dotted currentColor;outline-offset:4px"><span data-r="markfull">Doug Crocco</span><span data-r="markshort" style="display:none"><svg width="1.2em" height="0.85em" viewBox="0 0 24 17" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true" style="vertical-align:-2px"><path d="M1 2H23"></path><path d="M1 8.5H23"></path><path d="M1 15H23"></path></svg></span></button>
+          <button type="button" onClick="{{ markTap }}" aria-label="Doug Crocco — menu" style="background:none;border:none;padding:0;border-radius:0;cursor:pointer;font-family:'Inter Tight',Helvetica,Arial,sans-serif;font-weight:800;text-transform:uppercase;color:#55555a;white-space:nowrap;font-size:{{ barMarkSize }};letter-spacing:{{ barMarkTrack }};line-height:1.05" style-hover="opacity:.62" style-focus="outline:1px dotted currentColor;outline-offset:4px"><span data-r="markfull">Doug Crocco</span><span data-r="markshort" style="display:none"><svg width="1.2em" height="0.85em" viewBox="0 0 24 17" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true" style="vertical-align:-2px"><path d="M1 2H23"></path><path d="M1 8.5H23"></path><path d="M1 15H23"></path></svg></span></button>
           <div style="{{ barNavStyle }}" onPointerEnter="{{ barNavOver }}" onPointerLeave="{{ barNavOut }}">
             <sc-for list="{{ barNavItems }}" as="n" hint-placeholder-count="5">
               <button type="button" onClick="{{ n.pick }}" aria-label="{{ n.ariaLabel }}" style="{{ n.style }}" style-hover="opacity:.55"><sc-if value="{{ n.word }}" hint-placeholder-val="{{ true }}">{{ n.label }}</sc-if><sc-if value="{{ n.icon }}" hint-placeholder-val="{{ false }}"><svg width="{{ navIconSize }}" height="{{ navIconSize }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" style="display:block"><circle cx="10" cy="10" r="7.4"></circle><path d="M15.4 15.4L22.4 22.4"></path></svg></sc-if></button>
@@ -526,6 +544,11 @@
             <button type="button" onClick="{{ m.pick }}" style="{{ m.style }}" style-hover="color:#141414" style-focus="color:#141414;outline:1px dotted rgba(20,20,20,.5);outline-offset:3px">{{ m.label }}</button>
           </sc-for>
           <button type="button" onClick="{{ toggleWorksModes }}" aria-label="Browse works" aria-expanded="{{ worksModesOpen }}" style="background:none;border:none;padding:0;border-radius:0;cursor:pointer;color:#6e6e72;display:flex;align-items:center" style-hover="color:#141414"><svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.1" aria-hidden="true" style="display:block"><circle cx="8.4" cy="8.4" r="5.6"></circle><line x1="12.6" y1="12.6" x2="18" y2="18"></line></svg></button>
+        </div>
+        <div data-r="exsubs" style="display:flex;gap:22px;flex:1 0 100%">
+          <sc-for list="{{ worksSubModes }}" as="m" hint-placeholder-count="0">
+            <button type="button" onClick="{{ m.pick }}" style="{{ m.style }}" style-hover="color:#141414" style-focus="color:#141414;outline:1px dotted rgba(20,20,20,.5);outline-offset:3px">{{ m.label }}</button>
+          </sc-for>
         </div>
       </div>
       <div style="display:flex;flex-wrap:wrap;gap:26px;padding:30px 0 26px">
@@ -560,7 +583,7 @@
     <div data-live-layer style="position:absolute;inset:0;display:flex;flex-direction:column">
       <div data-r="exbar flushbar" style="display:flex;align-items:center;justify-content:space-between;gap:30px;height:64px;padding:0 60px 0 44px;margin:0;background:#ffffff;flex:none">
         <div data-r="markwrap" ref="{{ barMarkRef }}" onPointerDown="{{ markPointerDown }}" onPointerEnter="{{ barNavOver }}" onPointerLeave="{{ barNavOut }}" onFocus="{{ barNavOver }}" onBlur="{{ barNavOut }}" style="position:relative;flex:0 0 auto;align-self:stretch;display:flex;align-items:center;pointer-events:auto">
-          <button type="button" onClick="{{ markTap }}" aria-label="Doug Crocco — menu" style="background:none;border:none;padding:0;border-radius:0;cursor:pointer;font-family:'Inter Tight',Helvetica,Arial,sans-serif;font-size:18px;font-weight:800;letter-spacing:-.02em;text-transform:uppercase;color:#55555a;white-space:nowrap" style-hover="opacity:.62" style-focus="outline:1px dotted currentColor;outline-offset:4px"><span data-r="markfull">Doug Crocco</span><span data-r="markshort" style="display:none"><svg width="1.2em" height="0.85em" viewBox="0 0 24 17" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true" style="vertical-align:-2px"><path d="M1 2H23"></path><path d="M1 8.5H23"></path><path d="M1 15H23"></path></svg></span></button>
+          <button type="button" onClick="{{ markTap }}" aria-label="Doug Crocco — menu" style="background:none;border:none;padding:0;border-radius:0;cursor:pointer;font-family:'Inter Tight',Helvetica,Arial,sans-serif;font-weight:800;text-transform:uppercase;color:#55555a;white-space:nowrap;font-size:{{ barMarkSize }};letter-spacing:{{ barMarkTrack }};line-height:1.05" style-hover="opacity:.62" style-focus="outline:1px dotted currentColor;outline-offset:4px"><span data-r="markfull">Doug Crocco</span><span data-r="markshort" style="display:none"><svg width="1.2em" height="0.85em" viewBox="0 0 24 17" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true" style="vertical-align:-2px"><path d="M1 2H23"></path><path d="M1 8.5H23"></path><path d="M1 15H23"></path></svg></span></button>
           <div style="{{ barNavStyle }}" onPointerEnter="{{ barNavOver }}" onPointerLeave="{{ barNavOut }}">
             <sc-for list="{{ barNavItems }}" as="n" hint-placeholder-count="5">
               <button type="button" onClick="{{ n.pick }}" aria-label="{{ n.ariaLabel }}" style="{{ n.style }}" style-hover="opacity:.55"><sc-if value="{{ n.word }}" hint-placeholder-val="{{ true }}">{{ n.label }}</sc-if><sc-if value="{{ n.icon }}" hint-placeholder-val="{{ false }}"><svg width="{{ navIconSize }}" height="{{ navIconSize }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" style="display:block"><circle cx="10" cy="10" r="7.4"></circle><path d="M15.4 15.4L22.4 22.4"></path></svg></sc-if></button>
@@ -572,6 +595,11 @@
             <button type="button" onClick="{{ m.pick }}" style="{{ m.style }}" style-hover="color:#141414" style-focus="color:#141414;outline:1px dotted rgba(20,20,20,.5);outline-offset:3px">{{ m.label }}</button>
           </sc-for>
           <button type="button" onClick="{{ toggleWorksModes }}" aria-label="Browse works" aria-expanded="{{ worksModesOpen }}" style="background:none;border:none;padding:0;border-radius:0;cursor:pointer;color:#6e6e72;display:flex;align-items:center" style-hover="color:#141414"><svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.1" aria-hidden="true" style="display:block"><circle cx="8.4" cy="8.4" r="5.6"></circle><line x1="12.6" y1="12.6" x2="18" y2="18"></line></svg></button>
+        </div>
+        <div data-r="exsubs" style="display:flex;gap:22px;flex:1 0 100%">
+          <sc-for list="{{ worksSubModes }}" as="m" hint-placeholder-count="0">
+            <button type="button" onClick="{{ m.pick }}" style="{{ m.style }}" style-hover="color:#141414" style-focus="color:#141414;outline:1px dotted rgba(20,20,20,.5);outline-offset:3px">{{ m.label }}</button>
+          </sc-for>
         </div>
       </div>
       <div style="flex:none;height:10px"></div>
@@ -698,7 +726,7 @@
     <div data-live-layer data-r="gut" style="position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;padding:0 44px 60px;background:#ffffff">
       <div data-r="exbar" style="display:flex;align-items:center;justify-content:space-between;gap:30px;height:64px;padding:0 60px 0 44px;margin:0 -44px;background:#ffffff">
         <div data-r="markwrap" ref="{{ barMarkRef }}" onPointerDown="{{ markPointerDown }}" onPointerEnter="{{ barNavOver }}" onPointerLeave="{{ barNavOut }}" onFocus="{{ barNavOver }}" onBlur="{{ barNavOut }}" style="position:relative;flex:0 0 auto;align-self:stretch;display:flex;align-items:center;pointer-events:auto">
-          <button type="button" onClick="{{ markTap }}" aria-label="Doug Crocco — menu" style="background:none;border:none;padding:0;border-radius:0;cursor:pointer;font-family:'Inter Tight',Helvetica,Arial,sans-serif;font-size:18px;font-weight:800;letter-spacing:-.02em;text-transform:uppercase;color:#55555a;white-space:nowrap" style-hover="opacity:.62" style-focus="outline:1px dotted currentColor;outline-offset:4px"><span data-r="markfull">Doug Crocco</span><span data-r="markshort" style="display:none"><svg width="1.2em" height="0.85em" viewBox="0 0 24 17" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true" style="vertical-align:-2px"><path d="M1 2H23"></path><path d="M1 8.5H23"></path><path d="M1 15H23"></path></svg></span></button>
+          <button type="button" onClick="{{ markTap }}" aria-label="Doug Crocco — menu" style="background:none;border:none;padding:0;border-radius:0;cursor:pointer;font-family:'Inter Tight',Helvetica,Arial,sans-serif;font-weight:800;text-transform:uppercase;color:#55555a;white-space:nowrap;font-size:{{ barMarkSize }};letter-spacing:{{ barMarkTrack }};line-height:1.05" style-hover="opacity:.62" style-focus="outline:1px dotted currentColor;outline-offset:4px"><span data-r="markfull">Doug Crocco</span><span data-r="markshort" style="display:none"><svg width="1.2em" height="0.85em" viewBox="0 0 24 17" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true" style="vertical-align:-2px"><path d="M1 2H23"></path><path d="M1 8.5H23"></path><path d="M1 15H23"></path></svg></span></button>
           <div style="{{ barNavStyle }}" onPointerEnter="{{ barNavOver }}" onPointerLeave="{{ barNavOut }}">
             <sc-for list="{{ barNavItems }}" as="n" hint-placeholder-count="5">
               <button type="button" onClick="{{ n.pick }}" aria-label="{{ n.ariaLabel }}" style="{{ n.style }}" style-hover="opacity:.55"><sc-if value="{{ n.word }}" hint-placeholder-val="{{ true }}">{{ n.label }}</sc-if><sc-if value="{{ n.icon }}" hint-placeholder-val="{{ false }}"><svg width="{{ navIconSize }}" height="{{ navIconSize }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" style="display:block"><circle cx="10" cy="10" r="7.4"></circle><path d="M15.4 15.4L22.4 22.4"></path></svg></sc-if></button>
@@ -710,6 +738,11 @@
             <button type="button" onClick="{{ f.pick }}" style="{{ f.style }}" style-hover="color:#141414" style-focus="color:#141414;outline:1px dotted rgba(20,20,20,.5);outline-offset:3px">{{ f.label }}</button>
           </sc-for>
           <button type="button" onClick="{{ toggleExhFilters }}" aria-label="Filter exhibitions" aria-expanded="{{ exhFiltersOpen }}" style="background:none;border:none;padding:0;border-radius:0;cursor:pointer;color:#6e6e72;display:flex;align-items:center" style-hover="color:#141414"><svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.1" aria-hidden="true" style="display:block"><circle cx="8.4" cy="8.4" r="5.6"></circle><line x1="12.6" y1="12.6" x2="18" y2="18"></line></svg></button>
+        </div>
+        <div data-r="exsubs" style="display:flex;gap:22px;flex:1 0 100%">
+          <sc-for list="{{ exhSubFilters }}" as="f" hint-placeholder-count="0">
+            <button type="button" onClick="{{ f.pick }}" style="{{ f.style }}" style-hover="color:#141414" style-focus="color:#141414;outline:1px dotted rgba(20,20,20,.5);outline-offset:3px">{{ f.label }}</button>
+          </sc-for>
         </div>
       </div>
       <div data-r="exintro" style="max-width:62ch;padding:30px 0 26px;margin-bottom:32px;border-bottom:1px dotted rgba(20,20,20,.22)">
@@ -728,14 +761,12 @@
                 <sc-for list="{{ e.shots }}" as="p" hint-placeholder-count="3">
                   <div onClick="{{ p.open }}" data-r="explate" style="{{ p.style }}">
                     <img ref="{{ p.imgRef }}" alt="{{ p.alt }}" draggable="{{ false }}" decoding="async" style="{{ p.imgStyle }}">
-                    <sc-if value="{{ p.isLead }}" hint-placeholder-val="{{ false }}">
-                      <div data-r="exnext" aria-hidden="true" style="{{ exNextStyle }}">
-                        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true" style="display:block"><path d="M9 5L17 12L9 19"></path></svg>
-                      </div>
-                    </sc-if>
                   </div>
                 </sc-for>
               </div>
+            </div>
+            <div data-r="exnext" aria-hidden="true" style="{{ exNextStyle }}"><span>{{ exNextWord }}</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true" style="display:block"><path d="M9 5L17 12L9 19"></path><path d="M4 12H16"></path></svg>
             </div>
           </div>
         </sc-for>
@@ -748,7 +779,7 @@
     <div ref="{{ exScrollRef }}" data-live-layer style="{{ exScrollStyle }}">
       <div data-r="exbar" style="display:flex;align-items:center;justify-content:space-between;gap:30px;height:64px;padding:0 60px 0 44px;margin:0 -44px 26px;background:#ffffff">
         <div data-r="markwrap" ref="{{ barMarkRef }}" onPointerDown="{{ markPointerDown }}" onPointerEnter="{{ barNavOver }}" onPointerLeave="{{ barNavOut }}" onFocus="{{ barNavOver }}" onBlur="{{ barNavOut }}" style="position:relative;flex:0 0 auto;align-self:stretch;display:flex;align-items:center;pointer-events:auto">
-          <button type="button" onClick="{{ markTap }}" aria-label="Doug Crocco — menu" style="background:none;border:none;padding:0;border-radius:0;cursor:pointer;font-family:'Inter Tight',Helvetica,Arial,sans-serif;font-size:18px;font-weight:800;letter-spacing:-.02em;text-transform:uppercase;color:#55555a;white-space:nowrap" style-hover="opacity:.62" style-focus="outline:1px dotted currentColor;outline-offset:4px"><span data-r="markfull">Doug Crocco</span><span data-r="markshort" style="display:none"><svg width="1.2em" height="0.85em" viewBox="0 0 24 17" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true" style="vertical-align:-2px"><path d="M1 2H23"></path><path d="M1 8.5H23"></path><path d="M1 15H23"></path></svg></span></button>
+          <button type="button" onClick="{{ markTap }}" aria-label="Doug Crocco — menu" style="background:none;border:none;padding:0;border-radius:0;cursor:pointer;font-family:'Inter Tight',Helvetica,Arial,sans-serif;font-weight:800;text-transform:uppercase;color:#55555a;white-space:nowrap;font-size:{{ barMarkSize }};letter-spacing:{{ barMarkTrack }};line-height:1.05" style-hover="opacity:.62" style-focus="outline:1px dotted currentColor;outline-offset:4px"><span data-r="markfull">Doug Crocco</span><span data-r="markshort" style="display:none"><svg width="1.2em" height="0.85em" viewBox="0 0 24 17" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true" style="vertical-align:-2px"><path d="M1 2H23"></path><path d="M1 8.5H23"></path><path d="M1 15H23"></path></svg></span></button>
           <div style="{{ barNavStyle }}" onPointerEnter="{{ barNavOver }}" onPointerLeave="{{ barNavOut }}">
             <sc-for list="{{ barNavItems }}" as="n" hint-placeholder-count="5">
               <button type="button" onClick="{{ n.pick }}" aria-label="{{ n.ariaLabel }}" style="{{ n.style }}" style-hover="opacity:.55"><sc-if value="{{ n.word }}" hint-placeholder-val="{{ true }}">{{ n.label }}</sc-if><sc-if value="{{ n.icon }}" hint-placeholder-val="{{ false }}"><svg width="{{ navIconSize }}" height="{{ navIconSize }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" style="display:block"><circle cx="10" cy="10" r="7.4"></circle><path d="M15.4 15.4L22.4 22.4"></path></svg></sc-if></button>
@@ -760,6 +791,11 @@
             <button type="button" onClick="{{ f.pick }}" style="{{ f.style }}" style-hover="color:#141414" style-focus="color:#141414;outline:1px dotted rgba(20,20,20,.5);outline-offset:3px">{{ f.label }}</button>
           </sc-for>
           <button type="button" onClick="{{ toggleExhFilters }}" aria-label="Filter exhibitions" aria-expanded="{{ exhFiltersOpen }}" style="background:none;border:none;padding:0;border-radius:0;cursor:pointer;color:#6e6e72;display:flex;align-items:center" style-hover="color:#141414"><svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.1" aria-hidden="true" style="display:block"><circle cx="8.4" cy="8.4" r="5.6"></circle><line x1="12.6" y1="12.6" x2="18" y2="18"></line></svg></button>
+        </div>
+        <div data-r="exsubs" style="display:flex;gap:22px;flex:1 0 100%">
+          <sc-for list="{{ exhSubFiltersNav }}" as="f" hint-placeholder-count="0">
+            <button type="button" onClick="{{ f.pick }}" style="{{ f.style }}" style-hover="color:#141414" style-focus="color:#141414;outline:1px dotted rgba(20,20,20,.5);outline-offset:3px">{{ f.label }}</button>
+          </sc-for>
         </div>
       </div>
       <div ref="{{ exStickWrapRef }}" data-r="exstickwrap" style="position:relative">
@@ -917,7 +953,7 @@
     <div data-live-layer data-r="gut" style="position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;padding:0 44px 70px">
       <div data-r="exbar" style="position:sticky;top:0;z-index:5;display:flex;align-items:center;justify-content:space-between;gap:30px;height:64px;padding:0 60px 0 44px;margin:0 -44px;background:transparent;pointer-events:none">
         <div data-r="markwrap" ref="{{ barMarkRef }}" onPointerDown="{{ markPointerDown }}" onPointerEnter="{{ barNavOver }}" onPointerLeave="{{ barNavOut }}" onFocus="{{ barNavOver }}" onBlur="{{ barNavOut }}" style="position:relative;flex:0 0 auto;align-self:stretch;display:flex;align-items:center;pointer-events:auto">
-          <button type="button" onClick="{{ markTap }}" aria-label="Doug Crocco — menu" style="background:none;border:none;padding:0;border-radius:0;cursor:pointer;font-family:'Inter Tight',Helvetica,Arial,sans-serif;font-size:18px;font-weight:800;letter-spacing:-.02em;text-transform:uppercase;color:#55555a;white-space:nowrap" style-hover="opacity:.62" style-focus="outline:1px dotted currentColor;outline-offset:4px"><span data-r="markfull">Doug Crocco</span><span data-r="markshort" style="display:none"><svg width="1.2em" height="0.85em" viewBox="0 0 24 17" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true" style="vertical-align:-2px"><path d="M1 2H23"></path><path d="M1 8.5H23"></path><path d="M1 15H23"></path></svg></span></button>
+          <button type="button" onClick="{{ markTap }}" aria-label="Doug Crocco — menu" style="background:none;border:none;padding:0;border-radius:0;cursor:pointer;font-family:'Inter Tight',Helvetica,Arial,sans-serif;font-weight:800;text-transform:uppercase;color:#55555a;white-space:nowrap;font-size:{{ barMarkSize }};letter-spacing:{{ barMarkTrack }};line-height:1.05" style-hover="opacity:.62" style-focus="outline:1px dotted currentColor;outline-offset:4px"><span data-r="markfull">Doug Crocco</span><span data-r="markshort" style="display:none"><svg width="1.2em" height="0.85em" viewBox="0 0 24 17" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true" style="vertical-align:-2px"><path d="M1 2H23"></path><path d="M1 8.5H23"></path><path d="M1 15H23"></path></svg></span></button>
           <div style="{{ barNavStyle }}" onPointerEnter="{{ barNavOver }}" onPointerLeave="{{ barNavOut }}">
             <sc-for list="{{ barNavItems }}" as="n" hint-placeholder-count="5">
               <button type="button" onClick="{{ n.pick }}" aria-label="{{ n.ariaLabel }}" style="{{ n.style }}" style-hover="opacity:.55"><sc-if value="{{ n.word }}" hint-placeholder-val="{{ true }}">{{ n.label }}</sc-if><sc-if value="{{ n.icon }}" hint-placeholder-val="{{ false }}"><svg width="{{ navIconSize }}" height="{{ navIconSize }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" style="display:block"><circle cx="10" cy="10" r="7.4"></circle><path d="M15.4 15.4L22.4 22.4"></path></svg></sc-if></button>
@@ -929,6 +965,11 @@
             <button type="button" onClick="{{ f.pick }}" style="{{ f.styleDark }}" style-hover="color:#141414" style-focus="color:#141414;outline:1px dotted rgba(20,20,20,.5);outline-offset:3px">{{ f.label }}</button>
           </sc-for>
           <button type="button" onClick="{{ toggleNewsFilters }}" aria-label="Filter news" aria-expanded="{{ newsFiltersOpen }}" style="background:none;border:none;padding:0;border-radius:0;cursor:pointer;color:#6e6e72;display:flex;align-items:center;text-shadow:0 0 6px rgba(255,255,255,1)" style-hover="color:#141414"><svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.1" aria-hidden="true" style="display:block"><circle cx="8.4" cy="8.4" r="5.6"></circle><line x1="12.6" y1="12.6" x2="18" y2="18"></line></svg></button>
+        </div>
+        <div data-r="exsubs" style="display:flex;gap:22px;flex:1 0 100%;pointer-events:auto">
+          <sc-for list="{{ newsSubFilters }}" as="f" hint-placeholder-count="0">
+            <button type="button" onClick="{{ f.pick }}" style="{{ f.styleDark }}" style-hover="color:#141414" style-focus="color:#141414;outline:1px dotted rgba(20,20,20,.5);outline-offset:3px">{{ f.label }}</button>
+          </sc-for>
         </div>
       </div>
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(352px,100%),1fr));gap:70px 60px;align-items:start;justify-items:center;max-width:1300px;margin:0 auto;padding:48px 0 0">
@@ -1046,13 +1087,13 @@
 
   <sc-if value="{{ barNavSheet }}" hint-placeholder-val="{{ false }}">
     <div data-live-layer data-r="navsheet" style="{{ barSheetStyle }}">
-      <div style="display:flex;align-items:center;justify-content:space-between;gap:20px;min-height:60px;flex:none;padding:0 18px">
-        <button type="button" onClick="{{ sheetHome }}" style="background:none;border:none;padding:0;border-radius:0;cursor:pointer;font-family:'Inter Tight',Helvetica,Arial,sans-serif;font-size:30px;font-weight:800;letter-spacing:-.02em;line-height:60px;text-transform:uppercase;color:#141414">Doug Crocco</button>
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:20px;flex:none;padding:14px 18px 0">
+        <button type="button" onClick="{{ sheetHome }}" style="background:none;border:none;padding:0;border-radius:0;cursor:pointer;font-family:'Inter Tight',Helvetica,Arial,sans-serif;font-weight:800;letter-spacing:-.03em;line-height:1.05;text-transform:uppercase;color:#141414;font-size:{{ sheetMarkSize }}">Doug Crocco</button>
         <button type="button" onClick="{{ barNavClose }}" aria-label="Close menu" style="background:none;border:none;padding:0;border-radius:0;cursor:pointer;width:44px;height:44px;margin-right:-10px;display:flex;align-items:center;justify-content:center;color:#141414" style-focus="outline:1px dotted currentColor;outline-offset:2px">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true" style="display:block"><path d="M5 5L19 19"></path><path d="M19 5L5 19"></path></svg>
         </button>
       </div>
-      <div style="flex:1;min-height:0;overflow-y:auto;display:flex;flex-direction:column;align-items:stretch;justify-content:flex-start;gap:6px;padding:6vh 18px 60px">
+      <div style="flex:1;min-height:0;overflow-y:auto;display:flex;flex-direction:column;align-items:stretch;justify-content:flex-start;gap:6px;padding:6px 18px 60px">
         <sc-for list="{{ barNavItems }}" as="n" hint-placeholder-count="5">
           <button type="button" onClick="{{ n.pick }}" aria-label="{{ n.ariaLabel }}" style="{{ n.style }}" style-hover="opacity:.55"><sc-if value="{{ n.word }}" hint-placeholder-val="{{ true }}">{{ n.label }}</sc-if><sc-if value="{{ n.icon }}" hint-placeholder-val="{{ false }}"><svg width="{{ navIconSize }}" height="{{ navIconSize }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" style="display:block"><circle cx="10" cy="10" r="7.4"></circle><path d="M15.4 15.4L22.4 22.4"></path></svg></sc-if></button>
         </sc-for>
@@ -1107,6 +1148,14 @@ const PLATE = { position: 'relative', overflow: 'hidden', backgroundColor: '#0a0
 // shows whose tile image is light enough to want black type — by title, or "ink":"dark" in the data
 const DARK_TILE_TITLES = [];
 // home-scroll exhibit tile: same plate/scrim language as the exhibits page, one size down
+// a colon in a show title is the only place it may break: the two halves are held
+// together with non-breaking spaces, so "Hollywood Dream Bubble:" keeps its line
+const colonWrap = (t) => {
+  const s2 = String(t || '');
+  const i = s2.indexOf(': ');
+  if (i < 0) return s2;
+  return s2.slice(0, i + 1).replace(/ /g, '\u00a0') + ' ' + s2.slice(i + 2).replace(/ /g, '\u00a0');
+};
 const homeTile = (self, e, full, st, mkRef) => {
   const dark = e.ink === 'dark' || DARK_TILE_TITLES.indexOf(e.title) >= 0;
   const city = e.city || '';
@@ -1115,7 +1164,7 @@ const homeTile = (self, e, full, st, mkRef) => {
     venue = venue.slice(0, -city.length).replace(/[\s,]+$/, '');
   }
   return {
-    title: e.title,
+    title: colonWrap(e.title),
     href: '#/exhibit/' + self.slug(e.title),
     label: [e.title, e.venue, e.city, e.y].filter(Boolean).join(', '),
     open: ev => { if (ev && !ev.metaKey && !ev.ctrlKey && !ev.shiftKey) self.openExhibit(e.title); },
@@ -1548,7 +1597,7 @@ class Component extends DCLogic {
       }
       case 'overview': return { h: 'Works by medium', t: 'Works by medium | ' + site, desc: 'The full archive by medium — drawing, print, sculpture, public work and video.' };
       case 'year': return { h: 'Works by year', t: 'Works by year | ' + site, desc: 'The archive in chronological order, 2003 to the present.' };
-      case 'exhibits': return { h: 'Exhibitions', t: 'Exhibitions | ' + site, desc: 'Solo, group and curated exhibitions in Los Angeles, New York, Miami, Palm Beach, Boston and Melbourne.' };
+      case 'exhibits': return { h: 'Exhibits', t: 'Exhibits | ' + site, desc: 'Solo, group and curated exhibitions in Los Angeles, New York, Miami, Palm Beach, Boston and Melbourne.' };
       case 'exhibit': {
         const e = ex();
         return {
@@ -1626,9 +1675,10 @@ class Component extends DCLogic {
   }
 
   componentDidUpdate(prevProps, prevState) {
+    if (this._cueScan) requestAnimationFrame(this._cueScan);
     if (prevState && prevState.view !== this.state.view && this.state.barNavOpen) this.setState({ barNavOpen: false });
     // the full-screen phone menu locks the page behind it, like a hamburger drawer
-    const lock = !!((this.state.phone || this.state.pad) && this.state.barNavOpen);
+    const lock = !!((typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(hover: none)').matches) && this.state.barNavOpen);
     if (lock !== this._navLock) {
       this._navLock = lock;
       document.documentElement.style.overflow = lock ? 'hidden' : '';
@@ -1660,6 +1710,17 @@ class Component extends DCLogic {
     if (this._marks) this._marks.forEach(m => { try { m(); } catch (err) {} });
     this.syncHash();
     this.syncHead();
+    // each show's swipe cue plays once, as that show comes into view
+    if (typeof IntersectionObserver !== 'undefined') {
+      this._cueIO = new IntersectionObserver(es => es.forEach(en => {
+        if (en.isIntersecting) { en.target.dataset.seen = '1'; this._cueIO.unobserve(en.target); }
+      }), { threshold: 0.6 });
+      this._cueScan = () => {
+        if (this._gone || !this._cueIO) return;
+        document.querySelectorAll('[data-r~="exnext"]:not([data-seen])').forEach(el => this._cueIO.observe(el));
+      };
+      this._cueScan();
+    }
     // the home layer remounts at the top, and no scroll event follows
     if (this._prevView !== this.state.view && this.state.homePast) this.setState({ homePast: false });
     this._prevView = this.state.view;
@@ -1690,6 +1751,17 @@ class Component extends DCLogic {
       document.addEventListener('pointermove', this._ptrTrack, { passive: true });
     }
     this.syncHead();
+    // each show's swipe cue plays once, as that show comes into view
+    if (typeof IntersectionObserver !== 'undefined') {
+      this._cueIO = new IntersectionObserver(es => es.forEach(en => {
+        if (en.isIntersecting) { en.target.dataset.seen = '1'; this._cueIO.unobserve(en.target); }
+      }), { threshold: 0.6 });
+      this._cueScan = () => {
+        if (this._gone || !this._cueIO) return;
+        document.querySelectorAll('[data-r~="exnext"]:not([data-seen])').forEach(el => this._cueIO.observe(el));
+      };
+      this._cueScan();
+    }
     this._resize = () => {
       const n = this.colsFor(window.innerWidth);
       const p = window.innerWidth <= 700;
@@ -1806,6 +1878,8 @@ class Component extends DCLogic {
   }
   componentWillUnmount() {
     this._gone = true; this._q = [];
+    clearTimeout(this._heroT);
+    if (this._cueIO) { this._cueIO.disconnect(); this._cueIO = null; }
     if (this._stripStops) { this._stripStops.forEach(f => { try { f(); } catch (e) {} }); this._stripStops = null; }
     if (this._navLock) { document.documentElement.style.overflow = ''; document.body.style.overflow = ''; this._navLock = false; }
     if (this._plxOff) { this._plxOff.forEach(f => { try { f(); } catch (e) {} }); this._plxOff = null; }
@@ -2428,21 +2502,14 @@ class Component extends DCLogic {
       toggleWorksModes: () => this.setState(s => ({ worksModesOpen: !s.worksModesOpen })),
       // collapsed, the bar reads as the section; the icon opens the other three ways in
       // one row, exhibitions-style: the words, then the magnifier at the right
-      worksBarModes: (st.worksModesOpen
-        ? [
-            { label: 'Series', on: view === 'works' || view === 'series', set: { view: 'works' } },
-            { label: 'Media', on: view === 'overview' && (st.ovFilter || 'All') !== 'All', set: { view: 'overview', ovFilter: 'Drawing' } },
-            { label: 'Year', on: view === 'year', set: { view: 'year' } }
-          ]
-        : [{ label: 'Works', on: true, set: { view: 'works' } }]
-      ).map(m => ({
+      worksBarModes: [{ label: 'Works', primary: true, on: view === 'works' && !st.worksModesOpen, set: { view: 'works' } }].map(m => ({
         label: m.label,
         pick: () => this.setState(m.set),
         style: {
           cursor: 'pointer', fontFamily: "'Inter Tight',Helvetica,Arial,sans-serif",
-          fontSize: 18, letterSpacing: '-.02em', textTransform: 'uppercase',
+          fontSize: st.narrow ? 'clamp(30px,10.5vw,40px)' : ((st.phone ? 46 : 62) + 'px'), letterSpacing: '-.03em', lineHeight: 1.05, textTransform: 'uppercase',
           color: m.on ? '#141414' : '#96969b',
-          fontWeight: 900,
+          fontWeight: 800,
           background: 'none', border: 'none', padding: 0, borderRadius: 0
         }
       })),
@@ -2451,8 +2518,8 @@ class Component extends DCLogic {
         pick: () => this.setState({ view: 'overview', ovFilter: 'All', worksModesOpen: false }),
         style: {
           cursor: 'pointer', fontFamily: "'Inter Tight',Helvetica,Arial,sans-serif",
-          fontSize: 18, letterSpacing: '-.02em', textTransform: 'uppercase',
-          color: '#141414', fontWeight: 900,
+          fontSize: st.narrow ? 'clamp(30px,10.5vw,40px)' : ((st.phone ? 46 : 62) + 'px'), letterSpacing: '-.03em', lineHeight: 1.05, textTransform: 'uppercase',
+          color: '#141414', fontWeight: 800,
           background: 'none', border: 'none', padding: 0, borderRadius: 0
         }
       })),
@@ -2468,9 +2535,9 @@ class Component extends DCLogic {
           : { view: m.v, worksModesOpen: true }),
         style: {
           cursor: 'pointer', fontFamily: "'Inter Tight',Helvetica,Arial,sans-serif",
-          fontSize: 18, letterSpacing: '-.02em', textTransform: 'uppercase',
+          fontSize: st.narrow ? 'clamp(30px,10.5vw,40px)' : ((st.phone ? 46 : 62) + 'px'), letterSpacing: '-.03em', lineHeight: 1.05, textTransform: 'uppercase',
           color: m.on ? '#141414' : 'rgba(20,20,20,.5)',
-          fontWeight: 900,
+          fontWeight: 800,
           background: 'none', border: 'none', padding: 0, borderRadius: 0, textAlign: 'right'
         }
       })),
@@ -2581,9 +2648,9 @@ class Component extends DCLogic {
           if (!isShort) el._fullW = Math.max(el._fullW || 0, full.scrollWidth || full.getBoundingClientRect().width);
           const need = el._fullW || 0;
           if (!need) return;
-          // free space in the bar: what is left once labels, gaps and padding are taken
+          // the filters now sit on their own line, so the mark gets the whole bar width
           const pad = parseFloat(getComputedStyle(bar).paddingLeft) + parseFloat(getComputedStyle(bar).paddingRight);
-          const room = bar.clientWidth - pad - filters.scrollWidth - 30;
+          const room = bar.clientWidth - pad;
           if (!isShort && need > room) { full.style.display = 'none'; short.style.display = 'inline'; }
           else if (isShort && need + 30 < room) { full.style.display = 'inline'; short.style.display = 'none'; }
         };
@@ -2622,7 +2689,7 @@ class Component extends DCLogic {
         if (this._navByHover) this.navWatch();
       },
       barNavClose: () => { this.navUnwatch(); this.setState({ barNavOpen: false }); },
-      barNavSheet: !!((st.phone || st.pad) && st.barNavOpen),
+      barNavSheet: !!((typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(hover: none)').matches) && st.barNavOpen),
       markTap: () => {
         const touch = (this._lastPointer && this._lastPointer !== 'mouse')
           || (typeof matchMedia !== 'undefined' && matchMedia('(hover: none)').matches);
@@ -2633,12 +2700,15 @@ class Component extends DCLogic {
         this.setState({ barNavOpen: false });
         this.go('home')();
       },
-      navIconSize: (st.phone || st.pad) ? 28 : 18,
-      barNavStyle: (st.phone || st.pad)
+      // matches the hero's icon-to-type ratio, and follows menu mode not window width
+      navIconSize: st.narrow ? 28 : (st.phone ? 32 : 42),
+      barNavStyle: (() => { const gut = (st.phone || st.narrow) ? 18 : 44; return (typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(hover: none)').matches)
         ? { display: 'none' }
         : {
-            position: 'absolute', top: '100%', left: -44, display: 'flex', flexDirection: 'column',
-            alignItems: 'flex-start', gap: 14, padding: '14px 24px 16px 44px', minWidth: 0,
+            position: 'absolute', top: '100%', display: 'flex', flexDirection: 'column',
+            // the panel bleeds to whichever gutter the bar is currently using
+            left: -gut, padding: '14px 24px 16px ' + gut + 'px',
+            alignItems: 'flex-start', gap: 14, minWidth: 0,
             width: 'max-content', zIndex: 46,
             background: '#ffffff', whiteSpace: 'nowrap',
             boxShadow: st.barNavOpen ? '0 18px 40px rgba(20,20,20,.10)' : 'none',
@@ -2646,7 +2716,7 @@ class Component extends DCLogic {
             transform: st.barNavOpen ? 'translateY(0)' : 'translateY(-6px)',
             pointerEvents: st.barNavOpen ? 'auto' : 'none',
             transition: 'opacity .3s ease, transform .3s ease'
-          },
+          }; })(),
       // phone menu behaves like a hamburger drawer: a full-screen sheet over
       // everything, with its own mark + close row
       barSheetStyle: {
@@ -2654,6 +2724,31 @@ class Component extends DCLogic {
         display: 'flex', flexDirection: 'column',
         background: '#ffffff', color: '#141414'
       },
+      barMarkSize: st.narrow ? 'clamp(30px,10.5vw,40px)' : ((st.phone ? 46 : 62) + 'px'),
+      barMarkTrack: '-.03em',
+      heroItemStyle: {
+        background: 'none', border: 'none', padding: 0, borderRadius: 0, color: '#ffffff',
+        cursor: 'pointer', display: 'inline-block', textAlign: 'left',
+        fontFamily: "'Inter Tight',Helvetica,Arial,sans-serif", fontWeight: 800,
+        textTransform: 'uppercase', transition: 'color .3s ease',
+        fontSize: st.narrow ? 40 : (st.phone ? 46 : 62),
+        letterSpacing: '-.03em', lineHeight: 1.05, whiteSpace: 'nowrap'
+      },
+      heroSearchStyle: {
+        background: 'none', border: 'none', padding: 0, borderRadius: 0, color: '#ffffff',
+        cursor: 'pointer', display: 'flex', alignItems: 'center',
+        height: st.narrow ? 40 : (st.phone ? 46 : 62)
+      },
+      heroIcon: st.narrow ? 28 : (st.phone ? 32 : 42),
+      // the 420px cap fits the 18px desktop mark; the big mark needs the full column
+      heroMenuStyle: {
+        position: 'relative', zIndex: 1, paddingTop: 0, marginLeft: 0,
+        width: '100%'
+      },
+      // both boxes hug their text so the hover target is the words, not the strip
+      heroRowStyle: { display: 'flex', alignItems: 'center', padding: '14px 0 0', width: 'fit-content' },
+      heroMarkSize: st.narrow ? 'clamp(30px,10.5vw,40px)' : (st.phone ? 'clamp(38px,12vw,46px)' : 'clamp(46px,8.5vw,62px)'),
+      sheetMarkSize: (st.narrow ? 40 : (st.phone ? 46 : 62)) + 'px',
       sheetHome: () => { this.navUnwatch(); this.setState({ barNavOpen: false }); this.go('home')(); },
       // the backdrop starts under the bar, so the wordmark stays tappable
       barBackdropStyle: {
@@ -2677,51 +2772,56 @@ class Component extends DCLogic {
       }).map(n => ({
         label: n.label, pick: n.go, icon: !!n.icon, word: !n.icon,
         ariaLabel: n.icon ? 'Search' : n.label,
-        style: (st.phone || st.pad) ? {
+        // one scale for every menu — hero, header dropdown and full-screen sheet
+        style: {
           cursor: 'pointer', background: 'none', border: 'none', padding: 0, borderRadius: 0,
-          textAlign: 'left', color: '#141414',
+          textAlign: 'left', color: '#141414', whiteSpace: 'nowrap',
           display: 'flex', alignItems: 'center', justifyContent: 'flex-start',
-          width: '100%', minHeight: 64, borderRadius: 0,
-          lineHeight: 1.05,
+          width: '100%', minHeight: st.narrow ? 48 : (st.phone ? 56 : 72), lineHeight: 1.05,
           fontFamily: "'Inter Tight',Helvetica,Arial,sans-serif",
           fontSize: st.narrow ? 40 : (st.phone ? 46 : 62), fontWeight: 800,
           letterSpacing: '-.03em', textTransform: 'uppercase'
-        } : {
-          cursor: 'pointer', background: 'none', border: 'none', padding: 0, borderRadius: 0,
-          textAlign: 'left', color: '#55555a',
-          display: n.icon ? 'flex' : 'block', alignItems: 'center',
-          height: n.icon ? 30 : 'auto',
-          marginTop: n.icon ? -6 : 0,
-          width: '100%', minHeight: 0, borderBottom: 'none', lineHeight: 'normal',
-          fontFamily: "'Inter Tight',Helvetica,Arial,sans-serif",
-          fontSize: 18, fontWeight: 800,
-          letterSpacing: '-.02em', textTransform: 'uppercase'
         }
       })),
-      heroNavOver: () => this.setState({ heroNavOpen: true }),
-      heroNavOut: () => this.setState({ heroNavOpen: false }),
-      // touch has no hover, so on phones the hero menu simply stays open
-      heroNavListStyle: st.phone
-        ? { display: 'flex', flexDirection: 'column', gap: 14, paddingTop: 0, marginTop: -9, opacity: 1, pointerEvents: 'auto' }
-        : {
-            display: 'flex', flexDirection: 'column', gap: 14, paddingTop: 0, marginTop: -9,
-            opacity: st.heroNavOpen ? 1 : 0,
-            transform: st.heroNavOpen ? 'translateY(0)' : 'translateY(-6px)',
-            pointerEvents: st.heroNavOpen ? 'auto' : 'none',
-            transition: 'opacity .35s ease, transform .35s ease'
-          },
+      heroNavOver: () => { clearTimeout(this._heroT); this.setState({ heroNavOpen: true }); },
+      // closing is armed the moment the pointer leaves the words; moving onto the
+      // list re-enters and cancels it, so the two read as one hover target
+      heroNavOut: () => {
+        clearTimeout(this._heroT);
+        this._heroT = setTimeout(() => this.setState({ heroNavOpen: false }), 40);
+      },
+      // size and rhythm follow the breakpoint; only open/closed follows hover capability,
+      // so a mouse window at iPad width still reveals on rollover at the right size
+      heroNavListStyle: (() => {
+        const noHover = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(hover: none)').matches;
+        const base = {
+          display: 'flex', flexDirection: 'column', paddingTop: 0, width: 'fit-content', alignItems: 'flex-start',
+          gap: 6, marginTop: 6,
+          fontSize: (st.narrow ? 40 : (st.phone ? 46 : 62)) + 'px',
+          lineHeight: 1.05, letterSpacing: '-.03em'
+        };
+        return noHover
+          ? Object.assign(base, { opacity: 1, pointerEvents: 'auto' })
+          : Object.assign(base, {
+              opacity: st.heroNavOpen ? 1 : 0,
+              transform: st.heroNavOpen ? 'translateY(0)' : 'translateY(-6px)',
+              pointerEvents: st.heroNavOpen ? 'auto' : 'none',
+              transition: 'opacity .35s ease, transform .35s ease'
+            });
+      })(),
       toHome: this.go('home'), toWorks: () => this.setState({ view: 'works' }),
       toExhibits: this.go('exhibits'), toInfo: () => this.goInfo(),
       // the back button out of a show always lands on the unfiltered list
       toAllExhibits: () => this.setState({ view: 'exhibits', exhFilter: 'All' }),
       // the detail page's copy of the filter row leaves the show and lands on the list
-      exhFiltersNav: (st.exhFiltersOpen ? ['Solo', 'Group', 'Curated'] : ['All']).map(f => ({
-        label: f === 'All' ? 'Exhibitions' : f,
+      // the show's own title is the header on a detail page — the section word would double it
+      exhFiltersNav: [].map(f => ({
+        label: f === 'All' ? 'Exhibits' : f,
         pick: () => this.setState({ view: 'exhibits', exhFilter: f }),
         style: {
           cursor: 'pointer', fontFamily: "'Inter Tight',Helvetica,Arial,sans-serif",
-          fontSize: 18, letterSpacing: '-.02em', textTransform: 'uppercase',
-          color: '#5e5e63', fontWeight: 900,
+          fontSize: st.narrow ? 'clamp(30px,10.5vw,40px)' : ((st.phone ? 46 : 62) + 'px'), letterSpacing: '-.03em', lineHeight: 1.05, textTransform: 'uppercase',
+          color: '#5e5e63', fontWeight: 800,
           background: 'none', border: 'none', padding: 0, borderRadius: 0
         }
       })),
@@ -2847,12 +2947,14 @@ class Component extends DCLogic {
       // has an indefinite height, which would hand the row its natural image height
       exStripRowStyle: { display: 'flex', gap: 22, alignItems: 'flex-start', width: 'max-content' },
       exNextStyle: {
-        position: 'absolute', right: 14, top: '50%', transform: 'translateY(-50%)',
-        width: 44, height: 44, display: 'flex', alignItems: 'center', justifyContent: 'center',
-        background: 'rgba(255,255,255,.82)', border: 'none', borderRadius: 0, padding: 0,
+        display: 'flex', alignItems: 'center', gap: 8, alignSelf: 'flex-end', marginLeft: 'auto',
+        width: 'fit-content', background: 'none', border: 'none', borderRadius: 0, padding: '10px 0 0',
+        fontFamily: "'Inter Tight',Helvetica,Arial,sans-serif", fontSize: 13,
+        fontWeight: 800, letterSpacing: '.02em', textTransform: 'uppercase',
         // a hint, not a control: it must never swallow a click once it has faded
         color: '#141414', pointerEvents: 'none', backdropFilter: 'blur(2px)'
       },
+      exNextWord: (typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(hover: none)').matches) ? 'Swipe' : 'Slide',
       seriesPlateStyle: {
         flex: '0 0 auto', height: st.phone ? 'min(34vh,300px)' : 'min(46vh,460px)',
         background: '#f6f5f2', cursor: 'pointer', overflow: 'hidden'
@@ -3154,24 +3256,50 @@ class Component extends DCLogic {
       toggleExhFilters: () => this.setState(s => s.exhFiltersOpen
         ? { exhFiltersOpen: false, exhFilter: 'All' }
         : { exhFiltersOpen: true }),
-      exhFilters: (st.exhFiltersOpen ? ['Solo', 'Group', 'Curated'] : ['All']).map(f => ({
+      exhSubFilters: (st.exhFiltersOpen ? ['Solo', 'Group', 'Curated'] : []).map(f => ({
+        label: f,
+        pick: () => this.setState({ exhFilter: f }),
+        style: {
+          cursor: 'pointer', fontFamily: "'Inter Tight',Helvetica,Arial,sans-serif",
+          fontSize: st.narrow ? 'clamp(18px,6vw,22px)' : ((st.phone ? 24 : 30) + 'px'), letterSpacing: '-.02em', lineHeight: 1.1, textTransform: 'uppercase',
+          color: f === exhF ? '#141414' : '#96969b', fontWeight: 800,
+          background: 'none', border: 'none', padding: 0, borderRadius: 0
+        }
+      })),
+      exhSubFiltersNav: (st.exhFiltersOpen ? ['Solo', 'Group', 'Curated'] : []).map(f => ({
+        label: f,
+        pick: () => this.setState({ view: 'exhibits', exhFilter: f }),
+        style: {
+          cursor: 'pointer', fontFamily: "'Inter Tight',Helvetica,Arial,sans-serif",
+          fontSize: st.narrow ? 'clamp(18px,6vw,22px)' : ((st.phone ? 24 : 30) + 'px'), letterSpacing: '-.02em', lineHeight: 1.1, textTransform: 'uppercase',
+          color: f === exhF ? '#141414' : '#96969b', fontWeight: 800,
+          background: 'none', border: 'none', padding: 0, borderRadius: 0
+        }
+      })),
+      worksSubModes: (st.worksModesOpen ? [
+        { label: 'Series', on: view === 'works' || view === 'series', set: { view: 'works' } },
+        { label: 'Media', on: view === 'overview' && (st.ovFilter || 'All') !== 'All', set: { view: 'overview', ovFilter: 'Drawing' } },
+        { label: 'Year', on: view === 'year', set: { view: 'year' } }
+      ] : []).map(m => ({
+        label: m.label,
+        pick: () => this.setState(m.set),
+        style: {
+          cursor: 'pointer', fontFamily: "'Inter Tight',Helvetica,Arial,sans-serif",
+          fontSize: st.narrow ? 'clamp(18px,6vw,22px)' : ((st.phone ? 24 : 30) + 'px'), letterSpacing: '-.02em', lineHeight: 1.1, textTransform: 'uppercase',
+          color: m.on ? '#141414' : '#96969b', fontWeight: 800,
+          background: 'none', border: 'none', padding: 0, borderRadius: 0
+        }
+      })),
+      exhFilters: ['All'].map(f => ({
         // the unfiltered state reads as "Exhibits" rather than a bare "All"
-        label: f === 'All' ? 'Exhibitions' : f,
+        label: f === 'All' ? 'Exhibits' : f,
         pick: () => this.setState({ exhFilter: f }),
         // quiet, but the inactive words still have to be readable — they are the only control
         style: {
           cursor: 'pointer', fontFamily: "'Inter Tight',Helvetica,Arial,sans-serif",
-          fontSize: 18, letterSpacing: '-.02em', textTransform: 'uppercase',
+          fontSize: st.narrow ? 'clamp(30px,10.5vw,40px)' : ((st.phone ? 46 : 62) + 'px'), letterSpacing: '-.03em', lineHeight: 1.05, textTransform: 'uppercase',
           color: f === exhF ? '#141414' : '#96969b',
-          fontWeight: 900,
-          background: 'none', border: 'none', padding: 0, borderRadius: 0
-        },
-        // over the imagery the same row runs in white
-        styleLight: {
-          cursor: 'pointer', fontFamily: "'Inter Tight',Helvetica,Arial,sans-serif",
-          fontSize: 18, letterSpacing: '-.02em', textTransform: 'uppercase',
-          color: f === exhF ? '#ffffff' : 'rgba(255,255,255,.62)',
-          fontWeight: 900,
+          fontWeight: 800,
           background: 'none', border: 'none', padding: 0, borderRadius: 0
         }
       })),
@@ -3180,50 +3308,37 @@ class Component extends DCLogic {
       toNews: this.go('news'),
       newsLabel: 'News',
       newsFiltersOpen: !!st.newsFiltersOpen,
-      newsFiltersClosed: !st.newsFiltersOpen,
-      // the list takes the icon's place while it is open
-      newsShowIcon: (st.newsFilter || 'All') === 'All' && !st.newsFiltersOpen,
-      newsHasFilter: (st.newsFilter || 'All') !== 'All' && !st.newsFiltersOpen,
-      newsActiveLabel: st.newsFilter === 'Event' ? 'Events' : (st.newsFilter || ''),
-      newsFilterMenu: ['Press', 'Event'].map(f => ({
+      toggleNewsFilters: () => this.setState(s2 => s2.newsFiltersOpen
+        ? { newsFiltersOpen: false, newsFilter: 'All' }
+        : { newsFiltersOpen: true }),
+      // the section word stays big; its two ways in open smaller, on their own line
+      newsSubFilters: (st.newsFiltersOpen ? ['Press', 'Event'] : []).map(f => ({
         label: f === 'Event' ? 'Events' : f,
-        pick: () => this.setState({ newsFilter: f, newsFiltersOpen: true }),
-        style: {
-          cursor: 'pointer', fontFamily: "'Inter Tight',Helvetica,Arial,sans-serif",
-          fontSize: 18, letterSpacing: '-.02em', textTransform: 'uppercase',
-          color: st.newsFilter === f ? '#141414' : '#96969b',
-          fontWeight: 900,
-          background: 'none', border: 'none', padding: 0, borderRadius: 0, textAlign: 'right'
-        }
-      })),
-      newsQ: st.newsQ || '',
-      onNewsQ: ev => this.setState({ newsQ: ev.target.value }),
-      newsFieldRef: el => { if (el && st.newsFiltersOpen && document.activeElement !== el) el.focus(); },
-      // collapsing always returns to the unfiltered listing
-      toggleNewsFilters: () => this.setState(s => s.newsFiltersOpen
-        ? { newsFiltersOpen: false, newsQ: '', newsFilter: 'All' }
-        : { newsFiltersOpen: true, newsQ: '' }),
-      newsFilters: (st.newsFiltersOpen ? ['Press', 'Event'] : ['All']).map(f => ({
-        // collapsed, the row reads as the section name
-        label: f === 'All' ? 'News' : (f === 'Event' ? 'Events' : f),
-        // clicking NEWS again folds the row back to the single word
-        pick: () => this.setState(s => f === 'All'
-          ? { newsFilter: 'All', newsFiltersOpen: false, newsQ: '' }
-          : { newsFilter: f }),
+        pick: () => this.setState({ newsFilter: f }),
         styleDark: {
           cursor: 'pointer', fontFamily: "'Inter Tight',Helvetica,Arial,sans-serif",
-          fontSize: 18, letterSpacing: '-.02em', textTransform: 'uppercase',
+          fontSize: st.narrow ? 'clamp(18px,6vw,22px)' : ((st.phone ? 24 : 30) + 'px'), letterSpacing: '-.02em', lineHeight: 1.1, textTransform: 'uppercase',
           textShadow: '0 0 6px rgba(255,255,255,1), 0 0 12px rgba(255,255,255,.95)',
-          color: f === nF ? '#141414' : 'rgba(20,20,20,.5)',
-          fontWeight: 900,
+          color: f === nF ? '#141414' : '#96969b', fontWeight: 800,
+          background: 'none', border: 'none', padding: 0, borderRadius: 0
+        }
+      })),
+      newsFilters: ['All'].map(f => ({
+        label: 'News',
+        pick: () => this.setState({ newsFilter: 'All' }),
+        styleDark: {
+          cursor: 'pointer', fontFamily: "'Inter Tight',Helvetica,Arial,sans-serif",
+          fontSize: st.narrow ? 'clamp(30px,10.5vw,40px)' : ((st.phone ? 46 : 62) + 'px'), letterSpacing: '-.03em', lineHeight: 1.05, textTransform: 'uppercase',
+          textShadow: '0 0 6px rgba(255,255,255,1), 0 0 12px rgba(255,255,255,.95)',
+          color: f === nF ? '#141414' : '#96969b', fontWeight: 800,
           background: 'none', border: 'none', padding: 0, borderRadius: 0
         },
         // white version for the black bar
         styleLight: {
           cursor: 'pointer', fontFamily: "'Inter Tight',Helvetica,Arial,sans-serif",
-          fontSize: 18, letterSpacing: '-.02em', textTransform: 'uppercase',
+          fontSize: st.narrow ? 'clamp(30px,10.5vw,40px)' : ((st.phone ? 46 : 62) + 'px'), letterSpacing: '-.03em', lineHeight: 1.05, textTransform: 'uppercase',
           color: f === nF ? '#ffffff' : 'rgba(255,255,255,.62)',
-          fontWeight: 900,
+          fontWeight: 800,
           background: 'none', border: 'none', padding: 0, borderRadius: 0
         },
         style: {
@@ -3343,7 +3458,7 @@ class Component extends DCLogic {
         // every show takes its own full-width row
         const full = true;
         return {
-          year: e.y ? String(e.y) : '', title: e.title,
+          year: e.y ? String(e.y) : '', title: colonWrap(e.title),
           venue: [e.venue, e.city].filter(Boolean).join(', '),
           kind: e.kinds.join(' · '),
           // a real link, so the tile is focusable and openable in a new tab
@@ -3531,7 +3646,7 @@ class Component extends DCLogic {
       exBackStyle: {
         cursor: 'pointer', fontFamily: "'Inter Tight',Helvetica,Arial,sans-serif",
         fontSize: 18, letterSpacing: '-.02em', textTransform: 'uppercase',
-        color: 'rgba(255,255,255,.62)', fontWeight: 900,
+        color: 'rgba(255,255,255,.62)', fontWeight: 800,
         background: 'none', border: 'none', padding: 0, borderRadius: 0
       },
       exScrollStyle: {
